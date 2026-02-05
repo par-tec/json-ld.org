@@ -51914,7 +51914,7 @@ ${O$2.repeat(r.depth)}}`:r.close="}";break}case f$4.TAG:e+=String(i),e+=a(f$4.PO
             return;
           } else {
             try {
-              const parsed = YAML.parse(latestChange);
+              const parsed = JSON.parse(latestChange);
               this[docName] = parsed;
               this.parseError = {};
               this.setOutputTab(this.outputTab);
