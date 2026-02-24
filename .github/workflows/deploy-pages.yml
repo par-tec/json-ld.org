@@ -19,7 +19,7 @@ permissions:
   pull-requests: write
 
 env:
-  GH_PAGES_BRANCH: gh-pages-new
+  GH_PAGES_BRANCH: gh-pages
 
 jobs:
   build:
