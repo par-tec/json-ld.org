@@ -40,11 +40,6 @@ jobs:
             NAME="latest"
             DESTINATION_DIR="${NAME}"
 
-          # Push on future branch
-          elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == "refs/heads/future" ]]; then
-            NAME="future"
-            DESTINATION_DIR="${NAME}"
-
           # Push on tag
           elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" =~ ^refs/tags/ ]]; then
             NAME="${UNTRUSTED_GITHUB_REF_NAME#*@}" # Strip the prefix from the tag name in order to get the tag version only
@@ -55,9 +50,14 @@ jobs:
               DESTINATION_DIR="${NAME}"
             fi
 
-          # Other cases (pull requests, manual dispatch, etc.)
+          # Manual dispatch (workflow_dispatch)
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            NAME="${UNTRUSTED_GITHUB_REF_NAME//\//%2F}"
+            DESTINATION_DIR="${NAME}"
+
+          # Other events ((pull requests, etc. fallback))
           else
-            NAME="${UNTRUSTED_GITHUB_HEAD_REF//\//%2F}" # Escape slashes for URL in branch name, for example the ones created by dependabot
+            NAME="${UNTRUSTED_GITHUB_HEAD_REF//\//%2F}"
             DESTINATION_DIR="${NAME}"
           fi
 
@@ -81,16 +81,13 @@ jobs:
       - name: Build project
         env:
           BASE_URL: ${{ env.BASE_URL }}
-        run: pnpm run -r build
-
-      - name: Deploy
-        run: pnpm deploy --filter=webapp --prod ./build
+        run: npm run build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build/dist
+          publish_dir: ./_site
           publish_branch: ${{ env.GH_PAGES_BRANCH }} # don't overwrite the existing gh-pages branch.
           destination_dir: ${{ env.DESTINATION_DIR }}
 

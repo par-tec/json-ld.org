@@ -1,0 +1,15 @@
+name: Setup CI
+description: Sets up Node.js and installs dependencies for CI workflows
+
+runs:
+  using: composite
+  steps:
+    - name: Install Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: "npm"
+
+    - name: Install dependencies
+      shell: bash
+      run: npm ci
