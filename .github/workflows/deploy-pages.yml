@@ -4,13 +4,13 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - *
+      - "*"
     branches:
-      - main
-      - future
+      - "main"
+      - "future"
   pull_request:
     branches:
-- *
+      - "*"
 
 permissions:
   contents: write
