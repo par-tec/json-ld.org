@@ -1,41 +1,41 @@
 /* globals: jsonld */
 
-import { EditorView, basicSetup } from "codemirror";
-import { createApp } from "petite-vue";
-import { Compartment, EditorState, RangeSetBuilder } from "@codemirror/state";
-import { indentWithTab } from "@codemirror/commands";
-import { json, jsonLanguage, jsonParseLinter } from "@codemirror/lang-json";
-import { syntaxTree, StreamLanguage } from "@codemirror/language";
-import { ntriples } from "@codemirror/legacy-modes/mode/ntriples";
-import { Decoration, keymap, ViewPlugin } from "@codemirror/view";
-import { linter } from "@codemirror/lint";
-import YAML from "yaml";
-import { yaml } from "@codemirror/lang-yaml";
-import * as cborld from "@digitalbazaar/cborld";
-import * as cbor2 from "cbor2";
-import jsonld from "jsonld";
+import {EditorView, basicSetup} from 'codemirror';
+import {createApp} from "petite-vue";
+import {Compartment, EditorState, RangeSetBuilder} from '@codemirror/state'
+import {indentWithTab} from '@codemirror/commands';
+import {json, jsonLanguage, jsonParseLinter} from "@codemirror/lang-json";
+import {syntaxTree, StreamLanguage} from '@codemirror/language';
+import {ntriples} from '@codemirror/legacy-modes/mode/ntriples';
+import {Decoration, keymap, ViewPlugin} from '@codemirror/view';
+import {linter} from '@codemirror/lint';
+import YAML from 'yaml';
+import {yaml} from '@codemirror/lang-yaml';
+import * as cborld from '@digitalbazaar/cborld';
+import * as cbor2 from 'cbor2';
+import jsonld from 'jsonld';
 
 // Setup JSON-LD documentLoader
 const xhrDocumentLoader = jsonld.documentLoaders.xhr();
 // FIXME: add UI to let users control and set context mapping
-jsonld.documentLoader = function (url) {
+jsonld.documentLoader = function(url) {
   // rewrite URLs that we know have secure JSON-LD Contexts
-  if (url === "http://schema.org/" || url === "http://schema.org") {
-    url = "https://schema.org/";
+  if(url === 'http://schema.org/' || url === 'http://schema.org') {
+    url = 'https://schema.org/';
   }
 
   // if a non-HTTPS URL, use the proxy since we run in HTTPS only mode
-  if (!url.startsWith("https://")) {
+  if(!url.startsWith('https://')) {
     url = [
       location.protocol,
-      "//",
+      '//',
       location.host,
       // NOTE: using hard-coded path so file can be shared with dev page
       //location.pathname,
-      "/playground/",
-      "proxy?url=",
-      url,
-    ].join("");
+      '/playground/',
+      'proxy?url=',
+      url
+    ].join('');
   }
 
   return xhrDocumentLoader(url);
@@ -44,107 +44,40 @@ jsonld.documentLoader = function (url) {
 const jsonLdAtTerms = {
   // JSON-LD terms usable as keys
   keys: [
-    {
-      label: "@context",
-      type: "keyword",
-      info: "Defines the JSON-LD context",
-      boost: 90,
-    },
-    {
-      label: "@id",
-      type: "keyword",
-      info: "Specifies the unique identifier of an entity",
-      boost: 80,
-    },
-    {
-      label: "@type",
-      type: "keyword",
-      info: "Defines the type of an entity",
-      boost: 70,
-    },
-    {
-      label: "@value",
-      type: "keyword",
-      info: "Represents the value of a node",
-    },
-    {
-      label: "@language",
-      type: "keyword",
-      info: "Specifies the language of a string value",
-    },
+    { label: "@context", type: "keyword", info: "Defines the JSON-LD context", boost: 90 },
+    { label: "@id", type: "keyword", info: "Specifies the unique identifier of an entity", boost: 80 },
+    { label: "@type", type: "keyword", info: "Defines the type of an entity", boost: 70 },
+    { label: "@value", type: "keyword", info: "Represents the value of a node" },
+    { label: "@language", type: "keyword", info: "Specifies the language of a string value" },
     { label: "@graph", type: "keyword", info: "Represents a named graph" },
     { label: "@list", type: "keyword", info: "Denotes an ordered list" },
     { label: "@set", type: "keyword", info: "Denotes an unordered set" },
     { label: "@reverse", type: "keyword", info: "Defines reverse properties" },
-    {
-      label: "@index",
-      type: "keyword",
-      info: "Specifies an index for ordered data",
-    },
+    { label: "@index", type: "keyword", info: "Specifies an index for ordered data" },
     { label: "@base", type: "keyword", info: "Defines the base IRI" },
-    {
-      label: "@vocab",
-      type: "keyword",
-      info: "Defines the default vocabulary",
-    },
-    {
-      label: "@container",
-      type: "keyword",
-      info: "Specifies container types for properties",
-    },
+    { label: "@vocab", type: "keyword", info: "Defines the default vocabulary" },
+    { label: "@container", type: "keyword", info: "Specifies container types for properties" },
     { label: "@nest", type: "keyword", info: "Allows nesting of properties" },
     { label: "@prefix", type: "keyword", info: "Defines a prefix mapping" },
-    {
-      label: "@propagate",
-      type: "keyword",
-      info: "Controls context propagation",
-    },
+    { label: "@propagate", type: "keyword", info: "Controls context propagation" },
     { label: "@protected", type: "keyword", info: "Prevents term overrides" },
-    {
-      label: "@version",
-      type: "keyword",
-      info: "Specifies the JSON-LD version",
-    },
-    {
-      label: "@none",
-      type: "keyword",
-      info: "Denote as not part of the index",
-    },
+    { label: "@version", type: "keyword", info: "Specifies the JSON-LD version" },
+    { label: "@none", type: "keyword", info: "Denote as not part of the index" }
   ],
   // JSON-LD terms usable as values
   values: [
-    {
-      label: "@id",
-      type: "keyword",
-      info: "The value of this term is an IRI.",
-      parent: "@type",
-    },
-    {
-      label: "@json",
-      type: "keyword",
-      info: "Specifies the type as a JSON literal (`rdf:JSON`).",
-      parent: "@type",
-    },
-    {
-      label: "@list",
-      type: "keyword",
-      info: "Denotes an ordered list",
-      parent: "@container",
-    },
-    {
-      label: "@set",
-      type: "keyword",
-      info: "Denotes an unordered set",
-      parent: "@container",
-    },
-    { label: "@none", type: "keyword", info: "", parent: "@type" },
-  ],
+    { label: "@id", type: "keyword", info: "The value of this term is an IRI.", parent: "@type" },
+    { label: "@json", type: "keyword", info: "Specifies the type as a JSON literal (`rdf:JSON`).", parent: "@type" },
+    { label: "@list", type: "keyword", info: "Denotes an ordered list", parent: "@container" },
+    { label: "@set", type: "keyword", info: "Denotes an unordered set", parent: "@container" },
+    { label: "@none", type: "keyword", info: "", parent: "@type" }
+  ]
 };
 
-// editorListener ora riesce a gestire sia JSON che YAML a seconda dell'impostazione di `options.formatMode`
+// TODO: the next two functions could probably become a petite-vue component
 function editorListener(docName) {
-  let changes = [];
-  let timer;
+  let changes = []; // keep the changes as a list; then pick the last one
+  let timer; // we only want one timer, once the last one is done, use the result
   function debounce(fn, delay) {
     return (...args) => {
       clearTimeout(timer);
@@ -156,26 +89,26 @@ function editorListener(docName) {
     if (update.docChanged) {
       changes.push(update.state.doc.toString());
       debounce((docName) => {
-        const latestChange = changes[changes.length - 1];
-        if (latestChange === "") {
-          this[docName] = "";
-          this.rawDoc = "";
+        // set the global `doc` to the latest string from the editor
+        const latestChange = changes[changes.length-1];
+        if (latestChange === '') {
+          this[docName] = '';
           this.parseError = {};
-          setEditorValue(readOnlyEditor, "");
+          setEditorValue(readOnlyEditor, '');
           return;
         } else {
-          this.rawDoc = latestChange;
           try {
             const parsed =
               this.options.formatMode === "yaml"
                 ? YAML.parse(latestChange)
                 : JSON.parse(latestChange);
+                
             this[docName] = parsed;
             this.parseError = {};
             this.setOutputTab(this.outputTab);
           } catch (err) {
             this.parseError = err;
-          }
+          };
         }
       }, 1000).call(this, docName);
     }
@@ -218,32 +151,28 @@ function completeJSONLDTerms(context) {
 
   const textBefore = context.state.sliceDoc(nodeBefore.from, context.pos);
   const tagBefore = /@\w*$/.exec(textBefore);
-  if (
-    (!tagBefore && !context.explicit) ||
-    (nodeBefore.name === "}" && nodeBefore._parent?.name === "Object") ||
-    nodeBefore.name === "JsonText"
-  ) {
+  if (!tagBefore && !context.explicit
+      || (nodeBefore.name === '}' && nodeBefore._parent?.name === 'Object')
+      || (nodeBefore.name === 'JsonText')) {
     return null;
   }
 
   // set the default list of term options
   let options = jsonLdAtTerms.keys.map(termsInQuotes);
-  if (nodeBefore._parent?.name === "Property") {
+  if (nodeBefore._parent?.name === 'Property') {
     switch (nodeBefore.name) {
-      case "String":
-      case ":":
+      case 'String':
+      case ':':
         const termParents = jsonLdAtTerms.values.map((term) => term.parent);
         if (termParents.indexOf(nearestProperty) > -1) {
           // limit the term list when we know we can
-          options = jsonLdAtTerms.values.filter(
-            (term) => term?.parent === nearestProperty,
-          );
+          options = jsonLdAtTerms.values.filter((term) => term?.parent === nearestProperty);
         } else {
           options = jsonLdAtTerms.values;
         }
-        if (nodeBefore.name === ":") options.map(termsInQuotes);
+        if (nodeBefore.name === ':') options.map(termsInQuotes);
         break;
-      case "PropertyName":
+      case 'PropertyName':
         // TODO: not sure why `apply` from termsInQuotes hangs around sometimes
         // ...but it does...so this removes the `apply` value if present
         options = jsonLdAtTerms.keys.map((term) => {
@@ -251,92 +180,86 @@ function completeJSONLDTerms(context) {
           return term;
         });
         break;
-      case "Object":
+      case 'Object':
         // we're not inside of quotation marks...so add them also
         options = jsonLdAtTerms.keys.map(termsInQuotes);
         break;
     }
-  } else if (nodeBefore._parent?.name === "Object") {
-    if (nodeBefore.name === "{" || nodeBefore.name === "Property") {
+  } else if (nodeBefore._parent?.name === 'Object') {
+    if (nodeBefore.name === '{' || nodeBefore.name === 'Property') {
       options = jsonLdAtTerms.keys.map(termsInQuotes);
     }
   }
 
   return {
     from: tagBefore ? nodeBefore.from + tagBefore.index : context.pos,
-    options,
+    options
   };
 }
 
 const jsonLdCompletions = jsonLanguage.data.of({
-  autocomplete: completeJSONLDTerms,
+  autocomplete: completeJSONLDTerms
 });
 
 // Create a decoration that applies a CSS class for JSON‑LD property names
-const jsonLdPropertyDecoration = Decoration.mark({
-  class: "cm-jsonld-property",
-});
+const jsonLdPropertyDecoration = Decoration.mark({ class: 'cm-jsonld-property' });
 
 const jsonLdKeywords = new Set(
-  [].concat(...Object.values(jsonLdAtTerms)).map((term) => term.label),
-);
+  [].concat(...Object.values(jsonLdAtTerms)).map((term) => term.label));
 
 /**
  * A view plugin that scans the document for PropertyName nodes and, if their
  * content (without quotes) is a JSON‑LD keyword, adds a decoration to style it.
  */
-const jsonLdKeywordHighlighter = ViewPlugin.fromClass(
-  class {
-    constructor(view) {
-      this.decorations = this.buildDecorations(view);
-    }
+const jsonLdKeywordHighlighter = ViewPlugin.fromClass(class {
+  constructor(view) {
+    this.decorations = this.buildDecorations(view);
+  }
 
-    update(update) {
-      if (update.docChanged || update.viewportChanged) {
-        this.decorations = this.buildDecorations(update.view);
-      }
+  update(update) {
+    if (update.docChanged || update.viewportChanged) {
+      this.decorations = this.buildDecorations(update.view);
     }
+  }
 
-    buildDecorations(view) {
-      let builder = new RangeSetBuilder();
-      let tree = syntaxTree(view.state);
-      // Only inspect nodes in the current viewport
-      tree.iterate({
-        from: view.viewport.from,
-        to: view.viewport.to,
-        enter: (node) => {
-          // Look for property names (as defined by lang-json)
-          if (node.name === "PropertyName" || node.name === "String") {
-            let token = view.state.doc.sliceString(node.from, node.to);
-            // Remove the surrounding quotes, if any
-            if (token.startsWith('"') && token.endsWith('"')) {
-              token = token.slice(1, -1);
-            }
-            if (jsonLdKeywords.has(token)) {
-              builder.add(node.from, node.to, jsonLdPropertyDecoration);
-            }
+  buildDecorations(view) {
+    let builder = new RangeSetBuilder();
+    let tree = syntaxTree(view.state);
+    // Only inspect nodes in the current viewport
+    tree.iterate({
+      from: view.viewport.from,
+      to: view.viewport.to,
+      enter: (node) => {
+        // Look for property names (as defined by lang-json)
+        if (node.name === "PropertyName" || node.name === "String") {
+          let token = view.state.doc.sliceString(node.from, node.to);
+          // Remove the surrounding quotes, if any
+          if (token.startsWith('"') && token.endsWith('"')) {
+            token = token.slice(1, -1);
           }
-        },
-      });
-      return builder.finish();
-    }
+          if (jsonLdKeywords.has(token)) {
+            builder.add(node.from, node.to, jsonLdPropertyDecoration);
+          }
+        }
+      }
+    });
+    return builder.finish();
+  }
 
-    destroy() {}
-  },
-  {
-    decorations: (v) => v.decorations,
-  },
-);
+  destroy() {}
+}, {
+  decorations: v => v.decorations
+});
 
 // A base theme for our decoration
 const jsonLdHighlightTheme = EditorView.baseTheme({
-  ".cm-jsonld-property": {
-    color: "#333",
-    fontWeight: "bold",
-  },
+  '.cm-jsonld-property': {
+    color: '#333',
+    fontWeight: 'bold'
+  }
 });
 
-// initEditor ora riesce a gestire sia JSON che YAML a seconda dell'impostazione di `options.formatMode`
+// initEditor can now handle both JSON and YAML depending on the `options.formatMode` setting
 function initEditor(id, content, varName) {
   const lang = this.options.formatMode;
   const languageExtension = lang === "yaml" ? yaml() : json();
@@ -361,18 +284,18 @@ function initEditor(id, content, varName) {
 const language = new Compartment();
 
 const readOnlyEditor = new EditorView({
-  parent: document.getElementById("read-only-editor"),
-  doc: "",
+  parent: document.getElementById('read-only-editor'),
+  doc: '',
   extensions: [
     basicSetup,
     language.of(json()),
     EditorState.readOnly.of(true),
     EditorView.editable.of(false),
-    EditorView.contentAttributes.of({ tabindex: "0" }),
-  ],
+    EditorView.contentAttributes.of({tabindex: '0'})
+  ]
 });
 
-// setEditorValue ora riesce a gestire sia JSON che YAML a seconda dell'impostazione di `options.formatMode`
+// initEditor can now handle both JSON and YAML depending on the `options.formatMode` setting
 function setEditorValue(_editor, doc, lang) {
   if (_editor) {
     let languageExtension;
@@ -401,96 +324,93 @@ function setEditorValue(_editor, doc, lang) {
 }
 
 window.app = createApp({
-  doc: "",
+  doc: '',
   contextDoc: {},
   frameDoc: {},
   tableQuads: {},
-  yamlLD: "",
+  yamlLD: '',
   cborLD: {
     bytes: {},
-    hex: "",
+    hex: '',
     jsonldSize: 0,
     size: 0,
-    percentage: 0,
+    percentage: 0
   },
-  remoteDocURL: "",
-  remoteSideDocURL: "",
-  message: { type: "", text: "" },
+  remoteDocURL: '',
+  remoteSideDocURL: '',
+  message: {type: '', text: ''},
   parseError: {},
-  inputTab: "json-ld",
-  outputTab: "expanded",
+  inputTab: 'json-ld',
+  outputTab: 'expanded',
   options: {
     processingMode: "json-ld-1.1",
     formatMode: "yaml",
     base: "",
     compactArrays: true,
     compactToRelative: true,
-    rdfDirection: "",
-    safe: false,
+    rdfDirection: '',
+    safe: false
   },
   tabs: {
-    expanded: { icon: "expand alternate", label: "Expanded" },
-    compacted: { icon: "compress alternate", label: "Compacted" },
-    flattened: { icon: "bars", label: "Flattened" },
-    framed: { icon: "crop alternate", label: "Framed" },
-    nquads: { icon: "rdf-icon-rdf", label: "N-Quads" },
-    canonized: { icon: "archive", label: "Canonized" },
-    table: { icon: "th", label: "Table" },
-    yamlld: { icon: "stream", label: "YAML-LD" },
-    cborld: { icon: "robot", label: "CBOR-LD" },
+    expanded: {icon: 'expand alternate', label: 'Expanded'},
+    compacted: {icon: 'compress alternate', label: 'Compacted'},
+    flattened: {icon: 'bars', label: 'Flattened'},
+    framed: {icon: 'crop alternate', label: 'Framed'},
+    nquads: {icon: 'rdf-icon-rdf', label: 'N-Quads'},
+    canonized: {icon: 'archive', label: 'Canonized'},
+    table: {icon: 'th', label: 'Table'},
+    yamlld: {icon: 'stream', label: 'YAML-LD'},
+    cborld: {icon: 'robot', label: 'CBOR-LD'}
   },
   // computed
   get editorColumns() {
-    if (["compacted", "flattened", "framed"].indexOf(this.outputTab) > -1) {
-      return "two column";
+    if (['compacted', 'flattened', 'framed'].indexOf(this.outputTab) > -1) {
+      return 'two column';
     }
-    return "";
+    return '';
   },
   get permalinkURL() {
     const url = new URL(window.location);
     const hash = new URLSearchParams();
-    hash.set("json-ld", JSON.stringify(this.doc));
-    if (this.contextDoc && JSON.stringify(this.contextDoc) !== "{}") {
-      hash.set("context", JSON.stringify(this.contextDoc));
+    hash.set('json-ld', JSON.stringify(this.doc));
+    if (this.contextDoc && JSON.stringify(this.contextDoc) !== '{}') {
+      hash.set('context', JSON.stringify(this.contextDoc));
     }
-    if (this.frameDoc && JSON.stringify(this.frameDoc) !== "{}") {
-      hash.set("frame", JSON.stringify(this.frameDoc));
+    if (this.frameDoc && JSON.stringify(this.frameDoc) !== '{}') {
+      hash.set('frame', JSON.stringify(this.frameDoc));
     }
-    hash.set("startTab", `tab-${this.outputTab}`);
+    hash.set('startTab', `tab-${this.outputTab}`);
     url.hash = hash.toString();
     return url.toString();
   },
   get sideDoc() {
-    if (this.outputTab === "framed") {
-      return "frameDoc";
+    if (this.outputTab === 'framed') {
+      return 'frameDoc';
     } else {
-      return "contextDoc";
+      return 'contextDoc';
     }
   },
   get sideEditor() {
-    if (this.outputTab === "framed") {
+    if (this.outputTab === 'framed') {
       return this.frameEditor;
     } else {
       return this.contextEditor;
     }
   },
   get sideEditorURLFieldPlaceholderText() {
-    if (this.outputTab === "framed") {
-      return "Frame URL";
+    if (this.outputTab === 'framed') {
+      return 'Frame URL';
     } else {
-      return "Context URL";
+      return 'Context URL';
     }
   },
   copyPermalink() {
     const url = this.permalinkURL;
-    navigator.clipboard
-      .writeText(url)
-      .then(() => {
-        console.log("Permalink copied to clipboard:", url);
-      })
-      .catch((err) => {
-        console.error("Failed to copy permalink:", err);
-      });
+    navigator.clipboard.writeText(url).then(() => {
+      console.log('Permalink copied to clipboard:', url);
+    }).catch(err => {
+      console.error('Failed to copy permalink:', err);
+    });
   },
   // methods
   async retrieveDoc(_editor, docVar, url) {
@@ -503,8 +423,8 @@ window.app = createApp({
       this[docVar] = await rv.json();
       setEditorValue(_editor, this[docVar]);
       // clear the remoteDocURL to avoid confusion around state
-      this.remoteDocURL = "";
-      this.remoteSideDocURL = "";
+      this.remoteDocURL = '';
+      this.remoteSideDocURL = '';
     } catch (err) {
       this.parseError = err;
     }
@@ -514,7 +434,7 @@ window.app = createApp({
     this.doc = await rv.json();
     setEditorValue(this.mainEditor, this.doc);
     // TODO: make this less of a hack...so we can provide other frames
-    if (file === "library.jsonld") {
+    if (file === 'library.jsonld') {
       const frame = await fetch(`/examples/playground/library-frame.jsonld`);
       this.frameDoc = await frame.json();
       setEditorValue(this.frameEditor, this.frameDoc);
@@ -529,134 +449,116 @@ window.app = createApp({
     if (value) this.outputTab = value;
     let context = this.contextDoc;
     switch (this.outputTab) {
-      // expanded quando viene chiamato setEditorValue prende sempre il valore di this.options.formatMode, quindi se è impostato su yaml
+      // expanded when setEditorValue is called always takes the value of this.options.formatMode, so if it is set to yaml otherwise json
       case "expanded":
         // TODO: this should happen elsewhere...like a watcher
         try {
           const expanded = await jsonld.expand(this.doc, this.options);
           setEditorValue(readOnlyEditor, expanded, this.options.formatMode);
           this.parseError = {};
-        } catch (err) {
+        } catch(err) {
           this.parseError = err;
         }
         break;
-      case "compacted":
-        if (JSON.stringify(context) === "{}" && "@context" in this.doc) {
+      case 'compacted':
+        if (JSON.stringify(context) === '{}' && '@context' in this.doc) {
           // no context set yet, so copy in the main document's
           context = {
-            "@context": this.doc["@context"],
+            '@context': this.doc['@context']
           };
           this.contextDoc = context;
           setEditorValue(this.sideEditor, this.contextDoc);
         }
         try {
-          const compacted = await jsonld.compact(
-            this.doc,
-            { "@context": context["@context"] || {} },
-            this.options,
-          );
+          const compacted = await jsonld.compact(this.doc, {'@context': context['@context'] || {}}, this.options);
           setEditorValue(readOnlyEditor, compacted);
           this.parseError = {};
-        } catch (err) {
+        } catch(err) {
           this.parseError = err;
         }
         break;
-      case "flattened":
-        if (JSON.stringify(context) === "{}" && "@context" in this.doc) {
+      case 'flattened':
+        if (JSON.stringify(context) === '{}' && '@context' in this.doc) {
           // no context set yet, so copy in the main document's
           context = {
-            "@context": this.doc["@context"],
+            '@context': this.doc['@context']
           };
           this.contextDoc = context;
           setEditorValue(this.sideEditor, this.contextDoc);
         }
         try {
-          const flattened = await jsonld.flatten(
-            this.doc,
-            { "@context": context["@context"] || {} },
-            this.options,
-          );
+          const flattened = await jsonld.flatten(this.doc, {'@context': context['@context'] || {}}, this.options);
           setEditorValue(readOnlyEditor, flattened);
           this.parseError = {};
-        } catch (err) {
+        } catch(err) {
           this.parseError = err;
         }
         break;
-      case "framed":
+      case 'framed':
         try {
-          const framed = await jsonld.frame(
-            this.doc,
-            this.frameDoc,
-            this.options,
-          );
+          const framed = await jsonld.frame(this.doc, this.frameDoc, this.options);
           setEditorValue(readOnlyEditor, framed);
           this.parseError = {};
-        } catch (err) {
+        } catch(err) {
           this.parseError = err;
         }
         break;
-      case "nquads":
+      case 'nquads':
         // TODO: this should happen elsewhere...like a watcher
         try {
           const output = await jsonld.toRDF(this.doc, {
-            format: "application/n-quads",
-            ...this.options,
+            format: 'application/n-quads',
+            ...this.options
           });
           setEditorValue(readOnlyEditor, output);
           this.parseError = {};
-        } catch (err) {
+        } catch(err) {
           this.parseError = err;
         }
         break;
-      case "canonized":
+      case 'canonized':
         // TODO: this should happen elsewhere...like a watcher
         try {
           const output = await jsonld.canonize(this.doc, {
-            format: "application/n-quads",
-            ...{ ...this.options, ...{ safe: true } },
+            format: 'application/n-quads', ...{...this.options, ...{safe: true}}
           });
           setEditorValue(readOnlyEditor, output);
           this.parseError = {};
-        } catch (err) {
+        } catch(err) {
           this.parseError = err;
         }
         break;
-      case "table":
+      case 'table':
         // TODO: this should happen elsewhere...like a watcher
         try {
           const output = await jsonld.toRDF(this.doc, this.options);
           this.tableQuads = output;
           this.parseError = {};
-        } catch (err) {
+        } catch(err) {
           this.parseError = err;
         }
         break;
-      case "yamlld":
+      case 'yamlld':
         this.yamlLD = YAML.stringify(this.doc);
-        setEditorValue(readOnlyEditor, this.yamlLD, "yaml");
+        setEditorValue(readOnlyEditor, this.yamlLD, 'yaml');
         break;
-      case "cborld":
+      case 'cborld':
         try {
           this.cborLD.jsonldSize = JSON.stringify(this.doc).length;
           this.cborLD.bytes = await cborld.encode({
             jsonldDocument: this.doc,
             documentLoader: jsonld.documentLoader,
             // use standard compression (set to `0` to use no compression)
-            registryEntryId: 1,
+            registryEntryId: 1
           });
           this.cborLD.size = this.cborLD.bytes.length;
-          this.cborLD.hex = Array.from(this.cborLD.bytes, (byte) =>
-            byte.toString(16).padStart(2, "0"),
-          ).join("");
-          this.cborLD.percentage = Math.floor(
-            ((this.cborLD.jsonldSize - this.cborLD.size) /
-              this.cborLD.jsonldSize) *
-              100,
-          );
+          this.cborLD.hex = Array.from(this.cborLD.bytes, byte =>
+            byte.toString(16).padStart(2, '0')).join('');
+          this.cborLD.percentage =
+            Math.floor(((this.cborLD.jsonldSize - this.cborLD.size) / this.cborLD.jsonldSize) * 100);
           this.cborLD.diagnostics = cbor2.diagnose(this.cborLD.bytes, {
-            pretty: true,
-          });
-          setEditorValue(readOnlyEditor, this.cborLD.diagnostics, "cbor");
+            pretty: true})
+          setEditorValue(readOnlyEditor, this.cborLD.diagnostics, 'cbor');
           this.parseError = {};
         } catch (err) {
           // TODO: currently, the editor keeps it's old value...unupdated...
@@ -669,49 +571,41 @@ window.app = createApp({
     }
   },
   initContextEditor() {
-    this.contextEditor = initEditor.call(
-      this,
-      "context-editor",
-      this.contextDoc,
-      "contextDoc",
-    );
+    this.contextEditor = initEditor.call(this, 'context-editor',
+      this.contextDoc, 'contextDoc');
   },
   initFrameEditor() {
-    this.frameEditor = initEditor.call(
-      this,
-      "frame-editor",
-      this.frameDoc,
-      "frameDoc",
-    );
+    this.frameEditor = initEditor.call(this, 'frame-editor', this.frameDoc,
+      'frameDoc');
   },
   initMainEditor() {
-    this.mainEditor = initEditor.call(this, "editor", "", "doc");
+    this.mainEditor = initEditor.call(this, 'editor', '', 'doc');
   },
   copyContext() {
     this.contextDoc = {
-      "@context": this.doc["@context"],
+      '@context': this.doc['@context']
     };
     setEditorValue(this.contextEditor, this.contextDoc);
   },
   async gatherHash() {
     const url = new URL(window.location);
     const hash = new URLSearchParams(url?.hash.slice(1));
-    this.contextDoc = JSON.parse(hash.get("context")) || {};
+    this.contextDoc = JSON.parse(hash.get('context')) || {};
     setEditorValue(this.contextEditor, this.contextDoc);
-    this.frameDoc = JSON.parse(hash.get("frame")) || {};
+    this.frameDoc = JSON.parse(hash.get('frame')) || {};
     setEditorValue(this.frameEditor, this.frameDoc);
     // the `json-ld` parameter can be JSON or a URL
-    const jsonLdOrUrl = hash.get("json-ld");
+    const jsonLdOrUrl = hash.get('json-ld');
     try {
       this.doc = JSON.parse(jsonLdOrUrl) || this.doc;
       setEditorValue(this.mainEditor, this.doc);
     } catch {
       this.remoteDocURL = jsonLdOrUrl;
-      await this.retrieveDoc(this.mainEditor, "doc", this.remoteDocURL);
+      await this.retrieveDoc(this.mainEditor, 'doc', this.remoteDocURL);
     }
-    if (hash.get("copyContext") === "true") {
+    if (hash.get('copyContext') === 'true') {
       this.copyContext();
     }
-    this.outputTab = hash.get("startTab")?.slice(4) || this.outputTab;
-  },
+    this.outputTab = hash.get('startTab')?.slice(4) || this.outputTab;
+  }
 }).mount();
