@@ -4,8 +4,7 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - "test@*" # a test tag is used to try github pages workflow
-      - "webapp@*" # Run only when tag is webapp@X.Y.Z (for multiple tags matching, the workflow is run multiple times)
+      - *
     branches:
       - main
       - future
