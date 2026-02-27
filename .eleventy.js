@@ -87,7 +87,8 @@ export default async function(eleventyConfig) {
   return {
     dir: {
       layouts: '_layouts'
-    }
+    },
+    pathPrefix: process.env.BASE_URL || "" 
   };
 };
 
