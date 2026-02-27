@@ -1,17 +1,19 @@
 <!DOCTYPE html>
-<html prefix="
+<html
+  prefix="
     xhv: http://www.w3.org/1999/xhtml/vocab#
     xsd: http://www.w3.org/2001/XMLSchema#
     rdfs: http://www.w3.org/2000/01/rdf-schema#
     dc: http://purl.org/dc/terms/
     vcard: http://www.w3.org/2006/vcard/ns#
-    v: http://rdf.data-vocabulary.org/#" lang="en">
+    v: http://rdf.data-vocabulary.org/#"
+  lang="en" >
   <head>
     <title>JSON-LD 1.0 Playground</title>
 
     <!-- Meta Tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 
     <!-- Style Sheets -->
     <link rel="stylesheet" type="text/css" href="../../static/css/bootstrap/bootstrap.css">
@@ -19,11 +21,11 @@
     <!-- CodeMirror -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/g/bootstrap@2.3.1(css/bootstrap-responsive.min.css),codemirror@3.22.0(codemirror.css+addon/lint/lint.css+addon/hint/show-hint.css+theme/neat.css)">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/fontawesome/3.2.1/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="playground.css">
-    <link rel="stylesheet" type="text/css" href="jsonld-vis.css">
+    <link rel="stylesheet" type="text/css" href="./playground.css">
+    <link rel="stylesheet" type="text/css" href="./jsonld-vis.css">
     <link rel="stylesheet" type="text/css" href="../../static/css/rdf-font/rdf-font.css">
 
-    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="shortcut icon" href="../../favicon.ico" />
   </head>
 
   <body id="page-playground" onload="playground.init();">
@@ -65,7 +67,7 @@
                   <li><a href="https://json-ld.github.io/json-ld-star/">JSON-LD-star</a></li>
                   <li><a href="https://github.com/w3c/json-ld-rc/">Recommended Context</a></li>
                   <li><a href="https://json-ld.github.io/yaml-ld/">YAML-LD</a></li>
-                  <li><a href="/json-ld.org/leonori-13-feat-update-the-github-workflow-to-run-in-every-pull-request-not-only-the-ones-pointing-to-main/spec/">1.0 drafts (historic)</a></li>
+                  <li><a href="/spec/">1.0 drafts (historic)</a></li>
               </ul>
             </li>
             <li><a href="../../images/"><span class="icon-picture"></span> Branding</a></li>
@@ -77,9 +79,9 @@
     </div>
 
     <div class="container">
-      <br>
+      <br/>
       <h2>JSON-LD 1.0 Playground</h2>
-      <br>
+      <br/>
       <p>Play around with JSON-LD markup by typing out
         some JSON below and seeing what gets generated from it at the
         bottom of the page. Pick any of the examples below to get started.
@@ -96,7 +98,7 @@
 
     <div class="loading hero">
       <h1><i class="icon-spinner icon-spin icon-large"></i> Loading the Playground...
-    </h1></div>
+    </div>
     <div class="loaded hide">
       <div class="container">
         <div class="btn-group" data-toggle="buttons-radio">
@@ -176,11 +178,12 @@
                       <i class="icon-file"></i>
                     </span>
                   </button>
-                  <input class="span2" type="text" placeholder="Document URL">
+                  <input class="span2" type="text" placeholder="Document URL"/>
                 </div>
               </div>
               <h3>JSON-LD Input</h3>
-              <textarea id="markup" class="compressed process span6 codemirror-input" placeholder="Enter your JSON-LD markup here..." rows="10"></textarea>
+              <textarea id="markup" class="compressed process span6 codemirror-input"
+              placeholder="Enter your JSON-LD markup here..." rows="10"></textarea>
             </div>
 
             <div id="context-div" class="span6">
@@ -192,15 +195,16 @@
                       <i class="icon-bullseye"></i>
                     </span>
                   </button>
-                  <input class="span2" type="text" placeholder="Context URL">
+                  <input class="span2" type="text" placeholder="Context URL"/>
                 </div>
               </div>
               <h3>New JSON-LD Context</h3>
-              <button class="btn" data-toggle="button" id="copy-context" title="Copy context from &quot;JSON-LD Input&quot;">
+              <button class="btn" data-toggle="button" id="copy-context" title='Copy context from "JSON-LD Input"'>
                 <i class="icon-circle-arrow-right"></i>
               </button>
 
-              <textarea id="context" class="compressed process span6 codemirror-input" placeholder="Enter the new JSON-LD context to compact to here..." rows="10">{}</textarea>
+              <textarea id="context" class="compressed process span6 codemirror-input"
+              placeholder="Enter the new JSON-LD context to compact to here..." rows="10">{}</textarea>
             </div>
 
             <div id="frame-div" class="span6">
@@ -214,11 +218,12 @@
                         <i class="icon-crop"></i>
                       </span>
                     </button>
-                    <input class="span2" type="text" placeholder="Frame URL">
+                    <input class="span2" type="text" placeholder="Frame URL" />
                   </div>
                 </div>
               </h3>
-              <textarea id="frame" class="compressed process span6 codemirror-input" placeholder="Enter your JSON-LD frame here..." rows="10">{}</textarea>
+              <textarea id="frame" class="compressed process span6 codemirror-input"
+              placeholder="Enter your JSON-LD frame here..." rows="10">{}</textarea>
             </div>
 
             <div id="privatekey-rsa-div" class="span6">
@@ -232,11 +237,12 @@
                         <i class="icon-crop"></i>
                       </span>
                     </button>
-                    <input class="span2" type="text" placeholder="Private Key URL">
+                    <input class="span2" type="text" placeholder="Private Key URL" />
                   </div>
                 </div>
               </h3>
-              <textarea id="privatekey-rsa" class="compressed process span6 codemirror-input" placeholder="Enter your PEM-encoded private key here..." rows="10">
+              <textarea id="privatekey-rsa" class="compressed process span6 codemirror-input"
+              placeholder="Enter your PEM-encoded private key here..." rows="10">
 -----BEGIN RSA PRIVATE KEY-----
 MIICWwIBAAKBgQC4R1AmYYyE47FMZgo708NhFU+t+VWn133PYGt/WYmD5BnKj679
 YiUmyrC3hX6oZfo4eVpOkycxZvGgXCLQGuDp45XfZkdsjqs3o62En4YjlHWxgeGm
@@ -257,10 +263,12 @@ yT2IMAWbY76Bmi8TeQJAfdLJGwiDNIhTVYHxvDz79ANzgRAd1kPKPddJZ/w7Gfhm
 
             <div id="privatekey-koblitz-div" class="span6">
               <h3>Bitcoin (ECDSA Koblitz) Private Key for Signing</h3>
-              <textarea id="privatekey-koblitz" class="compressed process span6 codemirror-input" placeholder="Enter your Bitcoin (Koblitz) private key here..." rows="3">L4mEi7eEdTNNFQEWaa7JhUKAbtHdVvByGAqvpJKC53mfiqunjBjw</textarea>
+              <textarea id="privatekey-koblitz" class="compressed process span6 codemirror-input"
+                placeholder="Enter your Bitcoin (Koblitz) private key here..." rows="3">L4mEi7eEdTNNFQEWaa7JhUKAbtHdVvByGAqvpJKC53mfiqunjBjw</textarea>
 
               <h3>Bitcoin (ECDSA Koblitz) Public Key for Verification</h3>
-              <textarea id="publickey-koblitz" class="compressed process span6 codemirror-input" placeholder="Enter your Bitcoin (Koblitz) public key here..." rows="3">1LGpGhGK8whX23ZNdxrgtjKrek9rP4xWER</textarea>
+              <textarea id="publickey-koblitz" class="compressed process span6 codemirror-input"
+                placeholder="Enter your Bitcoin (Koblitz) public key here..." rows="3">1LGpGhGK8whX23ZNdxrgtjKrek9rP4xWER</textarea>
 
               <div class="koblitz-verification"></div>
             </div>
@@ -404,7 +412,7 @@ yT2IMAWbY76Bmi8TeQJAfdLJGwiDNIhTVYHxvDz79ANzgRAd1kPKPddJZ/w7Gfhm
           </div><!-- /.tab-content -->
         </div>
 
-        <hr>
+        <hr/>
       </div> <!-- /.container -->
     </div> <!-- /.loading -->
 
@@ -422,18 +430,18 @@ yT2IMAWbY76Bmi8TeQJAfdLJGwiDNIhTVYHxvDz79ANzgRAd1kPKPddJZ/w7Gfhm
     <script src="https://cdn.jsdelivr.net/npm/jsonld@0.5.21/dist/jsonld.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3-tip/0.6.7/d3-tip.min.js"></script>
-    <script src="jsonld-vis.js"></script>
+    <script src="./jsonld-vis.js"></script>
 
     <!-- local scripts -->
-    <script src="forge.min.js"></script>
-    <script src="bitcore-message.js"></script>
-    <script src="jsonld-signatures.js"></script>
-    <script src="jsonlint.js"></script>
-    <script src="tv4.min.js"></script>
-    <script src="json-schema-lint.js"></script>
-    <script src="jsonld-hint.js"></script>
-    <script src="playground.js"></script>
-    <script src="playground-examples.js"></script>
+    <script src="./forge.min.js"></script>
+    <script src="./bitcore-message.js"></script>
+    <script src="./jsonld-signatures.js"></script>
+    <script src="./jsonlint.js"></script>
+    <script src="./tv4.min.js"></script>
+    <script src="./json-schema-lint.js"></script>
+    <script src="./jsonld-hint.js"></script>
+    <script src="./playground.js"></script>
+    <script src="./playground-examples.js"></script>
 
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
