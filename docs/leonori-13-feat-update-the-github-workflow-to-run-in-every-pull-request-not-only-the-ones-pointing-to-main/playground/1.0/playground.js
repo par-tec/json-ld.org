@@ -309,7 +309,7 @@
 
     // load the schema
     $.ajax({
-        url: "/schemas/jsonld-schema.json",
+        url: window.BASE_URL + "schemas/jsonld-schema.json",
         dataType: "json"
       })
       .done(function(schema){
