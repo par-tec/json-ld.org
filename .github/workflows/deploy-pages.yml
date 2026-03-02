@@ -33,29 +33,24 @@ jobs:
           UNTRUSTED_GITHUB_HEAD_REF: ${{ github.head_ref }} # E.g. feature/my-feature - Only populated in pull request events (the source branch name); empty otherwise.
           UNTRUSTED_GITHUB_REF_NAME: ${{ github.ref_name }} # E.g. my-app@1.0.0 - Always populated; contains the branch name, tag name, or ref name depending on the event type.
         run: |
-          # Push on main branch
-          if [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == "refs/heads/main" ]]; then
+          # Event on main branch
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             NAME="latest"
             DESTINATION_DIR="${NAME}"
 
-          # Push on tag
-          elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" =~ ^refs/tags/ ]]; then
+          # Event on tag
+          elif [[ "${{ github.ref }}" =~ ^refs/tags/ ]]; then
             NAME="${UNTRUSTED_GITHUB_REF_NAME#*@}" # Strip the prefix from the tag name in order to get the tag version only
             # For test tags, include prefix in destination directory to avoid conflicts with webapp tags
             if [[ "$UNTRUSTED_GITHUB_REF_NAME" =~ ^test@ ]]; then
-              DESTINATION_DIR="test/${NAME}"
-            else
               DESTINATION_DIR="${NAME}"
             fi
 
-          # Manual dispatch (workflow_dispatch)
-          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            NAME="${UNTRUSTED_GITHUB_REF_NAME//\//%2F}"
-            DESTINATION_DIR="${NAME}"
-
-          # Other events ((pull requests, etc. fallback))
+          # Other cases (pull requests, manual dispatch, push on other branches)
           else
-            NAME="${UNTRUSTED_GITHUB_HEAD_REF//\//%2F}"
+            NAME="${UNTRUSTED_GITHUB_HEAD_REF//\//%2F}" # Escape slashes for URL in branch name, for example the ones created by dependabot
+            REF_VALUE="${UNTRUSTED_GITHUB_HEAD_REF:-$UNTRUSTED_GITHUB_REF_NAME}" # Take the branch name (see above for details about the environment variables)
+            NAME="${REF_VALUE//\//%2F}" # Escape slashes for URL in branch name, for example the ones created by dependabot
             DESTINATION_DIR="${NAME}"
           fi
 
@@ -72,6 +67,10 @@ jobs:
           echo "BASE_URL: ${{ env.BASE_URL }}"
           echo "DESTINATION_DIR: ${{ env.DESTINATION_DIR }}"
           echo "URL: ${{ env.URL }}"
+          if [[ -z "${{ env.BASE_URL }}" || -z "${{ env.DESTINATION_DIR }}" ]]; then
+            echo "BASE_URL or DESTINATION_DIR is not set"
+            exit 1
+          fi
 
       - name: Install dependencies
         uses: ./.github/actions/install
