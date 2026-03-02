@@ -48,7 +48,6 @@ jobs:
 
           # Other cases (pull requests, manual dispatch, push on other branches)
           else
-            NAME="${UNTRUSTED_GITHUB_HEAD_REF//\//%2F}" # Escape slashes for URL in branch name, for example the ones created by dependabot
             REF_VALUE="${UNTRUSTED_GITHUB_HEAD_REF:-$UNTRUSTED_GITHUB_REF_NAME}" # Take the branch name (see above for details about the environment variables)
             NAME="${REF_VALUE//\//%2F}" # Escape slashes for URL in branch name, for example the ones created by dependabot
             DESTINATION_DIR="${NAME}"
