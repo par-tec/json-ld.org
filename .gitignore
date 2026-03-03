@@ -7,6 +7,9 @@ node_modules/
 playground/jsonld.js
 _site/
 
+# IDE
+.cursor/
+
 # Playwright
 # https://playwright.dev/docs/test-reporters#reporters
 test-results/
