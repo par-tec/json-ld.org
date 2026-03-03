@@ -52249,12 +52249,12 @@ ${O$2.repeat(r.depth)}}`:r.close="}";break}case f$4.TAG:e+=String(i),e+=a(f$4.PO
       }
     },
     async loadExample(file) {
-      const rv = await fetch(`/examples/playground/${file}`);
+      const rv = await fetch(`../../examples/playground/${file}`);
       this.doc = await rv.json();
       setEditorValue(this.mainEditor, this.doc);
       // TODO: make this less of a hack...so we can provide other frames
       if (file === 'library.jsonld') {
-        const frame = await fetch(`/examples/playground/library-frame.jsonld`);
+        const frame = await fetch(`../../examples/playground/library-frame.jsonld`);
         this.frameDoc = await frame.json();
         setEditorValue(this.frameEditor, this.frameDoc);
       } else {
