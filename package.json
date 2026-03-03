@@ -9,7 +9,10 @@
     "pages": "wrangler pages dev _site/",
     "watch": "eleventy --watch",
     "dev": "wrangler pages dev _site --live-reload --port 8788",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:generate": "playwright codegen"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.2",
@@ -33,7 +36,9 @@
     "markdown-it-anchor": "^9.2.0",
     "markdown-it-attrs": "^4.3.1",
     "petite-vue": "^0.4.1",
+    "@playwright/test": "^1.52.0",
     "rollup": "^4.59.0",
+    "serve": "^14.2.4",
     "wrangler": "^4.60.0",
     "yaml": "^2.8.1"
   }
