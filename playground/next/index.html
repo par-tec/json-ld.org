@@ -124,7 +124,7 @@ title: Next Playground
   <div class="ui one column wide compact grid container" :class="[editorColumns]">
     <div class="column" :class="{ 'sixteen wide':  editorColumns == '' }">
       <div class="ui top attached tabular menu">
-        <div :class="{ active: inputTab == 'json-ld' }" class="item" @click="inputTab = 'json-ld'"><i class="pencil alternate icon"></i> JSON-LD Input</div>
+        <div :class="{ active: inputTab == 'json-ld' }" class="item" @click="inputTab = 'json-ld'" v-text="inputLabel"><i class="pencil alternate icon"></i></div>
         <div :class="{ active: inputTab == 'options' }" class="item" @click="inputTab = 'options'"><i class="wrench icon"></i> Options</div>
         <div class="right menu">
           <div class="item" style="padding-right: 0">
@@ -257,8 +257,8 @@ title: Next Playground
             @click="copyContext()"></i>
         </div>
         <div class="active item"><i class="pencil alternate icon"></i>
-          <span v-show="outputTab == 'compacted' || outputTab == 'flattened'">New JSON-LD Context</span>
-          <span v-show="outputTab == 'framed'">JSON-LD Frame</span>
+          <span v-show="outputTab == 'compacted' || outputTab == 'flattened'" v-text="contextInputLabel"></span>
+          <span v-show="outputTab == 'framed'" v-text="frameInputLabel"></span>
         </div>
         <div class="right menu">
           <div class="item" style="padding-right: 0">

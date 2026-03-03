@@ -342,6 +342,9 @@ window.app = createApp({
   parseError: {},
   inputTab: 'json-ld',
   outputTab: 'expanded',
+  inputLabel: 'YAML-LD Input',
+  contextInputLabel: 'New YAML-LD Context',
+  frameInputLabel: 'YAML-LD Frame',
   options: {
     processingMode: "json-ld-1.1",
     formatMode: "yaml",
@@ -380,6 +383,7 @@ window.app = createApp({
       hash.set('frame', JSON.stringify(this.frameDoc));
     }
     hash.set('startTab', `tab-${this.outputTab}`);
+    hash.set('formatMode', this.options.formatMode);
     url.hash = hash.toString();
     return url.toString();
   },
@@ -430,12 +434,12 @@ window.app = createApp({
     }
   },
   async loadExample(file) {
-    const rv = await fetch(`/examples/playground/${file}`);
+    const rv = await fetch(`../../examples/playground/${file}`);
     this.doc = await rv.json();
     setEditorValue(this.mainEditor, this.doc);
     // TODO: make this less of a hack...so we can provide other frames
     if (file === 'library.jsonld') {
-      const frame = await fetch(`/examples/playground/library-frame.jsonld`);
+      const frame = await fetch(`../../examples/playground/library-frame.jsonld`);
       this.frameDoc = await frame.json();
       setEditorValue(this.frameEditor, this.frameDoc);
     } else {
@@ -445,15 +449,19 @@ window.app = createApp({
     this.setOutputTab(this.outputTab);
   },
   async setOutputTab(value) {
+    this.setInputLabel();
+    this.setContextInputLabel();
+    this.setFrameInputLabel();
+
     if (!this.doc) return;
     if (value) this.outputTab = value;
     let context = this.contextDoc;
     switch (this.outputTab) {
-      // expanded when setEditorValue is called always takes the value of this.options.formatMode, so if it is set to yaml otherwise json
       case "expanded":
         // TODO: this should happen elsewhere...like a watcher
         try {
           const expanded = await jsonld.expand(this.doc, this.options);
+          // expanded when setEditorValue is called always takes the value of this.options.formatMode, so if it is set to yaml otherwise json
           setEditorValue(readOnlyEditor, expanded, this.options.formatMode);
           this.parseError = {};
         } catch(err) {
@@ -467,11 +475,13 @@ window.app = createApp({
             '@context': this.doc['@context']
           };
           this.contextDoc = context;
-          setEditorValue(this.sideEditor, this.contextDoc);
+          // compacted when setEditorValue is called always takes the value of this.options.formatMode, so if it is set to yaml otherwise json
+          setEditorValue(this.sideEditor, this.contextDoc, this.options.formatMode);
         }
         try {
           const compacted = await jsonld.compact(this.doc, {'@context': context['@context'] || {}}, this.options);
-          setEditorValue(readOnlyEditor, compacted);
+          // compacted when setEditorValue is called always takes the value of this.options.formatMode, so if it is set to yaml otherwise json
+          setEditorValue(readOnlyEditor, compacted, this.options.formatMode);
           this.parseError = {};
         } catch(err) {
           this.parseError = err;
@@ -484,11 +494,13 @@ window.app = createApp({
             '@context': this.doc['@context']
           };
           this.contextDoc = context;
-          setEditorValue(this.sideEditor, this.contextDoc);
+          // flattened when setEditorValue is called always takes the value of this.options.formatMode, so if it is set to yaml otherwise json
+          setEditorValue(this.sideEditor, this.contextDoc, this.options.formatMode);
         }
         try {
           const flattened = await jsonld.flatten(this.doc, {'@context': context['@context'] || {}}, this.options);
-          setEditorValue(readOnlyEditor, flattened);
+          // flattened when setEditorValue is called always takes the value of this.options.formatMode, so if it is set to yaml otherwise json
+          setEditorValue(readOnlyEditor, flattened, this.options.formatMode);
           this.parseError = {};
         } catch(err) {
           this.parseError = err;
@@ -497,7 +509,8 @@ window.app = createApp({
       case 'framed':
         try {
           const framed = await jsonld.frame(this.doc, this.frameDoc, this.options);
-          setEditorValue(readOnlyEditor, framed);
+          // framed when setEditorValue is called always takes the value of this.options.formatMode, so if it is set to yaml otherwise json
+          setEditorValue(readOnlyEditor, framed, this.options.formatMode);
           this.parseError = {};
         } catch(err) {
           this.parseError = err;
@@ -590,15 +603,24 @@ window.app = createApp({
   async gatherHash() {
     const url = new URL(window.location);
     const hash = new URLSearchParams(url?.hash.slice(1));
+    
+    // restores the formatMode from the options saved in the URL, if present
+    if(hash.get("formatMode")) this.options.formatMode = hash.get("formatMode");
+
     this.contextDoc = JSON.parse(hash.get('context')) || {};
-    setEditorValue(this.contextEditor, this.contextDoc);
+    // passing the formatMode to setEditorValue so that the context editor will match the main editor's format (yaml or json)
+    setEditorValue(this.contextEditor, this.contextDoc, this.options.formatMode);
+    
     this.frameDoc = JSON.parse(hash.get('frame')) || {};
-    setEditorValue(this.frameEditor, this.frameDoc);
+    // passing the formatMode to setEditorValue so that the framed editor will match the main editor's format (yaml or json)
+    setEditorValue(this.frameEditor, this.frameDoc, this.options.formatMode);
+    
     // the `json-ld` parameter can be JSON or a URL
     const jsonLdOrUrl = hash.get('json-ld');
     try {
       this.doc = JSON.parse(jsonLdOrUrl) || this.doc;
-      setEditorValue(this.mainEditor, this.doc);
+      // passing the formatMode to setEditorValue so that the main editor will match the specified format (yaml or json)
+      setEditorValue(this.mainEditor, this.doc, this.options.formatMode);
     } catch {
       this.remoteDocURL = jsonLdOrUrl;
       await this.retrieveDoc(this.mainEditor, 'doc', this.remoteDocURL);
@@ -607,5 +629,17 @@ window.app = createApp({
       this.copyContext();
     }
     this.outputTab = hash.get('startTab')?.slice(4) || this.outputTab;
-  }
+  },
+  // Label for main editor input (JSON-LD or YAML-LD)
+  setInputLabel() {
+    this.inputLabel = this.options.formatMode.toUpperCase() + '-LD Input';
+  },
+  // Label for compacted and flattened side editor input (JSON-LD or YAML-LD Context)
+  setContextInputLabel() {
+      this.contextInputLabel = 'New ' + this.options.formatMode.toUpperCase() + '-LD Context';
+  },
+  // Label for framed side editor input (JSON-LD or YAML-LD Frame)
+  setFrameInputLabel() {
+      this.frameInputLabel = this.options.formatMode.toUpperCase() + '-LD Frame';
+  },
 }).mount();
