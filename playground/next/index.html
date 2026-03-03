@@ -2,7 +2,6 @@
 layout: fomantic
 title: Next Playground
 ---
-
 <h2 class="ui massive header">JSON-LD Playground</h2>
 <div class="ui info message">
   <strong>NOTES</strong>:
@@ -249,52 +248,14 @@ title: Next Playground
         </form>
       </div>
     </div>
-    <div class="column" v-show="editorColumns != ''">
-      <div class="ui top attached tabular menu">
-        <div class="icon item" v-show="outputTab == 'compacted' || outputTab == 'flattened'">
-          <i class="arrow alternate circle down outline icon" style="cursor: pointer;"
-            title="Copy `@context` from &quot;JSON-LD Input&quot;"
-            @click="copyContext()"></i>
-        </div>
-        <div class="active item"><i class="pencil alternate icon"></i>
-          <span v-show="outputTab == 'compacted' || outputTab == 'flattened'">New JSON-LD Context</span>
-          <span v-show="outputTab == 'framed'">JSON-LD Frame</span>
-        </div>
-        <div class="right menu">
-          <div class="item" style="padding-right: 0">
-            <div class="ui icon input">
-              <input type="text" :placeholder="sideEditorURLFieldPlaceholderText"
-                v-model="remoteSideDocURL" @keyup.enter="retrieveDoc(sideEditor, sideDoc, remoteSideDocURL)">
-              <i class="file link icon" @click="retrieveDoc(sideEditor, sideDoc, remoteSideDocURL)"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="ui bottom attached fitted resizable scrolling segment">
-        <div id="context-editor"
-          v-show="outputTab == 'compacted' || outputTab == 'flattened'"
-          @vue:mounted="initContextEditor()"><!-- replaced by CodeMirror --></div>
-        <div id="frame-editor"
-          v-show="outputTab == 'framed'"
-          @vue:mounted="initFrameEditor()"><!-- replaced by CodeMirror --></div>
-      </div>
-    </div>
-  </div>
-  <!-- errors -->
-  <div class="ui error message" v-show="parseError.message">
-    <div class="header" v-text="parseError.message"></div>
-    <div class="content">
-      <pre v-text="JSON.stringify(parseError?.details?.event, null, 2)"></pre>
-    </div>
-  </div>
-  <!-- outputs and renderings -->
-  <div class="ui top attached tabular menu">
+     <div class="ui top attached tabular menu tabs-menu"  v-show="editorColumns == ''" >
     <div v-for="(tab, key) in tabs" :class="{ active: outputTab == key, disabled: doc === '' }" class="item" @click="setOutputTab(key)"><i class="icon" :class="tab.icon"></i> <span v-text="tab.label"></span></div>
   </div>
+  <div  class="column">
   <div class="ui fitted resizable active bottom attached tab segment">
     <div class="ui very compact divided grid">
       <div class="column" :class="{'eight wide': outputTab == 'cborld'}">
-        <div v-show="outputTab != 'table'" id="read-only-editor"><!-- replaced by CodeMirror --></div>
+        <div v-show="outputTab != 'table'"  style="min-height: 200px;" id="read-only-editor"><!-- replaced by CodeMirror --></div>
         <table class="ui compact table" style="margin-top: 0"
           v-show="outputTab == 'table'">
           <thead>
@@ -353,7 +314,50 @@ title: Next Playground
         </table>
       </div>
     </div>
+  </div></div>
   </div>
+  <!-- errors -->
+  <div class="ui error message" v-show="parseError.message">
+    <div class="header" v-text="parseError.message"></div>
+    <div class="content">
+      <pre v-text="JSON.stringify(parseError?.details?.event, null, 2)"></pre>
+    </div>
+  </div>
+  <!-- outputs and renderings -->
+ <div class="ui top attached tabular menu tabs-menu" v-show="editorColumns != ''">
+    <div v-for="(tab, key) in tabs" :class="{ active: outputTab == key, disabled: doc === '' }" class="item" @click="setOutputTab(key)"><i class="icon" :class="tab.icon"></i> <span v-text="tab.label"></span></div>
+  </div>
+  <div class="ui grid">
+  <div class="eight wide column" v-show="editorColumns != ''">
+      <div class="ui top attached tabular menu">
+        <div class="icon item" v-show="outputTab == 'compacted' || outputTab == 'flattened'">
+          <i class="arrow alternate circle down outline icon" style="cursor: pointer;"
+            title="Copy `@context` from &quot;JSON-LD Input&quot;"
+            @click="copyContext()"></i>
+        </div>
+        <div class="active item"><i class="pencil alternate icon"></i>
+          <span v-show="outputTab == 'compacted' || outputTab == 'flattened'">New JSON-LD Context</span>
+          <span v-show="outputTab == 'framed'">JSON-LD Frame</span>
+        </div>
+        <div class="right menu">
+          <div class="item" style="padding-right: 0">
+            <div class="ui icon input">
+              <input type="text" :placeholder="sideEditorURLFieldPlaceholderText"
+                v-model="remoteSideDocURL" @keyup.enter="retrieveDoc(sideEditor, sideDoc, remoteSideDocURL)">
+              <i class="file link icon" @click="retrieveDoc(sideEditor, sideDoc, remoteSideDocURL)"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui bottom attached fitted resizable scrolling segment">
+        <div id="context-editor"
+          v-show="outputTab == 'compacted' || outputTab == 'flattened'"
+          @vue:mounted="initContextEditor()"><!-- replaced by CodeMirror --></div>
+        <div id="frame-editor"
+          v-show="outputTab == 'framed'"
+          @vue:mounted="initFrameEditor()"><!-- replaced by CodeMirror --></div>
+      </div>
+    </div></div>
 </div>
 
 <script src="./editor.bundle.js"></script>
