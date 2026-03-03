@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html
+  prefix="
+    xhv: http://www.w3.org/1999/xhtml/vocab#
+    xsd: http://www.w3.org/2001/XMLSchema#
+    rdfs: http://www.w3.org/2000/01/rdf-schema#
+    dc: http://purl.org/dc/terms/
+    vcard: http://www.w3.org/2006/vcard/ns#
+    v: http://rdf.data-vocabulary.org/#"
+  lang="en" >
+  <head>
+    <title>Next Playground - JSON-LD - JSON for Linked Data</title>
+
+    <!-- Meta Tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
+    <!-- Style Sheets -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.4/dist/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="/json-ld.org/EricaCandido-7/static/css/rdf-font/rdf-font.css">
+    <style>
+      /* fomantic overrides */
+      html { scroll-padding-top: 5em; }
+      body { background-color: #f7f7f7; }
+      .ui.main.container { margin-top: 7em; }
+      .ui.top.menu .header.item { border: none !important; padding-left: 0; }
+      .ui.top.menu .header.item > span { font-size: 150%; }
+      .ui.top.menu .header.item > img { margin-right: 1rem; }
+      .ui.basic.masthead.segment { padding: 5em 0 3em; background: white; box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2), -1px -1px 0 rgba(0, 0, 0, 0.1) }
+      .ui.basic.masthead.segment + .ui.main.container { margin-top: 3em; }
+      pre.ui.segment { overflow-x: auto; }
+      .ui.fitted.tab.segment > .ui.table { border-left: 0; border-top: 0; border-right: 0; margin-top: 0; }
+      .ui.table th:empty { display: none; }
+      .ui.basic.footer.segment { border-top: 1px solid rgba(34,36,38,.15); margin-top: 4em; padding-top: 2em; }
+      /* RDF Font gets priority */
+      i.rdf-icon-rdf.icon { font-family: 'rdf-font'; }
+    </style>
+
+    <link rel="shortcut icon" href="/json-ld.org/EricaCandido-7/favicon.ico" />
+
+    <!-- Script tags -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-42886053-1', 'json-ld.org');
+      ga('send', 'pageview');
+    </script>
+  </head>
+
+  <body>
+    <div class="ui top fixed menu">
+      <div class="ui wide container">
+        <!-- Brand -->
+        <a class="header item" href="/json-ld.org/EricaCandido-7/">
+          <img src="/json-ld.org/EricaCandido-7/images/json-ld-data-24.png" alt="JSON-LD logo">
+          <span>JSON-LD</span>
+        </a>
+
+        <!-- Main menu items -->
+        <a class="item " href="/json-ld.org/EricaCandido-7/playground/">
+          <i class="beer icon"></i> Playground
+        </a>
+
+        <a class="item " href="/json-ld.org/EricaCandido-7/learn/">
+          <i class="book icon"></i> Documentation
+        </a>
+
+        <a class="item" href="/json-ld.org/EricaCandido-7/#developers">
+          <i class="flask icon"></i> Developers
+        </a>
+
+        <!-- Dropdown menu -->
+        <div class="ui simple dropdown item">
+          <i class="folder open icon"></i>
+          Specifications
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <div class="header"><strong>W3C Recommendations</strong></div>
+            <a class="item" href="https://www.w3.org/TR/json-ld/">Syntax</a>
+            <a class="item" href="https://www.w3.org/TR/json-ld-api/">Processing Algorithms and API</a>
+            <a class="item" href="https://www.w3.org/TR/json-ld-framing/">Framing</a>
+
+            <div class="divider"></div>
+
+            <div class="header"><strong>Latest Drafts</strong></div>
+            <a class="item" href="https://w3c.github.io/json-ld-syntax/">Syntax</a>
+            <a class="item" href="https://w3c.github.io/json-ld-api/">Processing Algorithms and API</a>
+            <a class="item" href="https://w3c.github.io/json-ld-framing/">Framing</a>
+            <a class="item" href="https://w3c.github.io/json-ld-bp/">Best Practices</a>
+            <a class="item" href="https://w3c.github.io/json-ld-streaming/">Streaming</a>
+            <a class="item" href="https://json-ld.github.io/json-ld-star/">JSON-LD-star</a>
+            <a class="item" href="https://w3c.github.io/json-ld-cbor/">CBOR</a>
+            <a class="item" href="https://github.com/w3c/json-ld-rc/">Recommended Context</a>
+            <a class="item" href="https://json-ld.github.io/yaml-ld/">YAML-LD</a>
+            <a class="item" href="/json-ld.org/EricaCandido-7/spec/">1.0 drafts (historic)</a>
+          </div>
+        </div>
+
+        <a class="item " href="/json-ld.org/EricaCandido-7/images/">
+          <i class="image icon"></i> Branding
+        </a>
+      </div>
+    </div>
+
+    
+
+    <div class="ui main wide container">
+    <h2 class="ui massive header">JSON-LD Playground</h2>
+<div class="ui info message">
+  <strong>NOTES</strong>:
+  <ul>
+    <li>
+      The playground uses <a href="https://github.com/digitalbazaar/jsonld.js">jsonld.js</a>
+      which <a href="https://github.com/digitalbazaar/jsonld.js#conformance">conforms</a>
+      to JSON-LD 1.1
+      <a href="https://www.w3.org/TR/json-ld11/">syntax</a>
+      (<a href="https://w3c.github.io/json-ld-syntax/errata/">errata</a>),
+      <a href="https://www.w3.org/TR/json-ld11-api/">API</a>
+      (<a href="https://w3c.github.io/json-ld-api/errata/">errata</a>), and
+      <a href="https://www.w3.org/TR/json-ld11-framing/">framing</a>
+      (<a href="https://w3c.github.io/json-ld-framing/errata/">errata</a>).
+    </li>
+    <li>
+      Other related playgrounds:
+      <a href="../1.0/">Classic JSON-LD 1.0 Playground</a> |
+      <a href="https://vcplayground.org/">Verifiable Credentials Playground</a>
+    </li>
+  </ul>
+  <p>Accesibility note: use <code>Esc</code> and then <code>Tab</code> (or
+  <code>Shift+Tab</code>) to navigate out of the editor.</p>
+</div>
+
+<div class="ui wide container" v-scope v-effect="setOutputTab()" @vue:mounted="gatherHash()">
+  <div class="ui buttons">
+    <button class="ui large basic right pointing label">Examples</button>
+    <button id="btn-person" class="ui button"
+      @click="loadExample('person.jsonld')">
+      <i class="icon user"></i>
+      <span>Person</span>
+    </button>
+    <button id="btn-event" class="ui button"
+      @click="loadExample('event.jsonld')">
+      <i class="icon calendar"></i>
+      <span>Event</span>
+    </button>
+    <button id="btn-place" class="ui button"
+      @click="loadExample('place.jsonld')">
+      <i class="icon map marker"></i>
+      <span>Place</span>
+    </button>
+    <button id="btn-product" class="ui button"
+      @click="loadExample('product.jsonld')">
+      <i class="icon barcode"></i>
+      <span>Product</span>
+    </button>
+    <button id="btn-recipe" class="ui button"
+      @click="loadExample('recipe.jsonld')">
+      <i class="icon food"></i>
+      <span>Recipe</span>
+    </button>
+    <button id="btn-library" class="ui button"
+      @click="loadExample('library.jsonld')">
+      <i class="icon book"></i>
+      <span>Library</span>
+    </button>
+    <button id="btn-activity" class="ui button"
+      @click="loadExample('activity.jsonld')">
+      <i class="icon comment"></i>
+      <span>Activity</span>
+    </button>
+  </div>
+
+  <div class="ui right floated buttons">
+    <button id="permalink" class="ui icon button" data-position="left center">
+      <i class="icon linkify"></i>
+    </button>
+    <div class="ui popup" style="min-width: 20em;">
+      <div class="ui top attached label">Share this</div>
+      <div class="ui fluid action input">
+        <input type="text" readonly v-model="permalinkURL" @focus="$event.target.select()">
+        <button class="ui icon button" @click="copyPermalink()">
+          <i class="icon copy"></i>
+        </button>
+      </div>
+      <div class="ui warning message" v-show="permalinkURL.length > 2048">
+        This link is longer than 2kb, and may not work.
+      </div>
+    </div>
+    <button id="keyboard-shortcuts" class="ui icon button" data-position="left center">
+      <i class="icon keyboard"></i>
+    </button>
+    <div class="ui popup">
+      <div class="ui top attached label">Keyboard Shortcuts</div>
+      <table class="ui very basic single line celled table">
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Autocomplete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><label class="ui label">@</label></td>
+            <td>all of the <b>@</b> keywords</td>
+          </tr>
+          <tr>
+            <td><label class="ui label">Ctrl+Space</label></td>
+            <td>available keys in <b>@context</b></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="ui icon message" v-if="message.text" :class="message.type">
+    <i class="icon" :class="{
+      'info circle': message.type == 'info',
+      'check circle': message.type == 'success',
+      'times circle': message.type == 'error',
+      'exclamation triangle': message.type == 'warning'
+    }"></i>
+    <div class="content">
+      <div class="header" v-text="message.text"></div>
+    </div>
+  </div>
+  <!-- main editor area -->
+  <div class="ui one column wide compact grid container" :class="[editorColumns]">
+    <div class="column" :class="{ 'sixteen wide':  editorColumns == '' }">
+      <div class="ui top attached tabular menu">
+        <div :class="{ active: inputTab == 'json-ld' }" class="item" @click="inputTab = 'json-ld'" v-text="inputLabel"><i class="pencil alternate icon"></i></div>
+        <div :class="{ active: inputTab == 'options' }" class="item" @click="inputTab = 'options'"><i class="wrench icon"></i> Options</div>
+        <div class="right menu">
+          <div class="item" style="padding-right: 0">
+            <div class="ui icon input">
+              <input type="text" placeholder="Document URL"
+                v-model="remoteDocURL" @keyup.enter="retrieveDoc(mainEditor, 'doc', remoteDocURL)">
+              <i class="file link icon" :class="{ disabled: remoteDocURL == '' }" @click="retrieveDoc(mainEditor, 'doc', remoteDocURL)"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui bottom attached fitted resizable scrolling segment" v-show="inputTab == 'json-ld'">
+        <div id="editor" @vue:mounted="initMainEditor()"><!-- replaced by CodeMirror --></div>
+      </div>
+      <div class="ui bottom attached segment" v-show="inputTab == 'options'">
+        <form class="ui form">
+          <div class="inline fields" id="options-api-processingMode">
+            <label for="options-api-processingMode" class="two wide field">Processing Mode</label>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" id="options-api-processingMode-1-0" name="processingMode" value="json-ld-1.0"
+                  v-model="options.processingMode" @change="setOutputTab()">
+                <label for="options-api-processingMode-1-0">JSON-LD 1.0</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" id="options-api-processingMode-1-1" name="processingMode" value="json-ld-1.1"
+                  v-model="options.processingMode" @change="setOutputTab()">
+                <label for="options-api-processingMode-1-1">JSON-LD 1.1</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="inline fields" id="options-formatMode">
+            <label for="options-formatMode" class="two wide field">Format</label>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" id="options-formatMode-json" name="formatMode" value="json"
+                  v-model="options.formatMode" @change="setOutputTab()">
+                <label for="options-formatMode-json">JSON</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" id="options-formatMode-yaml" name="formatMode" value="yaml"
+                  v-model="options.formatMode" @change="setOutputTab()">
+                <label for="options-formatMode-yaml">YAML</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="inline fields" id="options-api-base">
+            <label for="options-api-base" class="two wide field">Base</label>
+            <div class="sixteen wide field">
+              <input type="text" id="options-api-base-url" placeholder="URL"
+                v-model="options.base" @change="setOutputTab()">
+            </div>
+          </div>
+
+          <div class="inline fields">
+            <label class="two wide field"></label>
+            <div class="field">
+              <div class="ui checkbox">
+                <input type="checkbox" id="options-api-compactArrays"
+                  v-model="options.compactArrays" @change="setOutputTab()">
+                <label for="options-api-compactArrays">Compact Arrays</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="inline fields">
+            <label class="two wide field"></label>
+            <div class="field">
+              <div class="ui checkbox">
+                <input type="checkbox" id="options-api-compactToRelative"
+                  v-model="options.compactToRelative" @change="setOutputTab()">
+                <label for="options-api-compactToRelative">Compact To Relative</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="inline fields" id="options-api-rdfDirection">
+              <label for="options-api-rdfDirection" class="two wide field">RDF Direction Mode</label>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input type="radio" id="options-api-rdfDirection-default" name="rdfDirection" value="" checked
+                    v-model="options.rdfDirection" @change="setOutputTab()">
+                  <label for="options-api-rdfDirection-default">Default (null)</label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input type="radio" id="options-api-rdfDirection-i18n-datatype" name="rdfDirection" value="i18n-datatype"
+                    v-model="options.rdfDirection" @change="setOutputTab()">
+                  <label for="options-api-rdfDirection-i18n-datatype">"i18n-datatype"</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="inline fields" id="options-api-safe">
+              <label for="options-api-safe" class="two wide field">Safe</label>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input type="radio" id="options-api-safe-false" name="safe" :value="false"
+                    v-model="options.safe" @change="setOutputTab()">
+                  <label for="options-api-safe-false">False</label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input type="radio" id="options-api-safe-true" name="safe" :value="true"
+                    v-model="options.safe" @change="setOutputTab()">
+                  <label for="options-api-safe-true">True</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+     <div class="ui top attached tabular menu tabs-menu"  v-show="editorColumns == ''" >
+    <div v-for="(tab, key) in tabs" :class="{ active: outputTab == key, disabled: doc === '' }" class="item" @click="setOutputTab(key)"><i class="icon" :class="tab.icon"></i> <span v-text="tab.label"></span></div>
+  </div>
+  <div  class="column">
+  <div class="ui fitted resizable active bottom attached tab segment">
+    <div class="ui very compact divided grid">
+      <div class="column" :class="{'eight wide': outputTab == 'cborld'}">
+        <div v-show="outputTab != 'table'"  style="min-height: 200px;" id="read-only-editor"><!-- replaced by CodeMirror --></div>
+        <table class="ui compact table" style="margin-top: 0"
+          v-show="outputTab == 'table'">
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>Predicate</th>
+              <th>Object</th>
+              <th>Language</th>
+              <th>Datatype</th>
+              <th>Graph</th>
+            </tr>
+          </thead>
+          <tr v-for="quad in tableQuads">
+            <td>
+              <a v-if="quad.subject.termType == 'NamedNode'"
+                :href="quad.subject.value"
+                v-text="quad.subject.value"></a>
+              <span v-else v-text="quad.subject.value"></span>
+            </td>
+            <td>
+              <a v-if="quad.predicate.termType == 'NamedNode'"
+                :href="quad.predicate.value"
+                v-text="quad.predicate.value"></a>
+              <span v-else v-text="quad.predicate.value"></span>
+            </td>
+            <td>
+              <a v-if="quad.object.termType == 'NamedNode'"
+                :href="quad.object.value"
+                v-text="quad.object.value"></a>
+              <span v-else v-text="quad.object.value"></span>
+            </td>
+            <td v-text="quad.object.language"></td>
+            <td>
+              <a v-if="quad.object.datatype"
+              :href="quad.object.datatype.value"
+                v-text="quad.object.datatype.value"></a>
+            </td>
+            <td v-text="quad.graph.value"></td>
+          </tr>
+        </table>
+      </div>
+      <div class="eight wide column" v-if="outputTab == 'cborld'">
+        <table class="ui fixed definition table" style="margin-left: -0.25rem">
+          <tr>
+            <td class="three wide">JSON-LD Size</td><td><span v-text="cborLD.jsonldSize"></span> bytes</td>
+          </tr>
+          <tr>
+            <td>CBOR-LD Size</td><td><span v-text="cborLD.size"></span> bytes</td>
+          </tr>
+          <tr>
+            <td>Compression</td><td><span v-text="cborLD.percentage"></span>%</td>
+          </tr>
+          <tr class="top aligned">
+            <td>Hex</td><td v-text="cborLD.hex" style="word-wrap: break-word;"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div></div>
+  </div>
+  <!-- errors -->
+  <div class="ui error message" v-show="parseError.message">
+    <div class="header" v-text="parseError.message"></div>
+    <div class="content">
+      <pre v-text="JSON.stringify(parseError?.details?.event, null, 2)"></pre>
+    </div>
+  </div>
+  <!-- outputs and renderings -->
+ <div class="ui top attached tabular menu tabs-menu" v-show="editorColumns != ''">
+    <div v-for="(tab, key) in tabs" :class="{ active: outputTab == key, disabled: doc === '' }" class="item" @click="setOutputTab(key)"><i class="icon" :class="tab.icon"></i> <span v-text="tab.label"></span></div>
+  </div>
+  <div class="ui grid">
+  <div class="eight wide column" v-show="editorColumns != ''">
+      <div class="ui top attached tabular menu">
+        <div class="icon item" v-show="outputTab == 'compacted' || outputTab == 'flattened'">
+          <i class="arrow alternate circle down outline icon" style="cursor: pointer;"
+            title="Copy `@context` from &quot;JSON-LD Input&quot;"
+            @click="copyContext()"></i>
+        </div>
+        <div class="active item"><i class="pencil alternate icon"></i>
+          <span v-show="outputTab == 'compacted' || outputTab == 'flattened'">New JSON-LD Context</span>
+          <span v-show="outputTab == 'framed'">JSON-LD Frame</span>
+        </div>
+        <div class="right menu">
+          <div class="item" style="padding-right: 0">
+            <div class="ui icon input">
+              <input type="text" :placeholder="sideEditorURLFieldPlaceholderText"
+                v-model="remoteSideDocURL" @keyup.enter="retrieveDoc(sideEditor, sideDoc, remoteSideDocURL)">
+              <i class="file link icon" @click="retrieveDoc(sideEditor, sideDoc, remoteSideDocURL)"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui bottom attached fitted resizable scrolling segment">
+        <div id="context-editor"
+          v-show="outputTab == 'compacted' || outputTab == 'flattened'"
+          @vue:mounted="initContextEditor()"><!-- replaced by CodeMirror --></div>
+        <div id="frame-editor"
+          v-show="outputTab == 'framed'"
+          @vue:mounted="initFrameEditor()"><!-- replaced by CodeMirror --></div>
+      </div>
+    </div></div>
+</div>
+
+<script src="./editor.bundle.js"></script>
+
+    </div>
+
+    <div class="ui basic footer segment" id="footer">
+      <div class="ui container" id="copyright">
+        <p>Website content released under a
+          <a href="https://creativecommons.org/about/cc0">Creative Commons CC0 Public Domain Dedication</a>
+          except where an alternate is specified.</p>
+      </div>
+    </div>
+
+    <!-- Script tags -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.4/dist/semantic.min.js"></script>
+    <script>
+      $('.ui.popup').each((i, el) => {
+        $(el).prev().popup({ on: 'click', inline: true, preserve: true });
+      });
+    </script>
+  </body>
+</html>

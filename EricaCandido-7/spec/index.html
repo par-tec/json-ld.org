@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html
+  prefix="
+    xhv: http://www.w3.org/1999/xhtml/vocab#
+    xsd: http://www.w3.org/2001/XMLSchema#
+    rdfs: http://www.w3.org/2000/01/rdf-schema#
+    dc: http://purl.org/dc/terms/
+    vcard: http://www.w3.org/2006/vcard/ns#
+    v: http://rdf.data-vocabulary.org/#"
+  lang="en" >
+  <head>
+    <title>Specifications - JSON-LD - JSON for Linked Data</title>
+
+    <!-- Meta Tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
+    <!-- Style Sheets -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.4/dist/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="/json-ld.org/EricaCandido-7/static/css/rdf-font/rdf-font.css">
+    <style>
+      /* fomantic overrides */
+      html { scroll-padding-top: 5em; }
+      body { background-color: #f7f7f7; }
+      .ui.main.container { margin-top: 7em; }
+      .ui.top.menu .header.item { border: none !important; padding-left: 0; }
+      .ui.top.menu .header.item > span { font-size: 150%; }
+      .ui.top.menu .header.item > img { margin-right: 1rem; }
+      .ui.basic.masthead.segment { padding: 5em 0 3em; background: white; box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2), -1px -1px 0 rgba(0, 0, 0, 0.1) }
+      .ui.basic.masthead.segment + .ui.main.container { margin-top: 3em; }
+      pre.ui.segment { overflow-x: auto; }
+      .ui.fitted.tab.segment > .ui.table { border-left: 0; border-top: 0; border-right: 0; margin-top: 0; }
+      .ui.table th:empty { display: none; }
+      .ui.basic.footer.segment { border-top: 1px solid rgba(34,36,38,.15); margin-top: 4em; padding-top: 2em; }
+      /* RDF Font gets priority */
+      i.rdf-icon-rdf.icon { font-family: 'rdf-font'; }
+    </style>
+
+    <link rel="shortcut icon" href="/json-ld.org/EricaCandido-7/favicon.ico" />
+
+    <!-- Script tags -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-40462488-1', 'json-ld.org');
+      ga('send', 'pageview');
+    </script>
+  </head>
+
+  <body>
+    <div class="ui top fixed menu">
+      <div class="ui wide container">
+        <!-- Brand -->
+        <a class="header item" href="/json-ld.org/EricaCandido-7/">
+          <img src="/json-ld.org/EricaCandido-7/images/json-ld-data-24.png" alt="JSON-LD logo">
+          <span>JSON-LD</span>
+        </a>
+
+        <!-- Main menu items -->
+        <a class="item " href="/json-ld.org/EricaCandido-7/playground/">
+          <i class="beer icon"></i> Playground
+        </a>
+
+        <a class="item " href="/json-ld.org/EricaCandido-7/learn/">
+          <i class="book icon"></i> Documentation
+        </a>
+
+        <a class="item" href="/json-ld.org/EricaCandido-7/#developers">
+          <i class="flask icon"></i> Developers
+        </a>
+
+        <!-- Dropdown menu -->
+        <div class="ui simple dropdown item">
+          <i class="folder open icon"></i>
+          Specifications
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <div class="header"><strong>W3C Recommendations</strong></div>
+            <a class="item" href="https://www.w3.org/TR/json-ld/">Syntax</a>
+            <a class="item" href="https://www.w3.org/TR/json-ld-api/">Processing Algorithms and API</a>
+            <a class="item" href="https://www.w3.org/TR/json-ld-framing/">Framing</a>
+
+            <div class="divider"></div>
+
+            <div class="header"><strong>Latest Drafts</strong></div>
+            <a class="item" href="https://w3c.github.io/json-ld-syntax/">Syntax</a>
+            <a class="item" href="https://w3c.github.io/json-ld-api/">Processing Algorithms and API</a>
+            <a class="item" href="https://w3c.github.io/json-ld-framing/">Framing</a>
+            <a class="item" href="https://w3c.github.io/json-ld-bp/">Best Practices</a>
+            <a class="item" href="https://w3c.github.io/json-ld-streaming/">Streaming</a>
+            <a class="item" href="https://json-ld.github.io/json-ld-star/">JSON-LD-star</a>
+            <a class="item" href="https://w3c.github.io/json-ld-cbor/">CBOR</a>
+            <a class="item" href="https://github.com/w3c/json-ld-rc/">Recommended Context</a>
+            <a class="item" href="https://json-ld.github.io/yaml-ld/">YAML-LD</a>
+            <a class="item" href="/json-ld.org/EricaCandido-7/spec/">1.0 drafts (historic)</a>
+          </div>
+        </div>
+
+        <a class="item " href="/json-ld.org/EricaCandido-7/images/">
+          <i class="image icon"></i> Branding
+        </a>
+      </div>
+    </div>
+
+    
+
+    <div class="ui main wide container">
+    <h1 id="specifications" tabindex="-1">Specifications</h1>
+<p>JSON-LD has been designed to be a modular set of specifications. It
+consists of two base specifications: The JSON-LD Syntax and the JSON-LD
+API. All other JSON-LD specifications are layered upon the previous two
+specifications, allowing the community to build experimental extensions
+on top of the base specifications.</p>
+<h2 id="syntax" tabindex="-1"><a href="latest/json-ld/">The JSON-LD Syntax</a></h2>
+<p>Defines JSON-LD, a JSON-based format to serialize Linked Data. The
+syntax is designed to easily integrate into deployed systems that
+already use JSON, and provides a smooth upgrade path from JSON to
+JSON-LD. It is primarily intended to be a way to use Linked Data in
+Web-based programming environments, to build interoperable Web services,
+and to store Linked Data in JSON-based storage engines.</p>
+<p>Links to JSON-LD specifications: <a href="latest/json-ld/">Latest</a>, <a href="FCGS/json-ld/20180607">20180607</a>, <a href="ED/json-ld/20180215">20180215</a>, <a href="REC/json-ld/20140116">20140116</a>, <a href="PR/json-ld/20131105">20131105</a>, <a href="CR/json-ld/20130910">20130910</a>, <a href="ED/json-ld/20130630">20130630</a>, <a href="WD/json-ld/20130411">20130411</a>, <a href="FCGS/json-ld/20130328">20130328</a>, <a href="FCGS/json-ld-syntax/20130222">20130222</a>, <a href="FCGS/json-ld-syntax/20130202">20130202</a>, <a href="ED/json-ld-syntax/20121225">20121225</a>, <a href="ED/json-ld-syntax/20120930">20120930</a>, <a href="ED/json-ld-syntax/20120830">20120830</a>, <a href="WD/json-ld-syntax/20120712">20120712</a>, <a href="FCGS/json-ld-syntax/20120626">20120626</a>, <a href="ED/json-ld-syntax/20120522">20120522</a>, <a href="ED/json-ld-syntax/20120426">20120426</a>, <a href="ED/json-ld-syntax/20120318">20120318</a>, <a href="ED/json-ld-syntax/20120122">20120122</a>, <a href="ED/json-ld-syntax/20120112">20120112</a>, <a href="ED/json-ld-syntax/20111023">20111023</a>, <a href="ED/json-ld-syntax/20111016">20111016</a>, <a href="ED/json-ld-syntax/20110911">20110911</a>, <a href="ED/json-ld-syntax/20110817">20110817</a>, <a href="ED/json-ld-syntax/20110808">20110808</a>, <a href="ED/json-ld-syntax/20110803">20110803</a>, <a href="ED/json-ld-syntax/20110615">20110615</a>, <a href="ED/json-ld-syntax/20110507">20110507</a>, <a href="ED/json-ld-syntax/20110201">20110201</a>, <a href="ED/json-ld-syntax/20101128">20101128</a>, <a href="ED/json-ld-syntax/20101024">20101024</a>, <a href="ED/json-ld-syntax/20101014">20101014</a>, <a href="ED/json-ld-syntax/20100823">20100823</a>, <a href="ED/json-ld-syntax/20100529">20100529</a></p>
+<h2 id="api" tabindex="-1"><a href="latest/json-ld-api/">The JSON-LD API</a></h2>
+<p>An Application Programming Interface (API) and a set of algorithms for
+programmatic transformations of JSON-LD documents. This API defines
+algorithms for applying and removing JSON-LD contexts.</p>
+<p>Links to JSON-LD API specifications: <a href="latest/json-ld-api/">Latest</a>, <a href="FCGS/json-ld-api/20180607">20180607</a>, <a href="ED/json-ld-api/20180215">20180215</a>, <a href="REC/json-ld-api/20140116">20140116</a>, <a href="PR/json-ld-api/20131105">20131105</a>, <a href="CR/json-ld-api/20130910">20130910</a>, <a href="WD/json-ld-api/20130516">20130516</a>, <a href="WD/json-ld-api/20130514">20130514</a>, <a href="WD/json-ld-api/20130411">20130411</a>, <a href="FCGS/json-ld-api/20130328">20130328</a>, <a href="ED/json-ld-api/20121225">20121225</a>, <a href="ED/json-ld-api/20120930">20120930</a>, <a href="ED/json-ld-api/20120830">20120830</a>, <a href="WD/json-ld-api/20120712">20120712</a>, <a href="FCGS/json-ld-api/20120626">20120626</a>, <a href="ED/json-ld-api/20120524">20120524</a>, <a href="ED/json-ld-api/20120426">20120426</a>, <a href="ED/json-ld-api/20120112">20120112</a>, <a href="ED/json-ld-api/20111023">20111023</a>, <a href="ED/json-ld-api/20111016">20111016</a></p>
+<h2 id="best-practices" tabindex="-1"><a href="https://w3c.github.io/json-ld-bp">JSON-LD Best Practices</a></h2>
+<p>Best practices for publishing JSON-LD and building APIs.</p>
+<p>Links to JSON-LD API specifications:
+<a href="https://w3c.github.io/json-ld-bp">Latest</a></p>
+<h2 id="framing" tabindex="-1"><a href="latest/json-ld-framing/">JSON-LD Framing</a></h2>
+<p>JSON-LD Framing allows developers to perform <em>query by example</em> and
+force a specific tree layout to a JSON-LD document. It allows developers
+to restructure data retrieved from the Web according to the specific
+needs of their application. Restructuring JSON-LD data before your
+application processes it leads to simpler code when processing data from
+external sources.</p>
+<p>Links to JSON-LD Framing specifications:
+<a href="latest/json-ld-framing/">Latest</a>, <a href="FCGS/json-ld-framing/20180607">20180607</a>, <a href="ED/json-ld-framing/20180215">20180215</a>, <a href="ED/json-ld-framing/20120830">20120830</a></p>
+<h2 id="json-ld-rdf-api" tabindex="-1"><a href="latest/json-ld-rdf/">JSON-LD RDF API</a></h2>
+<p>JSON-LD RDF API describes access methods for transforming and abstract
+RDF represention into JSON-LD and back.</p>
+<p>Links to JSON-LD RDF API specifications:
+<a href="latest/json-ld-rdf/">Latest</a></p>
+<div id="footer" class="ui message">
+<p>JSON-LD Specifications are covered by the <a href="https://www.w3.org/Consortium/Legal/2015/doc-license">W3C DOCUMENT
+LICENSE</a> except
+where an alternate is specified.</p>
+</div>
+
+    </div>
+
+    <div class="ui basic footer segment" id="footer">
+      <div class="ui container" id="copyright">
+        <p>Website content released under a
+          <a href="https://creativecommons.org/about/cc0">Creative Commons CC0 Public Domain Dedication</a>
+          except where an alternate is specified.</p>
+      </div>
+    </div>
+
+    <!-- Script tags -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.4/dist/semantic.min.js"></script>
+    <script>
+      $('.ui.popup').each((i, el) => {
+        $(el).prev().popup({ on: 'click', inline: true, preserve: true });
+      });
+    </script>
+  </body>
+</html>
