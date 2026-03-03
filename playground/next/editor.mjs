@@ -98,7 +98,11 @@ function editorListener(docName) {
           return;
         } else {
           try {
-            const parsed = JSON.parse(latestChange);
+            const parsed =
+              this.options.formatMode === "yaml"
+                ? YAML.parse(latestChange)
+                : JSON.parse(latestChange);
+                
             this[docName] = parsed;
             this.parseError = {};
             this.setOutputTab(this.outputTab);
@@ -255,20 +259,25 @@ const jsonLdHighlightTheme = EditorView.baseTheme({
   }
 });
 
+// initEditor can now handle both JSON and YAML depending on the `options.formatMode` setting
 function initEditor(id, content, varName) {
+  const lang = this.options.formatMode;
+  const languageExtension = lang === "yaml" ? yaml() : json();
+  const linterExtension = lang === "yaml" ? [] : linter(jsonParseLinter());
+
   return new EditorView({
     parent: document.getElementById(id),
-    doc: (content === 'object' ? JSON.stringify(content, null, 2) : ''),
+    doc: typeof content === "object" ? JSON.stringify(content, null, 2) : "",
     extensions: [
       basicSetup,
       keymap.of([indentWithTab]),
-      jsonLanguage,
+      language.of(languageExtension),
       jsonLdKeywordHighlighter,
       jsonLdHighlightTheme,
-      linter(jsonParseLinter()),
+      ...linterExtension,
       jsonLdCompletions,
-      editorListener.call(this, varName)
-    ]
+      editorListener.call(this, varName),
+    ],
   });
 }
 
@@ -286,26 +295,30 @@ const readOnlyEditor = new EditorView({
   ]
 });
 
+// initEditor can now handle both JSON and YAML depending on the `options.formatMode` setting
 function setEditorValue(_editor, doc, lang) {
-  // TODO: this runs more often than it should (because v-effect); maybe debounce
   if (_editor) {
-    // set the correct language
-    let effects = language.reconfigure(json());
-    if (lang === 'yaml') effects = language.reconfigure(yaml());
-    else effects = language.reconfigure(StreamLanguage.define(ntriples));
+    let languageExtension;
+    let insert;
+
+    if (lang === "yaml") {
+      languageExtension = yaml();
+      insert = typeof doc === "object" ? YAML.stringify(doc) : doc;
+    } else if (typeof doc === "object" || lang === "json") {
+      languageExtension = json();
+      insert = typeof doc === "object" ? JSON.stringify(doc, null, 2) : doc;
+    } else {
+      languageExtension = StreamLanguage.define(ntriples);
+      insert = doc;
+    }
 
     _editor.dispatch({
       changes: {
         from: 0,
         to: _editor.state.doc.length,
-        insert: typeof(doc) === 'object'
-          ? JSON.stringify(doc, null, 2)
-          : doc
+        insert,
       },
-      // set the correct language
-      effects: language.reconfigure(typeof(doc) === 'object'
-        ? json()
-        : StreamLanguage.define(ntriples))
+      effects: language.reconfigure(languageExtension),
     });
   }
 }
@@ -330,8 +343,9 @@ window.app = createApp({
   inputTab: 'json-ld',
   outputTab: 'expanded',
   options: {
-    processingMode: 'json-ld-1.1',
-    base: '',
+    processingMode: "json-ld-1.1",
+    formatMode: "yaml",
+    base: "",
     compactArrays: true,
     compactToRelative: true,
     rdfDirection: '',
@@ -435,11 +449,12 @@ window.app = createApp({
     if (value) this.outputTab = value;
     let context = this.contextDoc;
     switch (this.outputTab) {
-      case 'expanded':
+      // expanded when setEditorValue is called always takes the value of this.options.formatMode, so if it is set to yaml otherwise json
+      case "expanded":
         // TODO: this should happen elsewhere...like a watcher
         try {
           const expanded = await jsonld.expand(this.doc, this.options);
-          setEditorValue(readOnlyEditor, expanded);
+          setEditorValue(readOnlyEditor, expanded, this.options.formatMode);
           this.parseError = {};
         } catch(err) {
           this.parseError = err;
