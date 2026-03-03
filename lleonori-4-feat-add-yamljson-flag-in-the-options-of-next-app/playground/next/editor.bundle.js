@@ -52157,9 +52157,9 @@ ${O$2.repeat(r.depth)}}`:r.close="}";break}case f$4.TAG:e+=String(i),e+=a(f$4.PO
     parseError: {},
     inputTab: 'json-ld',
     outputTab: 'expanded',
-    inputLabel: 'JSON-LD Input',
-    contextInputLabel: 'New JSON-LD Context',
-    frameInputLabel: 'JSON-LD Frame',
+    inputLabel: 'YAML-LD Input',
+    contextInputLabel: 'New YAML-LD Context',
+    frameInputLabel: 'YAML-LD Frame',
     options: {
       processingMode: "json-ld-1.1",
       formatMode: "yaml",
@@ -52420,7 +52420,7 @@ ${O$2.repeat(r.depth)}}`:r.close="}";break}case f$4.TAG:e+=String(i),e+=a(f$4.PO
       const hash = new URLSearchParams(url?.hash.slice(1));
       
       // restores the formatMode from the options saved in the URL, if present
-      this.options.formatMode = hash.get("formatMode") || this.options.formatMode;
+      if(hash.get("formatMode")) this.options.formatMode = hash.get("formatMode");
 
       this.contextDoc = JSON.parse(hash.get('context')) || {};
       // passing the formatMode to setEditorValue so that the context editor will match the main editor's format (yaml or json)
