@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html
+  prefix="
+    xhv: http://www.w3.org/1999/xhtml/vocab#
+    xsd: http://www.w3.org/2001/XMLSchema#
+    rdfs: http://www.w3.org/2000/01/rdf-schema#
+    dc: http://purl.org/dc/terms/
+    vcard: http://www.w3.org/2006/vcard/ns#
+    v: http://rdf.data-vocabulary.org/#"
+  lang="en" >
+  <head>
+    <title>JSON-LD - JSON for Linked Data</title>
+
+    <!-- Meta Tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
+    <!-- Style Sheets -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.4/dist/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="/json-ld.org/stefanone91-10-feat-unit-tests/static/css/rdf-font/rdf-font.css">
+    <style>
+      /* fomantic overrides */
+      html { scroll-padding-top: 5em; }
+      body { background-color: #f7f7f7; }
+      .ui.main.container { margin-top: 7em; }
+      .ui.top.menu .header.item { border: none !important; padding-left: 0; }
+      .ui.top.menu .header.item > span { font-size: 150%; }
+      .ui.top.menu .header.item > img { margin-right: 1rem; }
+      .ui.basic.masthead.segment { padding: 5em 0 3em; background: white; box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2), -1px -1px 0 rgba(0, 0, 0, 0.1) }
+      .ui.basic.masthead.segment + .ui.main.container { margin-top: 3em; }
+      pre.ui.segment { overflow-x: auto; }
+      .ui.fitted.tab.segment > .ui.table { border-left: 0; border-top: 0; border-right: 0; margin-top: 0; }
+      .ui.table th:empty { display: none; }
+      .ui.basic.footer.segment { border-top: 1px solid rgba(34,36,38,.15); margin-top: 4em; padding-top: 2em; }
+      /* RDF Font gets priority */
+      i.rdf-icon-rdf.icon { font-family: 'rdf-font'; }
+    </style>
+
+    <link rel="shortcut icon" href="/json-ld.org/stefanone91-10-feat-unit-tests/favicon.ico" />
+
+    <!-- Script tags -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-42886053-1', 'json-ld.org');
+      ga('send', 'pageview');
+    </script>
+  </head>
+
+  <body>
+    <div class="ui top fixed menu">
+      <div class="ui wide container">
+        <!-- Brand -->
+        <a class="header item" href="/json-ld.org/stefanone91-10-feat-unit-tests/">
+          <img src="/json-ld.org/stefanone91-10-feat-unit-tests/images/json-ld-data-24.png" alt="JSON-LD logo">
+          <span>JSON-LD</span>
+        </a>
+
+        <!-- Main menu items -->
+        <a class="item " href="/json-ld.org/stefanone91-10-feat-unit-tests/playground/">
+          <i class="beer icon"></i> Playground
+        </a>
+
+        <a class="item " href="/json-ld.org/stefanone91-10-feat-unit-tests/learn/">
+          <i class="book icon"></i> Documentation
+        </a>
+
+        <a class="item" href="/json-ld.org/stefanone91-10-feat-unit-tests/#developers">
+          <i class="flask icon"></i> Developers
+        </a>
+
+        <!-- Dropdown menu -->
+        <div class="ui simple dropdown item">
+          <i class="folder open icon"></i>
+          Specifications
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <div class="header"><strong>W3C Recommendations</strong></div>
+            <a class="item" href="https://www.w3.org/TR/json-ld/">Syntax</a>
+            <a class="item" href="https://www.w3.org/TR/json-ld-api/">Processing Algorithms and API</a>
+            <a class="item" href="https://www.w3.org/TR/json-ld-framing/">Framing</a>
+
+            <div class="divider"></div>
+
+            <div class="header"><strong>Latest Drafts</strong></div>
+            <a class="item" href="https://w3c.github.io/json-ld-syntax/">Syntax</a>
+            <a class="item" href="https://w3c.github.io/json-ld-api/">Processing Algorithms and API</a>
+            <a class="item" href="https://w3c.github.io/json-ld-framing/">Framing</a>
+            <a class="item" href="https://w3c.github.io/json-ld-bp/">Best Practices</a>
+            <a class="item" href="https://w3c.github.io/json-ld-streaming/">Streaming</a>
+            <a class="item" href="https://json-ld.github.io/json-ld-star/">JSON-LD-star</a>
+            <a class="item" href="https://w3c.github.io/json-ld-cbor/">CBOR</a>
+            <a class="item" href="https://github.com/w3c/json-ld-rc/">Recommended Context</a>
+            <a class="item" href="https://json-ld.github.io/yaml-ld/">YAML-LD</a>
+            <a class="item" href="/json-ld.org/stefanone91-10-feat-unit-tests/spec/">1.0 drafts (historic)</a>
+          </div>
+        </div>
+
+        <a class="item " href="/json-ld.org/stefanone91-10-feat-unit-tests/images/">
+          <i class="image icon"></i> Branding
+        </a>
+      </div>
+    </div>
+
+    
+    <div class="ui basic center aligned massive masthead segment">
+      <h1 class="ui massive header">JSON for Linking Data</h1>
+      <p>Data is messy and disconnected. JSON-LD organizes and connects it, creating a better Web.</p>
+    </div>
+    
+
+    <div class="ui main wide container">
+    
+
+<div class="ui stackable grid">
+  <div class="justified four wide column">
+    <h2><i class="exchange alternate icon"></i> Linked Data</h2>
+    <p>
+      <a href="https://en.wikipedia.org/wiki/Linked_data">Linked Data</a>
+      empowers people that publish and use information on the Web. It is a
+      way to create a network of standards-based, machine-readable data across
+      Web sites. It allows an application to start at one piece of Linked Data,
+      and follow embedded links to other pieces of Linked Data that are hosted
+      on different sites across the Web.
+    </p>
+  </div>
+  <div class="eight wide column">
+    <div class="ui segment">
+      <a class="ui top right attached primary label"
+        href="/playground/#startTab=tab-expanded&json-ld=%7B%22%40context%22%3A%22https%3A%2F%2Fjson-ld.org%2Fcontexts%2Fperson.jsonld%22%2C%22%40id%22%3A%22http%3A%2F%2Fdbpedia.org%2Fresource%2FJohn_Lennon%22%2C%22name%22%3A%22John%20Lennon%22%2C%22born%22%3A%221940-10-09%22%2C%22spouse%22%3A%5B%22http%3A%2F%2Fdbpedia.org%2Fresource%2FYoko_Ono%22%2C%22http%3A%2F%2Fdbpedia.org%2Fresource%2FCynthia_Lennon%22%5D%7D"
+        >Open in Playground</a>
+      <pre style="margin: 0 !important;">{
+  "<span style="color: rgb(255, 122, 0);">@context</span>": "<a href="https://json-ld.org/contexts/person.jsonld">https://json-ld.org/contexts/person.jsonld</a>",
+  "<span style="color: rgb(255, 122, 0);">@id</span>": "<a href="http://dbpedia.org/resource/John_Lennon">http://dbpedia.org/resource/John_Lennon</a>",
+  "<span style="color: rgb(255, 122, 0);">name</span>": "<span style="color: rgb(0, 148, 0);">John Lennon</span>",
+  "<span style="color: rgb(255, 122, 0);">born</span>": "<span style="color: rgb(0, 0, 175);">1940-10-09</span>",
+  "<span style="color: rgb(255, 122, 0);">spouse</span>": [
+    "<a href="http://dbpedia.org/resource/Yoko_Ono">http://dbpedia.org/resource/Yoko_Ono</a>",
+    "<a href="http://dbpedia.org/resource/Cynthia_Lennon">http://dbpedia.org/resource/Cynthia_Lennon</a>"
+  ]
+}</pre></div>
+  </div>
+  <div class="justified four wide column">
+    <h2><img class="ui micro inline image" src="images/json-ld-data-32.png" alt="JSON-LD logo"> JSON-LD</h2>
+    <p>JSON-LD is a lightweight Linked Data format. It
+      is easy for humans to read and write. It is based on the already
+      successful JSON format and provides a way to help JSON data interoperate
+      at Web-scale. JSON-LD is an ideal data format for programming
+      environments, REST Web services, and unstructured databases such as
+      Apache CouchDB and MongoDB.
+    </p>
+  </div>
+</div>
+
+<div class="ui large center aligned segment" style="margin: 3em auto">
+  <div class="ui center aligned massive basic segment grid">
+    <div class="ui header">
+      <i class="beer icon"></i>
+      <span class="content">Playground</span>
+    </div>
+  </div>
+  <p class="ui basic huge left aligned padded segment">
+    The <strong>JSON-LD Playground</strong> is a web-based JSON-LD viewer and debugger.
+    If you are interested in learning JSON-LD, this tool will be of great help
+    to you. Developers may also use the tool to debug, visualize, and share
+    their JSON-LD markup.
+  </p>
+  <a href="./playground/" class="ui primary big button">Launch the JSON-LD Playground</a>
+</div>
+
+<div class="ui center aligned massive basic segment grid" id="developers">
+  <div class="ui header">
+    <i class="cog icon"></i>
+    <span class="content">Developers</span>
+  </div>
+</div>
+
+<p class="ui basic large center aligned segment">JSON-LD is available in
+  a number of popular programming environments. Each implementation of JSON-LD
+  listed below is fully conforming to the official JSON-LD specifications.
+</p>
+
+<div class="ui four stackable cards">
+  <div class="card">
+  <div class="content">
+  <div class="header"><h3>JavaScript</h3></div>
+    <div class="description">
+      <div class="ui selection list">
+        <div class="item" typeof="schema:SoftwareSourceCode">
+  <a property="schema:codeRepository" href="https://github.com/digitalbazaar/jsonld.js">
+    <span property="schema:name">json-ld.js</span>
+    <span class="ui label green">1.1</span>
+  </a>
+</div>
+<div class="item" typeof="schema:SoftwareSourceCode">
+  <a property="schema:codeRepository" href="https://github.com/rubensworks/jsonld-streaming-parser.js">
+    <span property="schema:name">jsonld-streaming-parser.js</span>
+    <span class="ui label green">1.1</span>
+  </a>
+</div>
+<div class="item" typeof="schema:SoftwareSourceCode">
+  <a property="schema:codeRepository" href="https://github.com/rubensworks/jsonld-streaming-serializer.js">
+    <span property="schema:name">jsonld-streaming-serializer.js</span>
+    <span class="ui label green">1.1</span>
+  </a>
+</div>
+<div class="item" typeof="schema:SoftwareSourceCode">
+  <a property="schema:codeRepository" href="https://github.com/rubensworks/rdf-parse.js">
+    <span property="schema:name">rdf-parse.js</span>
+    <span class="ui label green">1.1</span>
+  </a>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="card">
+  <div class="content">
+  <div class="header"><h3>Python</h3></div>
+    <div class="description">
+      <div class="ui selection list">
+        <div class="item" typeof="schema:SoftwareSourceCode">
+  <a property="schema:codeRepository" href="https://github.com/digitalbazaar/pyld">
+    <span property="schema:name">PyLD</span>
+    <span class="ui label green">1.1</span>
+  </a>
+</div>
+<div class="item" typeof="schema:SoftwareSourceCode">
+  <a property="schema:codeRepository" href="https://github.com/RDFLib/rdflib">
+    <span property="schema:name">RDFLib</span>
+    <span class="ui label green">1.1</span>
+  </a>
+</div>
+<div class="item" typeof="schema:SoftwareSourceCode">
+  <a property="schema:codeRepository" href="https://github.com/niklasl/trld">
+    <span property="schema:name">TRLD</span>
+    <span class="ui label green">1.1</span>
+  </a>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="card">
+  <div class="content">
+  <div class="header"><h3>Ruby</h3></div>
+    <div class="description">
+      <div class="ui selection list">
+        <div class="item" typeof="schema:SoftwareSourceCode">
+  <a property="schema:codeRepository" href="https://github.com/ruby-rdf/json-ld/">
+    <span property="schema:name">JSON-LD for RDF.rb</span>
+    <span class="ui label green">1.1</span>
+  </a>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="card">
+  <div class="content">
+  <div class="header"><h3>Go</h3></div>
+    <div class="description">
+      <div class="ui selection list">
+        <div class="item" typeof="schema:SoftwareSourceCode">
+  <a property="schema:codeRepository" href="https://github.com/piprate/json-gold">
+    <span property="schema:name">JSON-goLD</span>
+    <span class="ui label green">1.1</span>
+  </a>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="card">
+  <div class="content">
+  <div class="header"><h3>Java</h3></div>
+    <div class="description">
+      <div class="ui selection list">
+        <div class="item" typeof="schema:SoftwareSourceCode">
+  <a property="schema:codeRepository" href="https://github.com/filip26/titanium-json-ld">
+    <span property="schema:name">Titanium</span>
+    <span class="ui label green">1.1</span>
+  </a>
+</div>
+<div class="item" typeof="schema:SoftwareSourceCode">
+  <a property="schema:codeRepository" href="https://github.com/jsonld-java/jsonld-java">
+    <span property="schema:name">JSONLD-JAVA</span>
+    <span class="ui label blue">1.0</span>
+  </a>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="card">
+  <div class="content">
+  <div class="header"><h3>C#</h3></div>
+    <div class="description">
+      <div class="ui selection list">
+        <div class="item" typeof="schema:SoftwareSourceCode">
+  <a property="schema:codeRepository" href="https://github.com/dotnetrdf/dotnetrdf">
+    <span property="schema:name">dotNetRDF</span>
+    <span class="ui label green">1.1</span>
+  </a>
+</div>
+<div class="item" typeof="schema:SoftwareSourceCode">
+  <a property="schema:codeRepository" href="https://github.com/linked-data-dotnet/json-ld.net">
+    <span property="schema:name">json-ld.net</span>
+    <span class="ui label blue">1.0</span>
+  </a>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="card">
+  <div class="content">
+  <div class="header"><h3>CLI</h3></div>
+    <div class="description">
+      <div class="ui selection list">
+        <div class="item" typeof="schema:SoftwareSourceCode">
+  <a property="schema:codeRepository" href="https://github.com/digitalbazaar/jsonld-cli">
+    <span property="schema:name">jsonld-cli</span>
+    <span class="ui label green">1.1</span>
+  </a>
+</div>
+<div class="item" typeof="schema:SoftwareSourceCode">
+  <a property="schema:codeRepository" href="https://github.com/filip26/ld-cli">
+    <span property="schema:name">ld-cli (Ubuntu, MacOS, Windows)</span>
+    <span class="ui label green">1.1</span>
+  </a>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="card">
+  <div class="content">
+  <div class="header"><h3>Erlang / Elixir</h3></div>
+    <div class="description">
+      <div class="ui selection list">
+        <div class="item" typeof="schema:SoftwareSourceCode">
+  <a property="schema:codeRepository" href="https://github.com/rdf-elixir/jsonld-ex">
+    <span property="schema:name">JSON-LD.ex</span>
+    <span class="ui label green">1.1</span>
+  </a>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="card">
+  <div class="content">
+  <div class="header"><h3>PHP</h3></div>
+    <div class="description">
+      <div class="ui selection list">
+        <div class="item" typeof="schema:SoftwareSourceCode">
+  <a property="schema:codeRepository" href="https://github.com/digitalbazaar/php-json-ld">
+    <span property="schema:name">php-json-ld</span>
+    <span class="ui label blue">1.0</span>
+  </a>
+</div>
+<div class="item" typeof="schema:SoftwareSourceCode">
+  <a property="schema:codeRepository" href="http://m.lanthi.com/json-ld">
+    <span property="schema:name">JsonLD</span>
+    <span class="ui label blue">1.0</span>
+  </a>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="card">
+  <div class="content">
+  <div class="header"><h3>Rust</h3></div>
+    <div class="description">
+      <div class="ui selection list">
+        <div class="item" typeof="schema:SoftwareSourceCode">
+  <a property="schema:codeRepository" href="https://github.com/timothee-haudebourg/json-ld">
+    <span property="schema:name">json-ld</span>
+    <span class="ui label">1.1 (<abbr title="Work In Progress">WIP</abbr>)</span>
+  </a>
+</div>
+<div class="item" typeof="schema:SoftwareSourceCode">
+  <a property="schema:codeRepository" href="https://crates.io/crates/sophia">
+    <span property="schema:name">sophia</span>
+    <span class="ui label green">1.1</span>
+  </a>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="card">
+  <div class="content">
+  <div class="header"><h3>TypeScript</h3></div>
+    <div class="description">
+      <div class="ui selection list">
+        <div class="item" typeof="schema:SoftwareSourceCode">
+  <a property="schema:codeRepository" href="https://github.com/mattrglobal/jsonld-lint">
+    <span property="schema:name">jsonld-lint</span>
+    <span class="ui label">1.1 (<abbr title="Work In Progress">WIP</abbr>)</span>
+  </a>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="ui basic center aligned segment" id="tests-description">
+  <p>
+    The <a href="https://w3c.github.io/json-ld-api/tests/">JSON-LD Test
+    Suite</a> (and <a
+    href="https://w3c.github.io/json-ld-framing/tests/">Framing Test Suite</a>)
+    is useful for validating JSON-LD Processors.
+  </p>
+  <p>
+    Conformance of various processors is documented in the official <a
+    href="https://w3c.github.io/json-ld-api/reports/">implementation report</a>.
+  </p>
+</div>
+
+<div class="ui center aligned massive basic segment grid" id="collaborating">
+  <div class="ui header">
+    <i class="group icon"></i>
+    <span class="content">Getting Help / Collaborating</span>
+  </div>
+</div>
+
+<div class="ui large basic padded segment">
+  <div class="ui two column grid">
+    <div class="column">
+      <h4 class="ui small header">JSON-LD Community Group</h4>
+      <div class="ui compact text menu" style="margin-bottom: .5em">
+        <div class="item">
+          <i class="mail icon"></i>
+          <a href="https://lists.w3.org/Archives/Public/public-json-ld/">Mailing List</a>
+        </div>
+        <div class="item">
+          <i class="calendar icon"></i>
+          <a href="https://www.w3.org/groups/cg/json-ld/calendar/">Call Schedule</a>
+        </div>
+        <div class="item">
+          <i class="github icon"></i>
+          <a href="https://github.com/json-ld/">GitHub Organization</a>
+        </div>
+      </div>
+      <p>
+The <a
+href="https://www.w3.org/groups/cg/json-ld/">JSON-LD Community Group</a> is an
+excellent place to collaborate on JSON-LD technologies. Anyone may join the
+group and participate on the mailing list, join discussion calls, and collaborate
+on Community Group projects.
+      </p>
+    </div>
+    <div class="column">
+      <h4 class="ui small header">JSON-LD Working Group</h4>
+      <div class="ui compact text menu" style="margin-bottom: .5em">
+        <div class="item">
+          <i class="mail icon"></i>
+          <a href="https://lists.w3.org/Archives/Public/public-json-ld-wg/">Mailing List</a>
+        </div>
+        <div class="item">
+          <i class="calendar icon"></i>
+          <a href="https://www.w3.org/groups/wg/json-ld/calendar/">Call Schedule</a>
+        </div>
+        <div class="item">
+          <i class="github icon"></i>
+          <a href="https://github.com/search?q=topic%3Ajson-ld-wg+org%3Aw3c&type=Repositories">Specification Repositories</a>
+        </div>
+      </div>
+      <p>
+The W3C <a href="https://www.w3.org/groups/wg/json-ld/">JSON-LD Working
+Group</a> is responsible for the formal specification of JSON-LD. The <a
+href="https://www.w3.org/groups/wg/json-ld/charters/active/">most recent
+charter</a> runs through <time datetime="2028-01-31">January 2028</time>. To
+participate in this work, please <a
+href="https://www.w3.org/Consortium/join">join the W3C</a> and then <a
+href="https://www.w3.org/groups/wg/json-ld/instructions/">join the Working
+Group</a>. Prior to joining, the <a
+href="https://lists.w3.org/Archives/Public/public-json-ld-wg/">Working Group
+mailing list</a> is visible to the public and participation in the <a
+href="https://github.com/search?q=topic%3Ajson-ld-wg+org%3Aw3c&type=Repositories">specification
+repositories</a> is encouraged.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="ui four stackable cards">
+  <div class="card">
+    <div class="content">
+      <div class="header"><h3>Code</h3></div>
+      <div class="description">
+        <ul>
+          <li><a href="https://github.com/json-ld/json-ld.org"><code>json-ld</code> GitHub Organization</a></li>
+          <li><a href="https://github.com/search?q=topic%3Ajson-ld-wg+org%3Aw3c&type=Repositories">Specification Repositories</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="content">
+      <div class="header"><h3>Meetings and Minutes</h3></div>
+      <div class="description">
+        <ul>
+          <li><a href="https://www.w3.org/groups/cg/json-ld/calendar/">Community Group Calls</a></li>
+          <li><a href="https://www.w3.org/groups/wg/json-ld/calendar/">Working Group Calls</a></li>
+          <li><a href="minutes/">Text and audio minutes</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="content">
+      <div class="header"><h3>Mailing Lists</h3></div>
+      <div class="description">
+        <ul>
+          <li><a href="https://lists.w3.org/Archives/Public/public-json-ld/">Community Group Mailing List</a></li>
+          <li><a href="https://lists.w3.org/Archives/Public/public-json-ld-wg/">Working Group Mailing List</a></li>
+          <li><a href="http://lists.w3.org/Archives/Public/public-linked-json/">General <abbr title="Question and Answer">Q&A</abbr> List</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="content">
+      <div class="header">Discussion</div>
+      <div class="description">
+        <ul>
+          <li><a href="https://irc.w3.org/?channels=#json-ld">#json-ld on irc.w3.org</a></li>
+          <li><a href="https://github.com/orgs/json-ld/discussions">Discussions on GitHub</a></li>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ui divider"></div>
+
+<div class="ui center aligned massive basic segment grid" id="learn-more">
+  <div class="ui header">
+    <i class="book icon"></i>
+    <span class="content">Learn More...</span>
+  </div>
+</div>
+
+<div class="ui large basic center aligned segment">
+  <p>
+  This website contains a number of curated video, presentations, tutorials, and
+  documentation about JSON-LD. Assuming you are familiar with JSON, these
+  training materials will help you quickly put the power of JSON-LD into your
+  web development efforts.
+  </p>
+  <p>
+    <a class="ui primary button" href="./learn/">Learn more about JSON-LD</a>
+  </p>
+</div>
+
+    </div>
+
+    <div class="ui basic footer segment" id="footer">
+      <div class="ui container" id="copyright">
+        <p>Website content released under a
+          <a href="https://creativecommons.org/about/cc0">Creative Commons CC0 Public Domain Dedication</a>
+          except where an alternate is specified.</p>
+      </div>
+    </div>
+
+    <!-- Script tags -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.4/dist/semantic.min.js"></script>
+    <script>
+      $('.ui.popup').each((i, el) => {
+        $(el).prev().popup({ on: 'click', inline: true, preserve: true });
+      });
+    </script>
+  </body>
+</html>
