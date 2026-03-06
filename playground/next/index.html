@@ -36,7 +36,7 @@ title: Next Playground
 
 <div v-scope v-effect="setOutputTab()" @vue:mounted="gatherHash()">
   <!-- Examples buttons -->
-  <div class="d-flex flex-row justify-content-between align-items-center">
+  <div class="d-flex flex-row justify-content-between align-items-center mb-3">
     <div class="d-flex flex-wrap align-items-center gap-2">
       <strong class="small text-body-secondary me-1">Examples:</strong>
 
@@ -162,7 +162,8 @@ title: Next Playground
               </div>
             </div>
           </div>
-        </div></div>
+        </div>
+      </div>
       <div
         class="ui bottom attached fitted resizable scrolling segment"
         v-show="inputTab == 'json-ld'"
@@ -233,8 +234,23 @@ title: Next Playground
     </div>
   </div>
 
+  <!-- Navbar mode selector -->
+  <ul class="nav nav-tabs nav-tabs-icon-text mb-3">
+    <li class="nav-item" v-for="(tab, key) in tabs">
+      <a
+        class="nav-link"
+        :class="{ active: outputTab == key, disabled: doc === '' }"
+        aria-current="page"
+        @click="setOutputTab(key)"
+      >
+        <i class="icon" :class="tab.icon"></i>
+        <span v-text="tab.label"></span>
+      </a>
+    </li>
+  </ul>
+
   <!-- Messages -->
-  <div v-if="message.text" class="callout" :class="message.type">
+  <div v-if="message.text" class="callout mb-3" :class="message.type">
     <div class="callout-inner">
       <div class="callout-title">
         <svg class="icon">
@@ -530,12 +546,20 @@ title: Next Playground
             </div>
           </div>
           <div class="ui bottom attached fitted resizable scrolling segment">
-        <div id="context-editor"
+            <div
+              id="context-editor"
               v-show="outputTab == 'compacted' || outputTab == 'flattened'"
-          @vue:mounted="initContextEditor()"><!-- replaced by CodeMirror --></div>
-        <div id="frame-editor"
+              @vue:mounted="initContextEditor()"
+            >
+              <!-- replaced by CodeMirror -->
+            </div>
+            <div
+              id="frame-editor"
               v-show="outputTab == 'framed'"
-          @vue:mounted="initFrameEditor()"><!-- replaced by CodeMirror --></div>
+              @vue:mounted="initFrameEditor()"
+            >
+              <!-- replaced by CodeMirror -->
+            </div>
           </div>
         </div>
       </div>
@@ -558,25 +582,7 @@ title: Next Playground
     </div>
   </div>
 
-  <!-- errors -->
-  <div class="ui error message" v-show="parseError.message">
-    <div class="header" v-text="parseError.message"></div>
-    <div class="content">
-      <pre v-text="JSON.stringify(parseError?.details?.event, null, 2)"></pre>
-    </div>
-  </div>
-
   <!-- outputs and renderings -->
-  <div class="ui top attached tabular menu">
-    <div
-      v-for="(tab, key) in tabs"
-      :class="{ active: outputTab == key, disabled: doc === '' }"
-      class="item"
-      @click="setOutputTab(key)"
-    >
-      <i class="icon" :class="tab.icon"></i> <span v-text="tab.label"></span>
-    </div>
-  </div>
   <div class="ui fitted resizable active bottom attached tab segment">
     <div class="ui very compact divided grid">
       <div class="column" :class="{'eight wide': outputTab == 'cborld'}">
@@ -656,8 +662,16 @@ title: Next Playground
         </table>
       </div>
     </div>
-    </div>
-</div>
+  </div>
+
+  <!-- errors -->
+  <div class="alert alert-danger" role="alert" v-show="parseError.message">
+    <p v-text="parseError.message"></p>
+    <pre
+      class="m-0"
+      v-text="JSON.stringify(parseError?.details?.event, null, 2)"
+    ></pre>
+  </div>
 </div>
 
 <script src="./editor.bundle.js"></script>
