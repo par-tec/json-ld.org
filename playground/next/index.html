@@ -122,7 +122,7 @@ title: Next Playground
   </div>
   <!-- main editor area -->
   <div class="ui one column wide compact grid container" :class="[editorColumns]">
-    <div class="ui top attached tabular menu tabs-menu">
+    <div class="ui top attached tabular menu tabs-menu" style="margin-top: 10px;">
       <div
         v-for="(tab, key) in tabs"
         :class="{ active: outputTab == key, disabled: doc === '' }"
@@ -132,9 +132,9 @@ title: Next Playground
         <i class="icon" :class="tab.icon"></i> <span v-text="tab.label"></span>
       </div>
     </div>
-    <div style="width: 100%;">
+    <div :class="editorColumns == '' ? 'row' : 'eight wide column'">
       <div
-        class="ui top attached tabular menu" :style="{ width: editorColumns == '' ? '100%' : '50%' }"
+        class="ui top attached tabular menu"
       >
         <div :class="{ active: inputTab == 'json-ld' }" class="item" @click="inputTab = 'json-ld'"><i class="pencil alternate icon"></i> JSON-LD Input</div>
         <div :class="{ active: inputTab == 'options' }" class="item" @click="inputTab = 'options'"><i class="wrench icon"></i> Options</div>
@@ -147,11 +147,6 @@ title: Next Playground
             </div>
           </div>
         </div></div>
-    </div>
-    <div
-      class="eight wide column"
-      :class="{ 'sixteen wide': editorColumns == '' }"
-    >
       <div
         class="ui bottom attached fitted resizable scrolling segment"
         v-show="inputTab == 'json-ld'"
@@ -269,6 +264,13 @@ title: Next Playground
           </div>
         </form>
       </div>
+      <!-- errors -->
+      <div class="ui error message row" v-show="parseError.message" style="width: 100%;">
+        <div class="header" v-text="parseError.message"></div>
+        <div class="content">
+        <pre v-text="JSON.stringify(parseError?.details?.event, null, 2)"></pre>
+        </div>
+      </div>
       <!-- outputs and renderings -->
       <div class="ui grid">
   <div class="column" v-show="editorColumns != ''">
@@ -303,10 +305,10 @@ title: Next Playground
         </div>
       </div>
     </div>
-    <div class="eight wide column">
+    <div :style="{ width: editorColumns == '' ? '100%' : '50%', paddingTop: editorColumns == '' ? '10px' : '59px'}">
       <div
         class="ui fitted resizable active bottom attached tab segment"
-       :style="{ marginTop: editorColumns ? '0' : '10px', height: '100%' }"
+       :style="{ marginTop: editorColumns ? '0' : '10px', height: '100%' }" 
       >
         <div class="ui very compact divided grid">
           <div class="column" :class="{'eight wide': outputTab == 'cborld'}">
@@ -370,14 +372,8 @@ title: Next Playground
           </div>
         </div>
       </div>
-  </div>
-  <!-- errors -->
-  <div class="ui error message" v-show="parseError.message">
-    <div class="header" v-text="parseError.message"></div>
-    <div class="content">
-      <pre v-text="JSON.stringify(parseError?.details?.event, null, 2)"></pre>
     </div>
-  </div>
+    </div>
 </div>
 </div>
 
