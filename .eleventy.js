@@ -1,127 +1,128 @@
-import markdownItAnchor from 'markdown-it-anchor';
-import markdownItAttrs from 'markdown-it-attrs';
-import YAML from 'yaml';
+import markdownItAnchor from "markdown-it-anchor";
+import markdownItAttrs from "markdown-it-attrs";
+import YAML from "yaml";
 
 // development host for playground proxy
-const PLAYGROUND_PROXY_HOST = 'http://localhost:8788';
+const PLAYGROUND_PROXY_HOST = "http://localhost:8788";
 
-const drafts = [
-  'CG-FINAL',
-  'CR',
-  'ED',
-  'FCGS',
-  'PR',
-  'REC',
-  'WD',
-  'latest'
-];
+const drafts = ["CG-FINAL", "CR", "ED", "FCGS", "PR", "REC", "WD", "latest"];
 
-export default async function(eleventyConfig) {
-  eleventyConfig.amendLibrary('md', mdLib => {
+export default async function (eleventyConfig) {
+  eleventyConfig.amendLibrary("md", (mdLib) => {
     mdLib
       .set({
         html: true,
         linkify: true,
-        typographer: true
+        typographer: true,
       })
       .use(markdownItAnchor)
       .use(markdownItAttrs);
   });
 
-  eleventyConfig.addDataExtension('yaml', (contents) => YAML.parse(contents));
+  eleventyConfig.addDataExtension("yaml", (contents) => YAML.parse(contents));
 
-  eleventyConfig.addPassthroughCopy('.htaccess');
-  eleventyConfig.addPassthroughCopy('LICENSE.md');
-  eleventyConfig.addPassthroughCopy('_headers');
-  eleventyConfig.addPassthroughCopy('_redirects');
-  eleventyConfig.addPassthroughCopy('benchmarks/**/*.{jsonld,nq,md}');
-  eleventyConfig.addPassthroughCopy('contexts/**/*.{htaccess,html,jsonld}');
-  eleventyConfig.addPassthroughCopy('contexts/{event,person,place,recipe,remote-context}');
-  eleventyConfig.addPassthroughCopy('examples/**/*.{html,ttl,txt,json,jsonld}');
-  eleventyConfig.addPassthroughCopy('favicon.ico');
-  eleventyConfig.addPassthroughCopy('fonts');
-  eleventyConfig.addPassthroughCopy('functions/**/*.js');
-  eleventyConfig.addPassthroughCopy('images/**/*.{htaccess,png,svg,xcf}');
-  eleventyConfig.addPassthroughCopy('ns/**/*.{html,jsonld}');
-  eleventyConfig.addPassthroughCopy('playground/**/*.{css,php,js}');
-  eleventyConfig.addPassthroughCopy('presentations');
-  eleventyConfig.addPassthroughCopy('schemas/**/*.json');
-  eleventyConfig.addPassthroughCopy('site.css');
-  eleventyConfig.addPassthroughCopy('spec/LICENSE.md');
-  for(const draft of drafts) {
+  eleventyConfig.addPassthroughCopy(".htaccess");
+  eleventyConfig.addPassthroughCopy("LICENSE.md");
+  eleventyConfig.addPassthroughCopy("_headers");
+  eleventyConfig.addPassthroughCopy("_redirects");
+  eleventyConfig.addPassthroughCopy("benchmarks/**/*.{jsonld,nq,md}");
+  eleventyConfig.addPassthroughCopy("contexts/**/*.{htaccess,html,jsonld}");
+  eleventyConfig.addPassthroughCopy(
+    "contexts/{event,person,place,recipe,remote-context}",
+  );
+  eleventyConfig.addPassthroughCopy("examples/**/*.{html,ttl,txt,json,jsonld}");
+  eleventyConfig.addPassthroughCopy("favicon.ico");
+  eleventyConfig.addPassthroughCopy("fonts");
+  eleventyConfig.addPassthroughCopy("functions/**/*.js");
+  eleventyConfig.addPassthroughCopy("images/**/*.{htaccess,png,svg,xcf}");
+  eleventyConfig.addPassthroughCopy("ns/**/*.{html,jsonld}");
+  eleventyConfig.addPassthroughCopy("playground/**/*.{css,php,js}");
+  eleventyConfig.addPassthroughCopy("presentations");
+  eleventyConfig.addPassthroughCopy("schemas/**/*.json");
+  eleventyConfig.addPassthroughCopy("site.css");
+  eleventyConfig.addPassthroughCopy("spec/LICENSE.md");
+  for (const draft of drafts) {
     eleventyConfig.addPassthroughCopy(`spec/${draft}`);
   }
-  eleventyConfig.addPassthroughCopy('static');
-  eleventyConfig.addPassthroughCopy('test-suite');
+  eleventyConfig.addPassthroughCopy("static");
+  eleventyConfig.addPassthroughCopy("test-suite");
   eleventyConfig.addPassthroughCopy({
-    "node_modules/fomantic-ui/dist/semantic.min.css": "static/css/fomantic-ui/semantic.min.css",
+    "node_modules/fomantic-ui/dist/semantic.min.css":
+      "static/css/fomantic-ui/semantic.min.css",
     "node_modules/fomantic-ui/dist/themes": "static/css/fomantic-ui/themes",
-    "node_modules/fomantic-ui/dist/semantic.min.js": "static/js/fomantic-ui/semantic.min.js"
+    "node_modules/fomantic-ui/dist/semantic.min.js":
+      "static/js/fomantic-ui/semantic.min.js",
   });
   eleventyConfig.addPassthroughCopy({
     "node_modules/jquery/dist/jquery.min.js": "static/js/jquery/jquery.min.js",
   });
-  eleventyConfig.ignores.add('CONTRIBUTING.md');
-  eleventyConfig.ignores.add('LICENSE.md');
-  eleventyConfig.ignores.add('README.md');
-  eleventyConfig.ignores.add('benchmarks/README.md');
-  eleventyConfig.ignores.add('contexts/person.html');
-  eleventyConfig.ignores.add('examples');
-  eleventyConfig.ignores.add('images/Makefile');
-  eleventyConfig.ignores.add('images/README.md');
-  eleventyConfig.ignores.add('minutes/**/*');
-  eleventyConfig.ignores.add('ns/json-ld.html');
-  eleventyConfig.ignores.add('playground/dev/README.md');
-  eleventyConfig.ignores.add('presentations');
-  eleventyConfig.ignores.add('scripts');
-  eleventyConfig.ignores.add('spec/tools');
-  eleventyConfig.ignores.add('spec/LICENSE.md');
-  for(const draft of drafts) {
+  eleventyConfig.addPassthroughCopy({
+    "node_modules/bootstrap-italia": "static/bootstrap-italia",
+  });
+  eleventyConfig.ignores.add("CONTRIBUTING.md");
+  eleventyConfig.ignores.add("LICENSE.md");
+  eleventyConfig.ignores.add("README.md");
+  eleventyConfig.ignores.add("benchmarks/README.md");
+  eleventyConfig.ignores.add("contexts/person.html");
+  eleventyConfig.ignores.add("examples");
+  eleventyConfig.ignores.add("images/Makefile");
+  eleventyConfig.ignores.add("images/README.md");
+  eleventyConfig.ignores.add("minutes/**/*");
+  eleventyConfig.ignores.add("ns/json-ld.html");
+  eleventyConfig.ignores.add("playground/dev/README.md");
+  eleventyConfig.ignores.add("presentations");
+  eleventyConfig.ignores.add("scripts");
+  eleventyConfig.ignores.add("spec/tools");
+  eleventyConfig.ignores.add("spec/LICENSE.md");
+  for (const draft of drafts) {
     eleventyConfig.ignores.add(`spec/${draft}`);
   }
-  eleventyConfig.ignores.add('test-suite');
+  eleventyConfig.ignores.add("test-suite");
 
-  eleventyConfig.addWatchTarget('playground/next/index.html');
+  eleventyConfig.addWatchTarget("playground/next/index.html");
 
   // setup development proxy to cloudflare pages function server
-  if(process.env.ELEVENTY_RUN_MODE === 'serve') {
+  if (process.env.ELEVENTY_RUN_MODE === "serve") {
     eleventyConfig.setServerOptions({
       onRequest: {
-        '/playground/proxy': playgroundProxy
-      }
+        "/playground/proxy": playgroundProxy,
+      },
     });
   }
 
   return {
     dir: {
-      layouts: '_layouts'
+      layouts: "_layouts",
     },
-    pathPrefix: process.env.BASE_URL || "" 
+    pathPrefix: process.env.BASE_URL || "",
   };
-};
+}
 
 // proxy to worker proxy
-async function playgroundProxy({url}) {
-  const targetUrl = url.searchParams.get('url');
+async function playgroundProxy({ url }) {
+  const targetUrl = url.searchParams.get("url");
   // eleventy only provides the URL
   // approximate what the live playground does
   const search = new URLSearchParams();
-  search.set('url', targetUrl);
-  const proxyUrl =
-    new URL(`${PLAYGROUND_PROXY_HOST}/playground/proxy?${search}`);
+  search.set("url", targetUrl);
+  const proxyUrl = new URL(
+    `${PLAYGROUND_PROXY_HOST}/playground/proxy?${search}`,
+  );
   const res = await fetch(proxyUrl, {
     headers: {
-      'Accept': 'application/ld+json, application/json'
-    }
+      Accept: "application/ld+json, application/json",
+    },
   });
   // create headers object and filter properties
   // suffient for the site development purposes
   const headers = Object.fromEntries(
     Array.from(res.headers.entries()).filter(
-      v => !['content-length', 'content-encoding'].includes(v[0])));
+      (v) => !["content-length", "content-encoding"].includes(v[0]),
+    ),
+  );
   return {
     status: res.status,
     headers,
-    body: await res.text()
-  }
+    body: await res.text(),
+  };
 }

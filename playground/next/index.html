@@ -1,15 +1,19 @@
 ---
-layout: fomantic
+layout: bootstrap_italia
 title: Next Playground
 ---
 
-<h2 class="ui massive header">JSON-LD Playground</h2>
-<div class="ui info message">
+<h2 class="mb-4">JSON-LD Playground</h2>
+
+<div class="alert alert-primary" role="alert">
   <strong>NOTES</strong>:
   <ul>
     <li>
-      The playground uses <a href="https://github.com/digitalbazaar/jsonld.js">jsonld.js</a>
-      which <a href="https://github.com/digitalbazaar/jsonld.js#conformance">conforms</a>
+      The playground uses
+      <a href="https://github.com/digitalbazaar/jsonld.js">jsonld.js</a> which
+      <a href="https://github.com/digitalbazaar/jsonld.js#conformance"
+        >conforms</a
+      >
       to JSON-LD 1.1
       <a href="https://www.w3.org/TR/json-ld11/">syntax</a>
       (<a href="https://w3c.github.io/json-ld-syntax/errata/">errata</a>),
@@ -24,357 +28,674 @@ title: Next Playground
       <a href="https://vcplayground.org/">Verifiable Credentials Playground</a>
     </li>
   </ul>
-  <p>Accesibility note: use <code>Esc</code> and then <code>Tab</code> (or
-  <code>Shift+Tab</code>) to navigate out of the editor.</p>
+  <p>
+    Accesibility note: use <code>Esc</code> and then <code>Tab</code> (or
+    <code>Shift+Tab</code>) to navigate out of the editor.
+  </p>
 </div>
 
-<div class="ui wide container" v-scope v-effect="setOutputTab()" @vue:mounted="gatherHash()">
-  <div class="ui buttons">
-    <button class="ui large basic right pointing label">Examples</button>
-    <button id="btn-person" class="ui button"
-      @click="loadExample('person.jsonld')">
-      <i class="icon user"></i>
-      <span>Person</span>
-    </button>
-    <button id="btn-event" class="ui button"
-      @click="loadExample('event.jsonld')">
-      <i class="icon calendar"></i>
-      <span>Event</span>
-    </button>
-    <button id="btn-place" class="ui button"
-      @click="loadExample('place.jsonld')">
-      <i class="icon map marker"></i>
-      <span>Place</span>
-    </button>
-    <button id="btn-product" class="ui button"
-      @click="loadExample('product.jsonld')">
-      <i class="icon barcode"></i>
-      <span>Product</span>
-    </button>
-    <button id="btn-recipe" class="ui button"
-      @click="loadExample('recipe.jsonld')">
-      <i class="icon food"></i>
-      <span>Recipe</span>
-    </button>
-    <button id="btn-library" class="ui button"
-      @click="loadExample('library.jsonld')">
-      <i class="icon book"></i>
-      <span>Library</span>
-    </button>
-    <button id="btn-activity" class="ui button"
-      @click="loadExample('activity.jsonld')">
-      <i class="icon comment"></i>
-      <span>Activity</span>
-    </button>
+<div v-scope v-effect="setOutputTab()" @vue:mounted="gatherHash()">
+  <!-- errors -->
+  <div class="alert alert-danger" role="alert" v-show="parseError.message">
+    <p v-text="parseError.message"></p>
+    <pre
+      class="m-0"
+      v-text="JSON.stringify(parseError?.details?.event, null, 2)"
+    ></pre>
   </div>
 
-  <div class="ui right floated buttons">
-    <button id="permalink" class="ui icon button" data-position="left center">
-      <i class="icon linkify"></i>
-    </button>
-    <div class="ui popup" style="min-width: 20em;">
-      <div class="ui top attached label">Share this</div>
-      <div class="ui fluid action input">
-        <input type="text" readonly v-model="permalinkURL" @focus="$event.target.select()">
-        <button class="ui icon button" @click="copyPermalink()">
-          <i class="icon copy"></i>
-        </button>
-      </div>
-      <div class="ui warning message" v-show="permalinkURL.length > 2048">
-        This link is longer than 2kb, and may not work.
-      </div>
+  <!-- Examples buttons -->
+  <div class="d-flex flex-row justify-content-between align-items-center mb-3">
+    <div class="d-flex flex-wrap align-items-center gap-2">
+      <strong class="small text-body-secondary me-1">Examples:</strong>
+
+      <button
+        id="btn-person"
+        type="button"
+        class="btn btn-outline-primary btn-xs"
+        @click="loadExample('person.jsonld')"
+      >
+        Person
+      </button>
+      <button
+        id="btn-event"
+        type="button"
+        class="btn btn-outline-primary btn-xs"
+        @click="loadExample('event.jsonld')"
+      >
+        Event
+      </button>
+      <button
+        id="btn-place"
+        type="button"
+        class="btn btn-outline-primary btn-xs"
+        @click="loadExample('place.jsonld')"
+      >
+        Place
+      </button>
+      <button
+        id="btn-product"
+        type="button"
+        class="btn btn-outline-primary btn-xs"
+        @click="loadExample('product.jsonld')"
+      >
+        Product
+      </button>
+      <button
+        id="btn-recipe"
+        type="button"
+        class="btn btn-outline-primary btn-xs"
+        @click="loadExample('recipe.jsonld')"
+      >
+        Recipe
+      </button>
+      <button
+        id="btn-library"
+        type="button"
+        class="btn btn-outline-primary btn-xs"
+        @click="loadExample('library.jsonld')"
+      >
+        Library
+      </button>
+      <button
+        id="btn-activity"
+        type="button"
+        class="btn btn-outline-primary btn-xs"
+        @click="loadExample('activity.jsonld')"
+      >
+        Activity
+      </button>
     </div>
-    <button id="keyboard-shortcuts" class="ui icon button" data-position="left center">
-      <i class="icon keyboard"></i>
-    </button>
-    <div class="ui popup">
-      <div class="ui top attached label">Keyboard Shortcuts</div>
-      <table class="ui very basic single line celled table">
-        <thead>
-          <tr>
-            <th>Key</th>
-            <th>Autocomplete</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><label class="ui label">@</label></td>
-            <td>all of the <b>@</b> keywords</td>
-          </tr>
-          <tr>
-            <td><label class="ui label">Ctrl+Space</label></td>
-            <td>available keys in <b>@context</b></td>
-          </tr>
-        </tbody>
-      </table>
+
+    <div class="d-flex flex-row justify-content-end align-items-center gap-2">
+      <!-- Copy link -->
+      <div class="dropdown dropstart text-center">
+        <a
+          class="btn btn-outline-primary btn-xs dropdown-toggle"
+          href="#"
+          role="button"
+          id="dropdownMenuShare"
+          data-bs-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <svg class="icon icon-xs icon-primary">
+            <use
+              href="{{ site.baseUrl }}/static/bootstrap-italia/dist/svg/sprites.svg#it-link"
+            ></use>
+          </svg>
+        </a>
+        <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuShare">
+          <div class="popover">
+            <h3 class="popover-header">
+              <svg class="icon">
+                <use
+                  href="{{ site.baseUrl }}/static/bootstrap-italia/dist/svg/sprites.svg#it-link"
+                ></use>
+              </svg>
+              Share this
+            </h3>
+            <div class="popover-body">
+              <div class="input-group">
+                <input
+                  id="permalinkURL"
+                  type="text"
+                  class="form-control"
+                  v-model="permalinkURL"
+                  @focus="$event.target.select()"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-primary"
+                    type="button"
+                    @click="copyPermalink()"
+                  >
+                    <svg
+                      role="img"
+                      class="icon icon-xs align-middle icon-white"
+                      aria-label="Copy link to clipboard"
+                    >
+                      <use
+                        href="{{ site.baseUrl }}/static/bootstrap-italia/dist/svg/sprites.svg#it-copy"
+                      ></use>
+                    </svg>
+                  </button>
+                </div>
+                <small
+                  id="permalinkURLHelp"
+                  class="form-text text-danger"
+                  v-show="permalinkURL.length > 2048"
+                >
+                  This link is longer than 2kb, and may not work.
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Keyboard shortcuts -->
+      <div class="dropdown dropstart text-center">
+        <a
+          class="btn btn-outline-primary btn-xs dropdown-toggle"
+          href="#"
+          role="button"
+          id="dropdownMenuKeyboardShortcuts"
+          data-bs-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <svg class="icon icon-xs icon-primary">
+            <use
+              href="{{ site.baseUrl }}/static/bootstrap-italia/dist/svg/sprites.svg#it-help-circle"
+            ></use>
+          </svg>
+        </a>
+        <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuShare">
+          <div class="popover">
+            <h3 class="popover-header">
+              <svg class="icon">
+                <use
+                  href="{{ site.baseUrl }}/static/bootstrap-italia/dist/svg/sprites.svg#it-help-circle"
+                ></use>
+              </svg>
+              Keyboard Shortcuts
+            </h3>
+            <div class="popover-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Key</th>
+                    <th>Autocomplete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <kbd>@</kbd>
+                    </td>
+                    <td>all of the <b>@</b> keywords</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <kbd>Ctrl+Space</kbd>
+                    </td>
+                    <td>available keys in <b>@context</b></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="ui icon message" v-if="message.text" :class="message.type">
-    <i class="icon" :class="{
-      'info circle': message.type == 'info',
-      'check circle': message.type == 'success',
-      'times circle': message.type == 'error',
-      'exclamation triangle': message.type == 'warning'
-    }"></i>
-    <div class="content">
-      <div class="header" v-text="message.text"></div>
-    </div>
-  </div>
-  <!-- main editor area -->
-  <div class="ui one column wide compact grid container" :class="[editorColumns]">
-    <div class="ui top attached tabular menu tabs-menu" style="margin-top: 10px;">
-      <div
-        v-for="(tab, key) in tabs"
+
+  <!-- Navbar mode selector -->
+  <ul class="nav nav-pills mb-3">
+    <li class="nav-item" v-for="(tab, key) in tabs">
+      <a
+        href="#"
+        class="nav-link"
         :class="{ active: outputTab == key, disabled: doc === '' }"
-        class="item"
+        aria-current="page"
         @click="setOutputTab(key)"
       >
-        <i class="icon" :class="tab.icon"></i> <span v-text="tab.label"></span>
+        <i class="icon" :class="tab.icon"></i>
+        <span v-text="tab.label"></span>
+      </a>
+    </li>
+  </ul>
+
+  <!-- Messages -->
+  <div v-if="message.text" class="callout mb-3" :class="message.type">
+    <div class="callout-inner">
+      <div class="callout-title">
+        <svg class="icon">
+          <use
+            :href="{
+        '/bootstrap-italia/dist/svg/sprites.svg#it-help-circle' : message.type == 'info',
+        '/bootstrap-italia/dist/svg/sprites.svg#it-check-circle' : message.type == 'success',
+        '/bootstrap-italia/dist/svg/sprites.svg#it-times-circle' : message.type == 'error',
+        '/bootstrap-italia/dist/svg/sprites.svg#it-exclamation-triangle' : message.type == 'warning'
+        }"
+          ></use>
+        </svg>
+        <span
+          class="text"
+          v-text="{
+          'Info' : message.type == 'info',
+          'Message' : message.type == 'success',
+          'Error' : message.type == 'error',
+          'Warning' : message.type == 'warning'
+        }"
+        ></span>
       </div>
+      <p v-text="message.text"></p>
     </div>
-    <div :class="editorColumns == '' ? 'row' : 'eight wide column'">
+  </div>
+
+  <!-- main editor area -->
+  <div class="container px-0">
+    <div class="row">
+      <!-- Input fields -->
       <div
-        class="ui top attached tabular menu"
+        :class="{ 
+          'col-12': editorColumns == '',
+          'col-6': editorColumns != ''
+        }"
       >
-        <div :class="{ active: inputTab == 'json-ld' }" class="item" @click="inputTab = 'json-ld'"><i class="pencil alternate icon"></i> JSON-LD Input</div>
-        <div :class="{ active: inputTab == 'options' }" class="item" @click="inputTab = 'options'"><i class="wrench icon"></i> Options</div>
-        <div class="right menu">
-          <div class="item" style="padding-right: 0">
-            <div class="ui icon input">
-              <input type="text" placeholder="Document URL"
-                v-model="remoteDocURL" @keyup.enter="retrieveDoc(mainEditor, 'doc', remoteDocURL)">
-              <i class="file link icon" :class="{ disabled: remoteDocURL == '' }" @click="retrieveDoc(mainEditor, 'doc', remoteDocURL)"></i>
-            </div>
-          </div>
-        </div></div>
-      <div
-        class="ui bottom attached fitted resizable scrolling segment"
-        v-show="inputTab == 'json-ld'"
-      >
-        <div id="editor" @vue:mounted="initMainEditor()">
-          <!-- replaced by CodeMirror -->
-        </div>
-      </div>
-      <div class="ui bottom attached segment" v-show="inputTab == 'options'"  >
-        <form class="ui form">
-          <div class="inline fields" id="options-api-processingMode">
-            <label for="options-api-processingMode" class="two wide field">Processing Mode</label>
-            <div class="field">
-              <div class="ui radio checkbox">
-                <input type="radio" id="options-api-processingMode-1-0" name="processingMode" value="json-ld-1.0"
-                  v-model="options.processingMode" @change="setOutputTab()">
-                <label for="options-api-processingMode-1-0">JSON-LD 1.0</label>
-              </div>
-            </div>
-            <div class="field">
-              <div class="ui radio checkbox">
-                <input type="radio" id="options-api-processingMode-1-1" name="processingMode" value="json-ld-1.1"
-                  v-model="options.processingMode" @change="setOutputTab()">
-                <label for="options-api-processingMode-1-1">JSON-LD 1.1</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="inline fields" id="options-formatMode">
-            <label for="options-formatMode" class="two wide field">Format</label>
-            <div class="field">
-              <div class="ui radio checkbox">
-                <input type="radio" id="options-formatMode-json" name="formatMode" value="json"
-                  v-model="options.formatMode" @change="setOutputTab()">
-                <label for="options-formatMode-json">JSON</label>
-              </div>
-            </div>
-            <div class="field">
-              <div class="ui radio checkbox">
-                <input type="radio" id="options-formatMode-yaml" name="formatMode" value="yaml"
-                  v-model="options.formatMode" @change="setOutputTab()">
-                <label for="options-formatMode-yaml">YAML</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="inline fields" id="options-api-base">
-            <label for="options-api-base" class="two wide field">Base</label>
-            <div class="sixteen wide field">
-              <input type="text" id="options-api-base-url" placeholder="URL"
-                v-model="options.base" @change="setOutputTab()">
-            </div>
-          </div>
-
-          <div class="inline fields">
-            <label class="two wide field"></label>
-            <div class="field">
-              <div class="ui checkbox">
-                <input type="checkbox" id="options-api-compactArrays"
-                  v-model="options.compactArrays" @change="setOutputTab()">
-                <label for="options-api-compactArrays">Compact Arrays</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="inline fields">
-            <label class="two wide field"></label>
-            <div class="field">
-              <div class="ui checkbox">
-                <input type="checkbox" id="options-api-compactToRelative"
-                  v-model="options.compactToRelative" @change="setOutputTab()">
-                <label for="options-api-compactToRelative">Compact To Relative</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="field">
-            <div class="inline fields" id="options-api-rdfDirection">
-              <label for="options-api-rdfDirection" class="two wide field">RDF Direction Mode</label>
-              <div class="field">
-                <div class="ui radio checkbox">
-                  <input type="radio" id="options-api-rdfDirection-default" name="rdfDirection" value="" checked
-                    v-model="options.rdfDirection" @change="setOutputTab()">
-                  <label for="options-api-rdfDirection-default">Default (null)</label>
-                </div>
-              </div>
-              <div class="field">
-                <div class="ui radio checkbox">
-                  <input type="radio" id="options-api-rdfDirection-i18n-datatype" name="rdfDirection" value="i18n-datatype"
-                    v-model="options.rdfDirection" @change="setOutputTab()">
-                  <label for="options-api-rdfDirection-i18n-datatype">"i18n-datatype"</label>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="field">
-            <div class="inline fields" id="options-api-safe">
-              <label for="options-api-safe" class="two wide field">Safe</label>
-              <div class="field">
-                <div class="ui radio checkbox">
-                  <input type="radio" id="options-api-safe-false" name="safe" :value="false"
-                    v-model="options.safe" @change="setOutputTab()">
-                  <label for="options-api-safe-false">False</label>
-                </div>
-              </div>
-              <div class="field">
-                <div class="ui radio checkbox">
-                  <input type="radio" id="options-api-safe-true" name="safe" :value="true"
-                    v-model="options.safe" @change="setOutputTab()">
-                  <label for="options-api-safe-true">True</label>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-      <!-- errors -->
-      <div class="ui error message row" v-show="parseError.message" style="width: 100%;">
-        <div class="header" v-text="parseError.message"></div>
-        <div class="content">
-        <pre v-text="JSON.stringify(parseError?.details?.event, null, 2)"></pre>
-        </div>
-      </div>
-      <!-- outputs and renderings -->
-      <div class="ui grid">
-  <div class="column" v-show="editorColumns != ''">
+        <!-- Input 1 -->
+        <div class="pb-3">
           <div class="ui top attached tabular menu">
-        <div class="icon item" v-show="outputTab == 'compacted' || outputTab == 'flattened'">
-          <i class="arrow alternate circle down outline icon" style="cursor: pointer;"
-            title="Copy `@context` from &quot;JSON-LD Input&quot;"
-            @click="copyContext()"></i>
+            <div
+              :class="{ active: inputTab == 'json-ld' }"
+              class="item"
+              @click="inputTab = 'json-ld'"
+              v-text="inputLabel"
+            >
+              <i class="pencil alternate icon"></i>
             </div>
-        <div class="active item"><i class="pencil alternate icon"></i>
-          <span v-show="outputTab == 'compacted' || outputTab == 'flattened'">New JSON-LD Context</span>
-              <span v-show="outputTab == 'framed'">JSON-LD Frame</span>
+            <div
+              :class="{ active: inputTab == 'options' }"
+              class="item"
+              @click="inputTab = 'options'"
+            >
+              <i class="wrench icon"></i> Options
             </div>
             <div class="right menu">
-              <div class="item" style="padding-right: 0">
+              <div class="item pe-0">
                 <div class="ui icon input">
-              <input type="text" :placeholder="sideEditorURLFieldPlaceholderText"
-                v-model="remoteSideDocURL" @keyup.enter="retrieveDoc(sideEditor, sideDoc, remoteSideDocURL)">
-              <i class="file link icon" @click="retrieveDoc(sideEditor, sideDoc, remoteSideDocURL)"></i>
+                  <input
+                    type="text"
+                    placeholder="Document URL"
+                    v-model="remoteDocURL"
+                    @keyup.enter="retrieveDoc(mainEditor, 'doc', remoteDocURL)"
+                  />
+                  <i
+                    class="file link icon"
+                    :class="{ disabled: remoteDocURL == '' }"
+                    @click="retrieveDoc(mainEditor, 'doc', remoteDocURL)"
+                  ></i>
                 </div>
               </div>
             </div>
           </div>
-          <div class="ui bottom attached fitted resizable scrolling segment">
-        <div id="context-editor"
+          <div
+            class="ui bottom attached fitted resizable scrolling segment mb-0"
+            v-show="inputTab == 'json-ld'"
+          >
+            <div id="editor" @vue:mounted="initMainEditor()">
+              <!-- replaced by CodeMirror -->
+            </div>
+          </div>
+          <div
+            class="ui bottom attached segment mb-0"
+            v-show="inputTab == 'options'"
+          >
+            <form class="ui form">
+              <div class="inline fields" id="options-api-processingMode">
+                <label for="options-api-processingMode" class="two wide field"
+                  >Processing Mode</label
+                >
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <input
+                      type="radio"
+                      id="options-api-processingMode-1-0"
+                      name="processingMode"
+                      value="json-ld-1.0"
+                      v-model="options.processingMode"
+                      @change="setOutputTab()"
+                    />
+                    <label for="options-api-processingMode-1-0"
+                      >JSON-LD 1.0</label
+                    >
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <input
+                      type="radio"
+                      id="options-api-processingMode-1-1"
+                      name="processingMode"
+                      value="json-ld-1.1"
+                      v-model="options.processingMode"
+                      @change="setOutputTab()"
+                    />
+                    <label for="options-api-processingMode-1-1"
+                      >JSON-LD 1.1</label
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="inline fields" id="options-formatMode">
+                <label for="options-formatMode" class="two wide field"
+                  >Format</label
+                >
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <input
+                      type="radio"
+                      id="options-formatMode-json"
+                      name="formatMode"
+                      value="json"
+                      v-model="options.formatMode"
+                      @change="setOutputTab()"
+                    />
+                    <label for="options-formatMode-json">JSON</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <input
+                      type="radio"
+                      id="options-formatMode-yaml"
+                      name="formatMode"
+                      value="yaml"
+                      v-model="options.formatMode"
+                      @change="setOutputTab()"
+                    />
+                    <label for="options-formatMode-yaml">YAML</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="inline fields" id="options-api-base">
+                <label for="options-api-base" class="two wide field"
+                  >Base</label
+                >
+                <div class="sixteen wide field">
+                  <input
+                    type="text"
+                    id="options-api-base-url"
+                    placeholder="URL"
+                    v-model="options.base"
+                    @change="setOutputTab()"
+                  />
+                </div>
+              </div>
+
+              <div class="inline fields">
+                <label class="two wide field"></label>
+                <div class="field">
+                  <div class="ui checkbox">
+                    <input
+                      type="checkbox"
+                      id="options-api-compactArrays"
+                      v-model="options.compactArrays"
+                      @change="setOutputTab()"
+                    />
+                    <label for="options-api-compactArrays"
+                      >Compact Arrays</label
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="inline fields">
+                <label class="two wide field"></label>
+                <div class="field">
+                  <div class="ui checkbox">
+                    <input
+                      type="checkbox"
+                      id="options-api-compactToRelative"
+                      v-model="options.compactToRelative"
+                      @change="setOutputTab()"
+                    />
+                    <label for="options-api-compactToRelative"
+                      >Compact To Relative</label
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="inline fields" id="options-api-rdfDirection">
+                  <label for="options-api-rdfDirection" class="two wide field"
+                    >RDF Direction Mode</label
+                  >
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                      <input
+                        type="radio"
+                        id="options-api-rdfDirection-default"
+                        name="rdfDirection"
+                        value=""
+                        checked
+                        v-model="options.rdfDirection"
+                        @change="setOutputTab()"
+                      />
+                      <label for="options-api-rdfDirection-default"
+                        >Default (null)</label
+                      >
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                      <input
+                        type="radio"
+                        id="options-api-rdfDirection-i18n-datatype"
+                        name="rdfDirection"
+                        value="i18n-datatype"
+                        v-model="options.rdfDirection"
+                        @change="setOutputTab()"
+                      />
+                      <label for="options-api-rdfDirection-i18n-datatype"
+                        >"i18n-datatype"</label
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="inline fields" id="options-api-safe">
+                  <label for="options-api-safe" class="two wide field"
+                    >Safe</label
+                  >
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                      <input
+                        type="radio"
+                        id="options-api-safe-false"
+                        name="safe"
+                        :value="false"
+                        v-model="options.safe"
+                        @change="setOutputTab()"
+                      />
+                      <label for="options-api-safe-false">False</label>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                      <input
+                        type="radio"
+                        id="options-api-safe-true"
+                        name="safe"
+                        :value="true"
+                        v-model="options.safe"
+                        @change="setOutputTab()"
+                      />
+                      <label for="options-api-safe-true">True</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Input 2 -->
+        <div class="pb-3" v-show="editorColumns != ''">
+          <div class="ui top attached tabular menu">
+            <div
+              class="icon item"
               v-show="outputTab == 'compacted' || outputTab == 'flattened'"
-          @vue:mounted="initContextEditor()"><!-- replaced by CodeMirror --></div>
-        <div id="frame-editor"
+            >
+              <i
+                class="arrow alternate circle down outline icon cursor-pointer"
+                title='Copy `@context` from "JSON-LD Input"'
+                @click="copyContext()"
+              ></i>
+            </div>
+            <div class="active item">
+              <i class="pencil alternate icon"></i>
+              <span
+                v-show="outputTab == 'compacted' || outputTab == 'flattened'"
+                v-text="contextInputLabel"
+              ></span>
+              <span
+                v-show="outputTab == 'framed'"
+                v-text="frameInputLabel"
+              ></span>
+            </div>
+            <div class="right menu">
+              <div class="item pe-0">
+                <div class="ui icon input">
+                  <input
+                    type="text"
+                    :placeholder="sideEditorURLFieldPlaceholderText"
+                    v-model="remoteSideDocURL"
+                    @keyup.enter="retrieveDoc(sideEditor, sideDoc, remoteSideDocURL)"
+                  />
+                  <i
+                    class="file link icon"
+                    @click="retrieveDoc(sideEditor, sideDoc, remoteSideDocURL)"
+                  ></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ui bottom attached fitted resizable scrolling segment mb-0"
+          >
+            <div
+              id="context-editor"
+              v-show="outputTab == 'compacted' || outputTab == 'flattened'"
+              @vue:mounted="initContextEditor()"
+            >
+              <!-- replaced by CodeMirror -->
+            </div>
+            <div
+              id="frame-editor"
               v-show="outputTab == 'framed'"
-          @vue:mounted="initFrameEditor()"><!-- replaced by CodeMirror --></div>
+              @vue:mounted="initFrameEditor()"
+            >
+              <!-- replaced by CodeMirror -->
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div :style="{ width: editorColumns == '' ? '100%' : '50%', paddingTop: editorColumns == '' ? '10px' : '59px'}">
+
+      <!-- Output fields -->
       <div
-        class="ui fitted resizable active bottom attached tab segment"
-       :style="{ marginTop: editorColumns ? '0' : '10px', height: '100%' }" 
+        :class="{
+          'col-12': editorColumns == '',
+          'col-6': editorColumns != ''
+        }"
       >
-        <div class="ui very compact divided grid">
-          <div class="column" :class="{'eight wide': outputTab == 'cborld'}">
-        <div v-show="outputTab != 'table'"  style="min-height: 200px;" id="read-only-editor"><!-- replaced by CodeMirror --></div>
-        <table class="ui compact table" style="margin-top: 0"
-          v-show="outputTab == 'table'">
-              <thead>
-                <tr>
-                  <th>Subject</th>
-                  <th>Predicate</th>
-                  <th>Object</th>
-                  <th>Language</th>
-                  <th>Datatype</th>
-                  <th>Graph</th>
-                </tr>
-              </thead>
-              <tr v-for="quad in tableQuads">
-                <td>
-              <a v-if="quad.subject.termType == 'NamedNode'"
-                    :href="quad.subject.value"
-                v-text="quad.subject.value"></a>
-                  <span v-else v-text="quad.subject.value"></span>
-                </td>
-                <td>
-              <a v-if="quad.predicate.termType == 'NamedNode'"
-                    :href="quad.predicate.value"
-                v-text="quad.predicate.value"></a>
-                  <span v-else v-text="quad.predicate.value"></span>
-                </td>
-                <td>
-              <a v-if="quad.object.termType == 'NamedNode'"
-                    :href="quad.object.value"
-                v-text="quad.object.value"></a>
-                  <span v-else v-text="quad.object.value"></span>
-                </td>
-                <td v-text="quad.object.language"></td>
-                <td>
-              <a v-if="quad.object.datatype"
-                    :href="quad.object.datatype.value"
-                v-text="quad.object.datatype.value"></a>
-                </td>
-                <td v-text="quad.graph.value"></td>
-              </tr>
-            </table>
+        <div class="pb-3 d-flex flex-column h-100">
+          <div class="ui top attached tabular menu">
+            <div class="active item">
+              <span>Output:</span>
+            </div>
           </div>
-          <div class="eight wide column" v-if="outputTab == 'cborld'">
-        <table class="ui fixed definition table" style="margin-left: -0.25rem">
-              <tr>
-            <td class="three wide">JSON-LD Size</td><td><span v-text="cborLD.jsonldSize"></span> bytes</td>
-              </tr>
-              <tr>
-            <td>CBOR-LD Size</td><td><span v-text="cborLD.size"></span> bytes</td>
-              </tr>
-              <tr>
-            <td>Compression</td><td><span v-text="cborLD.percentage"></span>%</td>
-              </tr>
-              <tr class="top aligned">
-            <td>Hex</td><td v-text="cborLD.hex" style="word-wrap: break-word;"></td>
-              </tr>
-            </table>
+
+          <div
+            class="ui bottom attached fitted segment mb-0 d-flex flex-column h-100"
+          >
+            <div
+              v-show="outputTab != 'table'"
+              class="ui fitted resizable scrolling segment basic mb-0 flex-grow-1"
+            >
+              <div id="read-only-editor">
+                <!-- replaced by CodeMirror -->
+              </div>
+            </div>
+
+            <div
+              v-if="outputTab == 'table'"
+              class="ui bottom attached fitted resizable scrolling segment mb-0 flex-grow-1"
+            >
+              <table
+                class="ui compact table mt-0"
+                v-show="outputTab == 'table'"
+              >
+                <thead>
+                  <tr>
+                    <th>Subject</th>
+                    <th>Predicate</th>
+                    <th>Object</th>
+                    <th>Language</th>
+                    <th>Datatype</th>
+                    <th>Graph</th>
+                  </tr>
+                </thead>
+                <tr v-for="quad in tableQuads">
+                  <td>
+                    <a
+                      v-if="quad.subject.termType == 'NamedNode'"
+                      :href="quad.subject.value"
+                      v-text="quad.subject.value"
+                    ></a>
+                    <span v-else v-text="quad.subject.value"></span>
+                  </td>
+                  <td>
+                    <a
+                      v-if="quad.predicate.termType == 'NamedNode'"
+                      :href="quad.predicate.value"
+                      v-text="quad.predicate.value"
+                    ></a>
+                    <span v-else v-text="quad.predicate.value"></span>
+                  </td>
+                  <td>
+                    <a
+                      v-if="quad.object.termType == 'NamedNode'"
+                      :href="quad.object.value"
+                      v-text="quad.object.value"
+                    ></a>
+                    <span v-else v-text="quad.object.value"></span>
+                  </td>
+                  <td v-text="quad.object.language"></td>
+                  <td>
+                    <a
+                      v-if="quad.object.datatype"
+                      :href="quad.object.datatype.value"
+                      v-text="quad.object.datatype.value"
+                    ></a>
+                  </td>
+                  <td v-text="quad.graph.value"></td>
+                </tr>
+              </table>
+            </div>
+
+            <div v-if="outputTab == 'cborld'">
+              <table class="ui fixed definition table">
+                <tr>
+                  <td class="three wide">JSON-LD Size</td>
+                  <td><span v-text="cborLD.jsonldSize"></span> bytes</td>
+                </tr>
+                <tr>
+                  <td>CBOR-LD Size</td>
+                  <td><span v-text="cborLD.size"></span> bytes</td>
+                </tr>
+                <tr>
+                  <td>Compression</td>
+                  <td><span v-text="cborLD.percentage"></span>%</td>
+                </tr>
+                <tr class="top aligned">
+                  <td>Hex</td>
+                  <td v-text="cborLD.hex" class="text-break"></td>
+                </tr>
+              </table>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    </div>
-</div>
+  </div>
 </div>
 
 <script src="./editor.bundle.js"></script>
