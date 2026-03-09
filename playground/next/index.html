@@ -164,14 +164,6 @@ title: Next Playground
           </div>
         </div>
       </div>
-      <div
-        class="ui bottom attached fitted resizable scrolling segment"
-        v-show="inputTab == 'json-ld'"
-      >
-        <div id="editor" @vue:mounted="initMainEditor()">
-          <!-- replaced by CodeMirror -->
-        </div>
-      </div>
 
       <!-- Keyboard shortcuts -->
       <div class="dropdown dropstart text-center">
@@ -570,22 +562,6 @@ title: Next Playground
           <div
             class="ui bottom attached fitted resizable scrolling segment mb-0"
           >
-            <div
-              id="context-editor"
-              v-show="outputTab == 'compacted' || outputTab == 'flattened'"
-              @vue:mounted="initContextEditor()"
-            >
-              <!-- replaced by CodeMirror -->
-            </div>
-            <div
-              id="frame-editor"
-              v-show="outputTab == 'framed'"
-              @vue:mounted="initFrameEditor()"
-            >
-              <!-- replaced by CodeMirror -->
-            </div>
-          </div>
-          <div class="ui bottom attached fitted resizable scrolling segment">
             <div
               id="context-editor"
               v-show="outputTab == 'compacted' || outputTab == 'flattened'"
