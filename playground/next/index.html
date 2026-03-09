@@ -112,7 +112,7 @@ title: Next Playground
         >
           <svg class="icon icon-xs icon-primary">
             <use
-              href="{{ site.baseUrl }}/static/bootstrap-italia@2.18.0/dist/svg/sprites.svg#it-link"
+              href="{{ site.baseUrl }}/static/bootstrap-italia/dist/svg/sprites.svg#it-link"
             ></use>
           </svg>
         </a>
@@ -121,7 +121,7 @@ title: Next Playground
             <h3 class="popover-header">
               <svg class="icon">
                 <use
-                  href="{{ site.baseUrl }}/static/bootstrap-italia@2.18.0/dist/svg/sprites.svg#it-link"
+                  href="{{ site.baseUrl }}/static/bootstrap-italia/dist/svg/sprites.svg#it-link"
                 ></use>
               </svg>
               Share this
@@ -147,7 +147,7 @@ title: Next Playground
                       aria-label="Copy link to clipboard"
                     >
                       <use
-                        href="{{ site.baseUrl }}/static/bootstrap-italia@2.18.0/dist/svg/sprites.svg#it-copy"
+                        href="{{ site.baseUrl }}/static/bootstrap-italia/dist/svg/sprites.svg#it-copy"
                       ></use>
                     </svg>
                   </button>
@@ -186,7 +186,7 @@ title: Next Playground
         >
           <svg class="icon icon-xs icon-primary">
             <use
-              href="{{ site.baseUrl }}/static/bootstrap-italia@2.18.0/dist/svg/sprites.svg#it-help-circle"
+              href="{{ site.baseUrl }}/static/bootstrap-italia/dist/svg/sprites.svg#it-help-circle"
             ></use>
           </svg>
         </a>
@@ -199,7 +199,7 @@ title: Next Playground
             <h3 class="popover-header">
               <svg class="icon">
                 <use
-                  href="{{ site.baseUrl }}/static/bootstrap-italia@2.18.0/dist/svg/sprites.svg#it-help-circle"
+                  href="{{ site.baseUrl }}/static/bootstrap-italia/dist/svg/sprites.svg#it-help-circle"
                 ></use>
               </svg>
               Keyboard Shortcuts
@@ -235,9 +235,10 @@ title: Next Playground
   </div>
 
   <!-- Navbar mode selector -->
-  <ul class="nav nav-tabs nav-tabs-icon-text mb-3">
+  <ul class="nav nav-pills mb-3">
     <li class="nav-item" v-for="(tab, key) in tabs">
       <a
+        href="#"
         class="nav-link"
         :class="{ active: outputTab == key, disabled: doc === '' }"
         aria-current="page"

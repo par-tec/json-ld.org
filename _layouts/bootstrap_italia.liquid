@@ -21,11 +21,16 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 
     <!-- Style Sheets -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.4/dist/semantic.min.css">
     <link
-      href="{{ site.baseUrl }}/static/bootstrap-italia@2.18.0/dist/css/bootstrap-italia.min.css"
+      href="{{ site.baseUrl }}/static/bootstrap-italia/dist/css/bootstrap-italia.min.css"
       rel="stylesheet"
     >
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.4/dist/semantic.min.css">
+    <style>
+      .nav.nav-link.disabled {
+        --bs-nav-link-disabled-color: rgba(0, 0, 0, 0.3);
+      }
+    </style>
 
     <link rel="shortcut icon" href="{{ site.baseUrl }}/favicon.ico">
   </head>
@@ -53,7 +58,7 @@
                       <li>
                         <a href="#" aria-label="Github" target="_blank">
                           <svg class="icon">
-                            <use href="{{ site.baseUrl }}/static/bootstrap-italia@2.18.0/dist/svg/sprites.svg#it-github"></use>
+                            <use href="{{ site.baseUrl }}/static/bootstrap-italia/dist/svg/sprites.svg#it-github"></use>
                           </svg>
                         </a>
                       </li>
@@ -81,7 +86,7 @@
                   data-bs-target="#nav0"
                 >
                   <svg class="icon bg-override">
-                    <use href="{{ site.baseUrl }}/static/bootstrap-italia@2.18.0/dist/svg/sprites.svg#it-burger"></use>
+                    <use href="{{ site.baseUrl }}/static/bootstrap-italia/dist/svg/sprites.svg#it-burger"></use>
                   </svg>
                 </button>
                 <div class="navbar-collapsable" id="nav0" style="display: none;">
@@ -90,7 +95,7 @@
                     <button class="btn close-menu" type="button">
                       <span class="visually-hidden">Nascondi la navigazione</span>
                       <svg class="icon">
-                        <use href="{{ site.baseUrl }}/static/bootstrap-italia@2.18.0/dist/svg/sprites.svg#it-close-big"></use>
+                        <use href="{{ site.baseUrl }}/static/bootstrap-italia/dist/svg/sprites.svg#it-close-big"></use>
                       </svg>
                     </button>
                   </div>
@@ -134,7 +139,7 @@
                         >
                           <span>Specifications</span>
                           <svg class="icon icon-xs">
-                            <use href="{{ site.baseUrl }}/static/bootstrap-italia@2.18.0/dist/svg/sprites.svg#it-expand"></use>
+                            <use href="{{ site.baseUrl }}/static/bootstrap-italia/dist/svg/sprites.svg#it-expand"></use>
                           </svg>
                         </a>
                         <div class="dropdown-menu" role="region" aria-labelledby="mainNavDropdownSpecs">
@@ -294,6 +299,6 @@
 
     <!-- Script tags -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-    <script src="{{ site.baseUrl }}/static/bootstrap-italia@2.18.0/dist/js/bootstrap-italia.bundle.min.js"></script>
+    <script src="{{ site.baseUrl }}/static/bootstrap-italia/dist/js/bootstrap-italia.bundle.min.js"></script>
   </body>
 </html>
