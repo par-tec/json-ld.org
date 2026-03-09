@@ -36,7 +36,9 @@ export default async function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("functions/**/*.js");
   eleventyConfig.addPassthroughCopy("images/**/*.{htaccess,png,svg,xcf}");
   eleventyConfig.addPassthroughCopy("ns/**/*.{html,jsonld}");
-  eleventyConfig.addPassthroughCopy("playground/**/*.{css,php,js}");
+  // the playground is a special case, we want to copy the next version for development, but ignore the current version
+  eleventyConfig.addPassthroughCopy('playground/next');
+  eleventyConfig.addPassthroughCopy('playground/playground.css');
   eleventyConfig.addPassthroughCopy("presentations");
   eleventyConfig.addPassthroughCopy("schemas/**/*.json");
   eleventyConfig.addPassthroughCopy("site.css");
@@ -78,6 +80,11 @@ export default async function (eleventyConfig) {
     eleventyConfig.ignores.add(`spec/${draft}`);
   }
   eleventyConfig.ignores.add("test-suite");
+
+  // ignore the current playground version, we want to use the next version for development
+  eleventyConfig.ignores.add('playground/1.0');
+  eleventyConfig.ignores.add('playground/dev');
+  eleventyConfig.ignores.add('playground/index.html');
 
   eleventyConfig.addWatchTarget("playground/next/index.html");
 
