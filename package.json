@@ -39,7 +39,7 @@
     "petite-vue": "^0.4.1",
     "@playwright/test": "^1.52.0",
     "rollup": "^4.59.0",
-    "serve": "^14.2.4",
+    "serve": "^14.2.6",
     "wrangler": "^4.60.0",
     "yaml": "^2.8.1"
   }
