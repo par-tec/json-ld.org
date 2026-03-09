@@ -228,9 +228,21 @@
   </div>
   <!-- main editor area -->
   <div class="ui one column wide compact grid container" :class="[editorColumns]">
-    <div class="column" :class="{ 'sixteen wide':  editorColumns == '' }">
-      <div class="ui top attached tabular menu">
-        <div :class="{ active: inputTab == 'json-ld' }" class="item" @click="inputTab = 'json-ld'" v-text="inputLabel"><i class="pencil alternate icon"></i></div>
+    <div class="ui top attached tabular menu tabs-menu" style="margin-top: 10px;">
+      <div
+        v-for="(tab, key) in tabs"
+        :class="{ active: outputTab == key, disabled: doc === '' }"
+        class="item"
+        @click="setOutputTab(key)"
+      >
+        <i class="icon" :class="tab.icon"></i> <span v-text="tab.label"></span>
+      </div>
+    </div>
+    <div :class="editorColumns == '' ? 'row' : 'eight wide column'">
+      <div
+        class="ui top attached tabular menu"
+      >
+        <div :class="{ active: inputTab == 'json-ld' }" class="item" @click="inputTab = 'json-ld'"><i class="pencil alternate icon"></i> JSON-LD Input</div>
         <div :class="{ active: inputTab == 'options' }" class="item" @click="inputTab = 'options'"><i class="wrench icon"></i> Options</div>
         <div class="right menu">
           <div class="item" style="padding-right: 0">
@@ -240,12 +252,16 @@
               <i class="file link icon" :class="{ disabled: remoteDocURL == '' }" @click="retrieveDoc(mainEditor, 'doc', remoteDocURL)"></i>
             </div>
           </div>
+        </div></div>
+      <div
+        class="ui bottom attached fitted resizable scrolling segment"
+        v-show="inputTab == 'json-ld'"
+      >
+        <div id="editor" @vue:mounted="initMainEditor()">
+          <!-- replaced by CodeMirror -->
         </div>
       </div>
-      <div class="ui bottom attached fitted resizable scrolling segment" v-show="inputTab == 'json-ld'">
-        <div id="editor" @vue:mounted="initMainEditor()"><!-- replaced by CodeMirror --></div>
-      </div>
-      <div class="ui bottom attached segment" v-show="inputTab == 'options'">
+      <div class="ui bottom attached segment" v-show="inputTab == 'options'"  >
         <form class="ui form">
           <div class="inline fields" id="options-api-processingMode">
             <label for="options-api-processingMode" class="two wide field">Processing Mode</label>
@@ -354,112 +370,117 @@
           </div>
         </form>
       </div>
-    </div>
-    <div class="column" v-show="editorColumns != ''">
-      <div class="ui top attached tabular menu">
+      <!-- errors -->
+      <div class="ui error message row" v-show="parseError.message" style="width: 100%;">
+        <div class="header" v-text="parseError.message"></div>
+        <div class="content">
+        <pre v-text="JSON.stringify(parseError?.details?.event, null, 2)"></pre>
+        </div>
+      </div>
+      <!-- outputs and renderings -->
+      <div class="ui grid">
+  <div class="column" v-show="editorColumns != ''">
+          <div class="ui top attached tabular menu">
         <div class="icon item" v-show="outputTab == 'compacted' || outputTab == 'flattened'">
           <i class="arrow alternate circle down outline icon" style="cursor: pointer;"
             title="Copy `@context` from &quot;JSON-LD Input&quot;"
             @click="copyContext()"></i>
-        </div>
+            </div>
         <div class="active item"><i class="pencil alternate icon"></i>
-          <span v-show="outputTab == 'compacted' || outputTab == 'flattened'" v-text="contextInputLabel"></span>
-          <span v-show="outputTab == 'framed'" v-text="frameInputLabel"></span>
-        </div>
-        <div class="right menu">
-          <div class="item" style="padding-right: 0">
-            <div class="ui icon input">
+          <span v-show="outputTab == 'compacted' || outputTab == 'flattened'">New JSON-LD Context</span>
+              <span v-show="outputTab == 'framed'">JSON-LD Frame</span>
+            </div>
+            <div class="right menu">
+              <div class="item" style="padding-right: 0">
+                <div class="ui icon input">
               <input type="text" :placeholder="sideEditorURLFieldPlaceholderText"
                 v-model="remoteSideDocURL" @keyup.enter="retrieveDoc(sideEditor, sideDoc, remoteSideDocURL)">
               <i class="file link icon" @click="retrieveDoc(sideEditor, sideDoc, remoteSideDocURL)"></i>
+                </div>
+              </div>
             </div>
+          </div>
+          <div class="ui bottom attached fitted resizable scrolling segment">
+        <div id="context-editor"
+              v-show="outputTab == 'compacted' || outputTab == 'flattened'"
+          @vue:mounted="initContextEditor()"><!-- replaced by CodeMirror --></div>
+        <div id="frame-editor"
+              v-show="outputTab == 'framed'"
+          @vue:mounted="initFrameEditor()"><!-- replaced by CodeMirror --></div>
           </div>
         </div>
       </div>
-      <div class="ui bottom attached fitted resizable scrolling segment">
-        <div id="context-editor"
-          v-show="outputTab == 'compacted' || outputTab == 'flattened'"
-          @vue:mounted="initContextEditor()"><!-- replaced by CodeMirror --></div>
-        <div id="frame-editor"
-          v-show="outputTab == 'framed'"
-          @vue:mounted="initFrameEditor()"><!-- replaced by CodeMirror --></div>
-      </div>
     </div>
-  </div>
-  <!-- errors -->
-  <div class="ui error message" v-show="parseError.message">
-    <div class="header" v-text="parseError.message"></div>
-    <div class="content">
-      <pre v-text="JSON.stringify(parseError?.details?.event, null, 2)"></pre>
-    </div>
-  </div>
-  <!-- outputs and renderings -->
-  <div class="ui top attached tabular menu">
-    <div v-for="(tab, key) in tabs" :class="{ active: outputTab == key, disabled: doc === '' }" class="item" @click="setOutputTab(key)"><i class="icon" :class="tab.icon"></i> <span v-text="tab.label"></span></div>
-  </div>
-  <div class="ui fitted resizable active bottom attached tab segment">
-    <div class="ui very compact divided grid">
-      <div class="column" :class="{'eight wide': outputTab == 'cborld'}">
-        <div v-show="outputTab != 'table'" id="read-only-editor"><!-- replaced by CodeMirror --></div>
+    <div :style="{ width: editorColumns == '' ? '100%' : '50%', paddingTop: editorColumns == '' ? '10px' : '59px'}">
+      <div
+        class="ui fitted resizable active bottom attached tab segment"
+       :style="{ marginTop: editorColumns ? '0' : '10px', height: '100%' }" 
+      >
+        <div class="ui very compact divided grid">
+          <div class="column" :class="{'eight wide': outputTab == 'cborld'}">
+        <div v-show="outputTab != 'table'"  style="min-height: 200px;" id="read-only-editor"><!-- replaced by CodeMirror --></div>
         <table class="ui compact table" style="margin-top: 0"
           v-show="outputTab == 'table'">
-          <thead>
-            <tr>
-              <th>Subject</th>
-              <th>Predicate</th>
-              <th>Object</th>
-              <th>Language</th>
-              <th>Datatype</th>
-              <th>Graph</th>
-            </tr>
-          </thead>
-          <tr v-for="quad in tableQuads">
-            <td>
+              <thead>
+                <tr>
+                  <th>Subject</th>
+                  <th>Predicate</th>
+                  <th>Object</th>
+                  <th>Language</th>
+                  <th>Datatype</th>
+                  <th>Graph</th>
+                </tr>
+              </thead>
+              <tr v-for="quad in tableQuads">
+                <td>
               <a v-if="quad.subject.termType == 'NamedNode'"
-                :href="quad.subject.value"
+                    :href="quad.subject.value"
                 v-text="quad.subject.value"></a>
-              <span v-else v-text="quad.subject.value"></span>
-            </td>
-            <td>
+                  <span v-else v-text="quad.subject.value"></span>
+                </td>
+                <td>
               <a v-if="quad.predicate.termType == 'NamedNode'"
-                :href="quad.predicate.value"
+                    :href="quad.predicate.value"
                 v-text="quad.predicate.value"></a>
-              <span v-else v-text="quad.predicate.value"></span>
-            </td>
-            <td>
+                  <span v-else v-text="quad.predicate.value"></span>
+                </td>
+                <td>
               <a v-if="quad.object.termType == 'NamedNode'"
-                :href="quad.object.value"
+                    :href="quad.object.value"
                 v-text="quad.object.value"></a>
-              <span v-else v-text="quad.object.value"></span>
-            </td>
-            <td v-text="quad.object.language"></td>
-            <td>
+                  <span v-else v-text="quad.object.value"></span>
+                </td>
+                <td v-text="quad.object.language"></td>
+                <td>
               <a v-if="quad.object.datatype"
-              :href="quad.object.datatype.value"
+                    :href="quad.object.datatype.value"
                 v-text="quad.object.datatype.value"></a>
-            </td>
-            <td v-text="quad.graph.value"></td>
-          </tr>
-        </table>
-      </div>
-      <div class="eight wide column" v-if="outputTab == 'cborld'">
+                </td>
+                <td v-text="quad.graph.value"></td>
+              </tr>
+            </table>
+          </div>
+          <div class="eight wide column" v-if="outputTab == 'cborld'">
         <table class="ui fixed definition table" style="margin-left: -0.25rem">
-          <tr>
+              <tr>
             <td class="three wide">JSON-LD Size</td><td><span v-text="cborLD.jsonldSize"></span> bytes</td>
-          </tr>
-          <tr>
+              </tr>
+              <tr>
             <td>CBOR-LD Size</td><td><span v-text="cborLD.size"></span> bytes</td>
-          </tr>
-          <tr>
+              </tr>
+              <tr>
             <td>Compression</td><td><span v-text="cborLD.percentage"></span>%</td>
-          </tr>
-          <tr class="top aligned">
+              </tr>
+              <tr class="top aligned">
             <td>Hex</td><td v-text="cborLD.hex" style="word-wrap: break-word;"></td>
-          </tr>
-        </table>
+              </tr>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+    </div>
+</div>
 </div>
 
 <script src="./editor.bundle.js"></script>
