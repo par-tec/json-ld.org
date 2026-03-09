@@ -273,6 +273,15 @@
 </div>
 
 <div v-scope v-effect="setOutputTab()" @vue:mounted="gatherHash()">
+  <!-- errors -->
+  <div class="alert alert-danger" role="alert" v-show="parseError.message">
+    <p v-text="parseError.message"></p>
+    <pre
+      class="m-0"
+      v-text="JSON.stringify(parseError?.details?.event, null, 2)"
+    ></pre>
+  </div>
+
   <!-- Examples buttons -->
   <div class="d-flex flex-row justify-content-between align-items-center mb-3">
     <div class="d-flex flex-wrap align-items-center gap-2">
@@ -924,19 +933,6 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- errors -->
-  <div
-    class="alert alert-danger mt-3 mb-0"
-    role="alert"
-    v-show="parseError.message"
-  >
-    <p v-text="parseError.message"></p>
-    <pre
-      class="m-0"
-      v-text="JSON.stringify(parseError?.details?.event, null, 2)"
-    ></pre>
   </div>
 </div>
 
