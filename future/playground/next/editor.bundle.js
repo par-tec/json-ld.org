@@ -52174,7 +52174,7 @@ ${O$2.repeat(r.depth)}}`:r.close="}";break}case f$4.TAG:e+=String(i),e+=a(f$4.PO
       compacted: {icon: 'compress alternate', label: 'Compacted'},
       flattened: {icon: 'bars', label: 'Flattened'},
       framed: {icon: 'crop alternate', label: 'Framed'},
-      nquads: {icon: 'rdf-icon-rdf', label: 'N-Quads'},
+      nquads: {icon: 'project diagram', label: 'N-Quads'},
       canonized: {icon: 'archive', label: 'Canonized'},
       table: {icon: 'th', label: 'Table'},
       yamlld: {icon: 'stream', label: 'YAML-LD'},
