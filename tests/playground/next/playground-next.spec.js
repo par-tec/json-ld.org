@@ -53,19 +53,19 @@ test("permalink button opens popup and copy copies URL to clipboard", async ({
   await page.getByRole("button", { name: "Person" }).click();
   await expect(page.locator("#read-only-editor .cm-content")).toBeVisible();
 
-  await page.locator("#permalink").click();
-  await expect(page.getByText("Share this")).toBeVisible();
-  const permalinkInput = page.locator('.ui.popup.visible input[type="text"]');
+  await page.locator("#dropdownMenuShare").click();
+  const popover = page.locator("div[aria-labelledby=dropdownMenuShare]");
+  await expect(popover.getByText("Share this")).toBeVisible();
+  const permalinkInput = popover.locator('input[type="text"]');
   await expect(permalinkInput).toBeVisible();
   const urlInPopup = await permalinkInput.inputValue();
   expect(urlInPopup).toMatch(/#.*json-ld=/);
   expect(urlInPopup).toMatch(/formatMode=/);
   expect(urlInPopup).toMatch(/startTab=/);
-
-  await page
-    .locator(".ui.popup.visible button")
-    .filter({ has: page.locator(".icon.copy") })
-    .click();
+  const copyButton = popover.locator("button", {
+    has: page.locator("svg[aria-label='Copy link to clipboard']"),
+  });
+  await copyButton.click();
   const clipboardText = await page.evaluate(() =>
     navigator.clipboard.readText(),
   );
@@ -96,11 +96,9 @@ test("URL hash params auto-populate json-ld, frame, startTab, formatMode and pro
   expect(mainText).toContain("Alice");
   expect(mainText).toMatch(/@context|context/);
 
-  const outputTabBar = page
-    .locator(".ui.tabular.menu")
-    .filter({ hasText: "Expanded" });
+  const outputTabBar = page.locator("ul.nav").filter({ hasText: "Expanded" });
   await expect(
-    outputTabBar.locator(".item.active").filter({ hasText: "Framed" }),
+    outputTabBar.locator(".nav-link.active").filter({ hasText: "Framed" }),
   ).toBeVisible();
 
   const frameEditor = page.locator("#frame-editor .cm-content");
