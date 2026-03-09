@@ -53,6 +53,14 @@ export default async function(eleventyConfig) {
   }
   eleventyConfig.addPassthroughCopy('static');
   eleventyConfig.addPassthroughCopy('test-suite');
+  eleventyConfig.addPassthroughCopy({
+    "node_modules/fomantic-ui/dist/semantic.min.css": "static/css/fomantic-ui/semantic.min.css",
+    "node_modules/fomantic-ui/dist/themes": "static/css/fomantic-ui/themes",
+    "node_modules/fomantic-ui/dist/semantic.min.js": "static/js/fomantic-ui/semantic.min.js"
+  });
+  eleventyConfig.addPassthroughCopy({
+    "node_modules/jquery/dist/jquery.min.js": "static/js/jquery/jquery.min.js",
+  });
   eleventyConfig.ignores.add('CONTRIBUTING.md');
   eleventyConfig.ignores.add('LICENSE.md');
   eleventyConfig.ignores.add('README.md');

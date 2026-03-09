@@ -27,6 +27,8 @@
     "@rollup/plugin-node-resolve": "^16.0.3",
     "cbor2": "^2.0.1",
     "codemirror": "^6.0.2",
+    "fomantic-ui": "^2.9.4",
+    "jquery": "^3.7.1",
     "jsonld": "^9.0.0",
     "markdown-it-anchor": "^9.2.0",
     "markdown-it-attrs": "^4.3.1",

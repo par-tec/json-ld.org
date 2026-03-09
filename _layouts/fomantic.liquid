@@ -16,7 +16,7 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 
     <!-- Style Sheets -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.4/dist/semantic.min.css">
+    <link rel="stylesheet" href="{{ site.baseUrl }}/static/css/fomantic-ui/semantic.min.css">
     <link rel="stylesheet" type="text/css" href="{{ site.baseUrl }}/static/css/rdf-font/rdf-font.css">
     <style>
       /* fomantic overrides */
@@ -38,16 +38,6 @@
 
     <link rel="shortcut icon" href="{{ site.baseUrl }}/favicon.ico" />
 
-    <!-- Script tags -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-      ga('create', 'UA-{{ ga | default: '42886053' }}-1', 'json-ld.org');
-      ga('send', 'pageview');
-    </script>
   </head>
 
   <body>
@@ -125,8 +115,8 @@
     </div>
 
     <!-- Script tags -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.4/dist/semantic.min.js"></script>
+    <script src="{{ site.baseUrl }}/static/js/jquery/jquery.min.js"></script>
+    <script src="{{ site.baseUrl }}/static/js/fomantic-ui/semantic.min.js"></script>
     <script>
       $('.ui.popup').each((i, el) => {
         $(el).prev().popup({ on: 'click', inline: true, preserve: true });
