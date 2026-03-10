@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html
+  prefix="
+    xhv: http://www.w3.org/1999/xhtml/vocab#
+    xsd: http://www.w3.org/2001/XMLSchema#
+    rdfs: http://www.w3.org/2000/01/rdf-schema#
+    dc: http://purl.org/dc/terms/
+    vcard: http://www.w3.org/2006/vcard/ns#
+    v: http://rdf.data-vocabulary.org/#"
+  lang="en" >
+  <head>
+    <title>Primer - JSON-LD - JSON for Linked Data</title>
+
+    <!-- Meta Tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
+    <!-- Style Sheets -->
+    <link rel="stylesheet" href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/static/css/fomantic-ui/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/static/css/rdf-font/rdf-font.css">
+    <style>
+      /* fomantic overrides */
+      html { scroll-padding-top: 5em; }
+      body { background-color: #f7f7f7; }
+      .ui.main.container { margin-top: 7em; }
+      .ui.top.menu .header.item { border: none !important; padding-left: 0; }
+      .ui.top.menu .header.item > span { font-size: 150%; }
+      .ui.top.menu .header.item > img { margin-right: 1rem; }
+      .ui.basic.masthead.segment { padding: 5em 0 3em; background: white; box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2), -1px -1px 0 rgba(0, 0, 0, 0.1) }
+      .ui.basic.masthead.segment + .ui.main.container { margin-top: 3em; }
+      pre.ui.segment { overflow-x: auto; }
+      .ui.fitted.tab.segment > .ui.table { border-left: 0; border-top: 0; border-right: 0; margin-top: 0; }
+      .ui.table th:empty { display: none; }
+      .ui.basic.footer.segment { border-top: 1px solid rgba(34,36,38,.15); margin-top: 4em; padding-top: 2em; }
+      /* RDF Font gets priority */
+      i.rdf-icon-rdf.icon { font-family: 'rdf-font'; }
+    </style>
+
+    <link rel="shortcut icon" href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/favicon.ico" />
+
+  </head>
+
+  <body>
+    <div class="ui top fixed menu">
+      <div class="ui wide container">
+        <!-- Brand -->
+        <a class="header item" href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/">
+          <img src="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/images/json-ld-data-24.png" alt="JSON-LD logo">
+          <span>JSON-LD</span>
+        </a>
+
+        <!-- Main menu items -->
+        <a class="item " href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/playground/">
+          <i class="beer icon"></i> Playground
+        </a>
+
+        <a class="item " href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/learn/">
+          <i class="book icon"></i> Documentation
+        </a>
+
+        <a class="item" href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/#developers">
+          <i class="flask icon"></i> Developers
+        </a>
+
+        <!-- Dropdown menu -->
+        <div class="ui simple dropdown item">
+          <i class="folder open icon"></i>
+          Specifications
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <div class="header"><strong>W3C Recommendations</strong></div>
+            <a class="item" href="https://www.w3.org/TR/json-ld/">Syntax</a>
+            <a class="item" href="https://www.w3.org/TR/json-ld-api/">Processing Algorithms and API</a>
+            <a class="item" href="https://www.w3.org/TR/json-ld-framing/">Framing</a>
+
+            <div class="divider"></div>
+
+            <div class="header"><strong>Latest Drafts</strong></div>
+            <a class="item" href="https://w3c.github.io/json-ld-syntax/">Syntax</a>
+            <a class="item" href="https://w3c.github.io/json-ld-api/">Processing Algorithms and API</a>
+            <a class="item" href="https://w3c.github.io/json-ld-framing/">Framing</a>
+            <a class="item" href="https://w3c.github.io/json-ld-bp/">Best Practices</a>
+            <a class="item" href="https://w3c.github.io/json-ld-streaming/">Streaming</a>
+            <a class="item" href="https://json-ld.github.io/json-ld-star/">JSON-LD-star</a>
+            <a class="item" href="https://w3c.github.io/json-ld-cbor/">CBOR</a>
+            <a class="item" href="https://github.com/w3c/json-ld-rc/">Recommended Context</a>
+            <a class="item" href="https://json-ld.github.io/yaml-ld/">YAML-LD</a>
+            <a class="item" href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/spec/">1.0 drafts (historic)</a>
+          </div>
+        </div>
+
+        <a class="item " href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/images/">
+          <i class="image icon"></i> Branding
+        </a>
+      </div>
+    </div>
+
+    
+
+    <div class="ui main wide container">
+    <h1 id="primers" tabindex="-1">Primers</h1>
+<p>The following primers are sorted in most recent to least recent order:</p>
+<ul>
+<li><a href="latest/">Latest</a></li>
+</ul>
+
+    </div>
+
+    <div class="ui basic footer segment" id="footer">
+      <div class="ui container" id="copyright">
+        <p>Website content released under a
+          <a href="https://creativecommons.org/about/cc0">Creative Commons CC0 Public Domain Dedication</a>
+          except where an alternate is specified.</p>
+      </div>
+    </div>
+
+    <!-- Script tags -->
+    <script src="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/static/js/jquery/jquery.min.js"></script>
+    <script src="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/static/js/fomantic-ui/semantic.min.js"></script>
+    <script>
+      $('.ui.popup').each((i, el) => {
+        $(el).prev().popup({ on: 'click', inline: true, preserve: true });
+      });
+    </script>
+  </body>
+</html>
