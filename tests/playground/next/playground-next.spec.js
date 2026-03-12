@@ -1,15 +1,15 @@
 import { test, expect } from "@playwright/test";
 
 test("playground next opens successfully", async ({ page }) => {
-  await page.goto("/playground/next/");
-  await expect(page).toHaveURL(/\/playground\/next\/?/);
+  await page.goto("/");
+  await expect(page).toHaveURL("/");
   await expect(
     page.getByRole("heading", { name: "JSON-LD Playground" }),
   ).toBeVisible();
 });
 
 test("format radio switches output between JSON and YAML", async ({ page }) => {
-  await page.goto("/playground/next/");
+  await page.goto("/");
   await page.getByRole("button", { name: "Person" }).click();
   await expect(page.locator("#read-only-editor .cm-content")).toBeVisible();
 
@@ -49,7 +49,7 @@ test("permalink button opens popup and copy copies URL to clipboard", async ({
   context,
 }) => {
   await context.grantPermissions(["clipboard-read", "clipboard-write"]);
-  await page.goto("/playground/next/");
+  await page.goto("/");
   await page.getByRole("button", { name: "Person" }).click();
   await expect(page.locator("#read-only-editor .cm-content")).toBeVisible();
 
@@ -87,7 +87,7 @@ test("URL hash params auto-populate json-ld, frame, startTab, formatMode and pro
     startTab: "tab-framed",
     formatMode: "yaml",
   });
-  await page.goto(`/playground/next/#${hash.toString()}`);
+  await page.goto(`/#${hash.toString()}`);
   await page.waitForLoadState("networkidle");
 
   const mainEditor = page.locator("#editor .cm-content");
