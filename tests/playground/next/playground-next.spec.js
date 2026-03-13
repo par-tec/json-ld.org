@@ -115,3 +115,116 @@ test("URL hash params auto-populate json-ld, frame, startTab, formatMode and pro
   expect(outputText).toBeTruthy();
   expect(outputText).toContain("Alice");
 });
+
+test("click Person loads the resource successfully", async ({ page }) => {
+  await page.goto("/");
+
+  const responsePromise = page.waitForResponse(res =>
+    res.url().includes("/examples/playground/person.json") &&
+    res.status() === 200
+  );
+
+  await page.getByRole("button", { name: "Person" }).click();
+
+  const response = await responsePromise;
+
+  const json = await response.json();
+  expect(json).toHaveProperty("@context");
+});
+
+test("click Event loads the resource successfully", async ({ page }) => {
+  await page.goto("/");
+
+  const responsePromise = page.waitForResponse(res =>
+    res.url().includes("/examples/playground/event.json") &&
+    res.status() === 200
+  );
+
+  await page.getByRole("button", { name: "Event" }).click();
+
+  const response = await responsePromise;
+
+  const json = await response.json();
+  expect(json).toHaveProperty("@context");
+});
+
+test("click Place loads the resource successfully", async ({ page }) => {
+  await page.goto("/");
+
+  const responsePromise = page.waitForResponse(res =>
+    res.url().includes("/examples/playground/place.json") &&
+    res.status() === 200
+  );
+
+  await page.getByRole("button", { name: "Place" }).click();
+
+  const response = await responsePromise;
+
+  const json = await response.json();
+  expect(json).toHaveProperty("@context");
+});
+
+test("click Product loads the resource successfully", async ({ page }) => {
+  await page.goto("/");
+
+  const responsePromise = page.waitForResponse(res =>
+    res.url().includes("/examples/playground/product.json") &&
+    res.status() === 200
+  );
+
+  await page.getByRole("button", { name: "Product" }).click();
+
+  const response = await responsePromise;
+
+  const json = await response.json();
+  expect(json).toHaveProperty("@context");
+});
+
+
+test("click Recipe loads the resource successfully", async ({ page }) => {
+  await page.goto("/");
+
+  const responsePromise = page.waitForResponse(res =>
+    res.url().includes("/examples/playground/recipe.json") &&
+    res.status() === 200
+  );
+
+  await page.getByRole("button", { name: "Recipe" }).click();
+
+  const response = await responsePromise;
+
+  const json = await response.json();
+  expect(json).toHaveProperty("@context");
+});
+
+test("click Library loads the resource successfully", async ({ page }) => {
+  await page.goto("/");
+
+  const responsePromise = page.waitForResponse(res =>
+    res.url().includes("/examples/playground/library.json") &&
+    res.status() === 200
+  );
+
+  await page.getByRole("button", { name: "Library" }).click();
+
+  const response = await responsePromise;
+
+  const json = await response.json();
+  expect(json).toHaveProperty("@context");
+});
+
+test("click Activity loads the resource successfully", async ({ page }) => {
+  await page.goto("/");
+
+  const responsePromise = page.waitForResponse(res =>
+    res.url().includes("/examples/playground/activity.json") &&
+    res.status() === 200
+  );
+
+  await page.getByRole("button", { name: "Activity" }).click();
+
+  const response = await responsePromise;
+
+  const json = await response.json();
+  expect(json).toHaveProperty("@context");
+});
