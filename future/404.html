@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html
   prefix="
     xhv: http://www.w3.org/1999/xhtml/vocab#
@@ -6,117 +6,292 @@
     rdfs: http://www.w3.org/2000/01/rdf-schema#
     dc: http://purl.org/dc/terms/
     vcard: http://www.w3.org/2006/vcard/ns#
-    v: http://rdf.data-vocabulary.org/#"
-  lang="en" >
+    v: http://rdf.data-vocabulary.org/#
+  "
+  lang="en"
+>
   <head>
-    <title>Page Not Found - JSON-LD - JSON for Linked Data</title>
+    <title>
+      Page Not Found - 
+      JSON-LD - JSON for Linked Data
+    </title>
 
     <!-- Meta Tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 
     <!-- Style Sheets -->
     <link rel="stylesheet" href="/json-ld.org/future/static/css/fomantic-ui/semantic.min.css">
-    <link rel="stylesheet" type="text/css" href="/json-ld.org/future/static/css/rdf-font/rdf-font.css">
+    <link
+      href="/json-ld.org/future/static/bootstrap-italia/dist/css/bootstrap-italia.min.css"
+      rel="stylesheet"
+    >
     <style>
-      /* fomantic overrides */
-      html { scroll-padding-top: 5em; }
-      body { background-color: #f7f7f7; }
-      .ui.main.container { margin-top: 7em; }
-      .ui.top.menu .header.item { border: none !important; padding-left: 0; }
-      .ui.top.menu .header.item > span { font-size: 150%; }
-      .ui.top.menu .header.item > img { margin-right: 1rem; }
-      .ui.basic.masthead.segment { padding: 5em 0 3em; background: white; box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2), -1px -1px 0 rgba(0, 0, 0, 0.1) }
-      .ui.basic.masthead.segment + .ui.main.container { margin-top: 3em; }
-      pre.ui.segment { overflow-x: auto; }
-      .ui.fitted.tab.segment > .ui.table { border-left: 0; border-top: 0; border-right: 0; margin-top: 0; }
-      .ui.table th:empty { display: none; }
-      .ui.basic.footer.segment { border-top: 1px solid rgba(34,36,38,.15); margin-top: 4em; padding-top: 2em; }
-      /* RDF Font gets priority */
-      i.rdf-icon-rdf.icon { font-family: 'rdf-font'; }
+      .nav {
+        --bs-nav-link-disabled-color: rgba(0, 0, 0, 0.3) !important;
+      }
+      .popover {
+        min-width: 20em;
+        max-width: unset !important;
+      }
     </style>
 
-    <link rel="shortcut icon" href="/json-ld.org/future/favicon.ico" />
-
+    <link rel="shortcut icon" href="/json-ld.org/future/favicon.ico">
   </head>
 
-  <body>
-    <div class="ui top fixed menu">
-      <div class="ui wide container">
-        <!-- Brand -->
-        <a class="header item" href="/json-ld.org/future/">
-          <img src="/json-ld.org/future/images/json-ld-data-24.png" alt="JSON-LD logo">
-          <span>JSON-LD</span>
-        </a>
-
-        <!-- Main menu items -->
-        <a class="item " href="/json-ld.org/future/playground/">
-          <i class="beer icon"></i> Playground
-        </a>
-
-        <a class="item " href="/json-ld.org/future/learn/">
-          <i class="book icon"></i> Documentation
-        </a>
-
-        <a class="item" href="/json-ld.org/future/#developers">
-          <i class="flask icon"></i> Developers
-        </a>
-
-        <!-- Dropdown menu -->
-        <div class="ui simple dropdown item">
-          <i class="folder open icon"></i>
-          Specifications
-          <i class="dropdown icon"></i>
-          <div class="menu">
-            <div class="header"><strong>W3C Recommendations</strong></div>
-            <a class="item" href="https://www.w3.org/TR/json-ld/">Syntax</a>
-            <a class="item" href="https://www.w3.org/TR/json-ld-api/">Processing Algorithms and API</a>
-            <a class="item" href="https://www.w3.org/TR/json-ld-framing/">Framing</a>
-
-            <div class="divider"></div>
-
-            <div class="header"><strong>Latest Drafts</strong></div>
-            <a class="item" href="https://w3c.github.io/json-ld-syntax/">Syntax</a>
-            <a class="item" href="https://w3c.github.io/json-ld-api/">Processing Algorithms and API</a>
-            <a class="item" href="https://w3c.github.io/json-ld-framing/">Framing</a>
-            <a class="item" href="https://w3c.github.io/json-ld-bp/">Best Practices</a>
-            <a class="item" href="https://w3c.github.io/json-ld-streaming/">Streaming</a>
-            <a class="item" href="https://json-ld.github.io/json-ld-star/">JSON-LD-star</a>
-            <a class="item" href="https://w3c.github.io/json-ld-cbor/">CBOR</a>
-            <a class="item" href="https://github.com/w3c/json-ld-rc/">Recommended Context</a>
-            <a class="item" href="https://json-ld.github.io/yaml-ld/">YAML-LD</a>
-            <a class="item" href="/json-ld.org/future/spec/">1.0 drafts (historic)</a>
+  <body class="d-flex flex-column min-vh-100">
+    <div class="it-nav-wrapper">
+      <div class="it-header-center-wrapper">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <div class="it-header-center-content-wrapper">
+                <div class="it-brand-wrapper">
+                  <a href="/json-ld.org/future/" class="" data-focus-mouse="false">
+                    <img src="/json-ld.org/future/images/json-ld-data-24.png" width="64" height="64" alt="JSON-LD logo">
+                    <div class="it-brand-text ms-3">
+                      <div class="it-brand-title">JSON-LD</div>
+                      <div class="it-brand-tagline d-none d-md-block">The JSON for Linked Data</div>
+                    </div>
+                  </a>
+                </div>
+                <div class="it-right-zone">
+                  <div class="it-socials d-none d-md-flex">
+                    <span>Seguici su</span>
+                    <ul>
+                      <li>
+                        <a href="https://github.com/par-tec/json-ld.org" aria-label="Github" target="_blank">
+                          <svg class="icon">
+                            <use href="/json-ld.org/future/static/bootstrap-italia/dist/svg/sprites.svg#it-github"></use>
+                          </svg>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
-        <a class="item " href="/json-ld.org/future/images/">
-          <i class="image icon"></i> Branding
-        </a>
       </div>
+      <!-- <div class="it-header-navbar-wrapper">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <nav class="navbar navbar-expand-lg" aria-label="Navigazione principale">
+                <button
+                  class="custom-navbar-toggler"
+                  type="button"
+                  aria-controls="nav0"
+                  aria-expanded="false"
+                  aria-label="Mostra/Nascondi la navigazione"
+                  data-bs-toggle="navbarcollapsible"
+                  data-bs-target="#nav0"
+                >
+                  <svg class="icon bg-override">
+                    <use href="/json-ld.org/future/static/bootstrap-italia/dist/svg/sprites.svg#it-burger"></use>
+                  </svg>
+                </button>
+                <div class="navbar-collapsable" id="nav0" style="display: none;">
+                  <div class="overlay" style="display: none;"></div>
+                  <div class="close-div">
+                    <button class="btn close-menu" type="button">
+                      <span class="visually-hidden">Nascondi la navigazione</span>
+                      <svg class="icon">
+                        <use href="/json-ld.org/future/static/bootstrap-italia/dist/svg/sprites.svg#it-close-big"></use>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="menu-wrapper">
+                    <ul class="navbar-nav">
+                      <li class="nav-item">
+                        <a
+                          class="nav-link "
+                          href="/json-ld.org/future/playground/next"
+                          
+                        >
+                          <span>Playground</span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a
+                          class="nav-link "
+                          href="/json-ld.org/future/learn/"
+                          
+                        >
+                          <span>Documentation</span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/json-ld.org/future/#developers">
+                          <span>Developers</span>
+                        </a>
+                      </li>
+                      <li class="nav-item dropdown">
+                        <a
+                          class="nav-link dropdown-toggle"
+                          href="#"
+                          role="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                          id="mainNavDropdownSpecs"
+                        >
+                          <span>Specifications</span>
+                          <svg class="icon icon-xs">
+                            <use href="/json-ld.org/future/static/bootstrap-italia/dist/svg/sprites.svg#it-expand"></use>
+                          </svg>
+                        </a>
+                        <div class="dropdown-menu" role="region" aria-labelledby="mainNavDropdownSpecs">
+                          <div class="link-list-wrapper">
+                            <ul class="link-list">
+                              <li><h3>W3C Recommendations</h3></li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://www.w3.org/TR/json-ld/"
+                                  ><span>Syntax</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://www.w3.org/TR/json-ld-api/"
+                                  ><span>Processing Algorithms and API</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://www.w3.org/TR/json-ld-framing/"
+                                  ><span>Framing</span></a
+                                >
+                              </li>
+                              <li><span class="divider"></span></li>
+                              <li><h3>Latest Drafts</h3></li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://w3c.github.io/json-ld-syntax/"
+                                  ><span>Syntax</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://w3c.github.io/json-ld-api/"
+                                  ><span>Processing Algorithms and API</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://w3c.github.io/json-ld-framing/"
+                                  ><span>Framing</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://w3c.github.io/json-ld-bp/"
+                                  ><span>Best Practices</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://w3c.github.io/json-ld-streaming/"
+                                  ><span>Streaming</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://json-ld.github.io/json-ld-star/"
+                                  ><span>JSON-LD-star</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://w3c.github.io/json-ld-cbor/"
+                                  ><span>CBOR</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://github.com/w3c/json-ld-rc/"
+                                  ><span>Recommended Context</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://json-ld.github.io/yaml-ld/"
+                                  ><span>YAML-LD</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="/json-ld.org/future/spec/"
+                                  ><span>1.0 drafts (historic)</span></a
+                                >
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="nav-item">
+                        <a
+                          class="nav-link "
+                          href="/json-ld.org/future/images/"
+                          
+                        >
+                          <span>Branding</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div> -->
     </div>
 
-    
+    <main class="flex-grow-1">
+      
 
-    <div class="ui main wide container">
-    <h1 id="page-not-found." tabindex="-1">Page not found.</h1>
+      <div class="container">
+        <div class="py-4">
+          <h1 id="page-not-found." tabindex="-1">Page not found.</h1>
 
-    </div>
-
-    <div class="ui basic footer segment" id="footer">
-      <div class="ui container" id="copyright">
-        <p>Website content released under a
-          <a href="https://creativecommons.org/about/cc0">Creative Commons CC0 Public Domain Dedication</a>
-          except where an alternate is specified.</p>
+        </div>
       </div>
-    </div>
+    </main>
+
+    <footer class="it-footer">
+      <div class="it-footer-main">
+        <div class="container">
+          <section>
+            <div class="row clearfix">
+              <div class="col-sm-12">
+                <div class="it-brand-wrapper">
+                  <a href="/json-ld.org/future/">
+                    <img src="/json-ld.org/future/images/json-ld-data-24.png" width="64" height="64" alt="JSON-LD logo">
+                    <div class="it-brand-text ms-3">
+                      <h2 class="no_toc">JSON-LD</h2>
+                      <h3 class="no_toc d-none d-md-block">The JSON for Linked Data</h3>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="py-4 border-white border-top">
+            <div class="row">
+              <div class="col-12">
+                <p class="mb-0">
+                  Website content released under a
+                  <a href="https://creativecommons.org/about/cc0">Creative Commons CC0 Public Domain Dedication</a>
+                  except where an alternate is specified.
+                </p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+      <!-- <div class="it-footer-small-prints clearfix">
+        <div class="container">
+          <h3 class="visually-hidden">Sezione Link Utili</h3>
+          <ul class="it-footer-small-prints-list list-inline mb-0 d-flex flex-column flex-md-row">
+            <li class="list-inline-item"><a href="#" title="Note Legali">Media policy</a></li>
+            <li class="list-inline-item"><a href="#" title="Note Legali">Note legali</a></li>
+            <li class="list-inline-item"><a href="#" title="Privacy-Cookies">Privacy policy</a></li>
+            <li class="list-inline-item"><a href="#" title="Mappa del sito">Mappa del sito</a></li>
+          </ul>
+        </div>
+      </div> -->
+    </footer>
 
     <!-- Script tags -->
     <script src="/json-ld.org/future/static/js/jquery/jquery.min.js"></script>
-    <script src="/json-ld.org/future/static/js/fomantic-ui/semantic.min.js"></script>
-    <script>
-      $('.ui.popup').each((i, el) => {
-        $(el).prev().popup({ on: 'click', inline: true, preserve: true });
-      });
-    </script>
+    <script src="/json-ld.org/future/static/bootstrap-italia/dist/js/bootstrap-italia.bundle.min.js"></script>
   </body>
 </html>
