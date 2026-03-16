@@ -39,7 +39,7 @@
     <link rel="shortcut icon" href="{{ site.baseUrl }}/favicon.ico">
   </head>
 
-  <body>
+  <body class="d-flex flex-column min-vh-100">
     <div class="it-nav-wrapper">
       <div class="it-header-center-wrapper">
         <div class="container">
@@ -60,7 +60,7 @@
                     <span>Seguici su</span>
                     <ul>
                       <li>
-                        <a href="#" aria-label="Github" target="_blank">
+                        <a href="https://github.com/par-tec/json-ld.org" aria-label="Github" target="_blank">
                           <svg class="icon">
                             <use href="{{ site.baseUrl }}/static/bootstrap-italia/dist/svg/sprites.svg#it-github"></use>
                           </svg>
@@ -74,11 +74,10 @@
           </div>
         </div>
       </div>
-      <div class="it-header-navbar-wrapper">
+      <!-- <div class="it-header-navbar-wrapper">
         <div class="container">
           <div class="row">
             <div class="col-12">
-              <!-- start nav -->
               <nav class="navbar navbar-expand-lg" aria-label="Navigazione principale">
                 <button
                   class="custom-navbar-toggler"
@@ -108,7 +107,7 @@
                       <li class="nav-item">
                         <a
                           class="nav-link {% if page.url == '/playground/' %}active{% endif %}"
-                          href="{{ site.baseUrl }}/playground/"
+                          href="{{ site.baseUrl }}/playground/next"
                           {% if page.url == '/playground/' %}
                             aria-current="page"
                           {% endif %}
@@ -239,23 +238,25 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
-    {% if masthead %}
+    <main class="flex-grow-1">
+      {% if masthead %}
+        <div class="container">
+          <div class="py-4">
+            <h1>{{ masthead.title }}</h1>
+            <p>{{ masthead.subtitle }}</p>
+          </div>
+        </div>
+      {% endif %}
+
       <div class="container">
         <div class="py-4">
-          <h1>{{ masthead.title }}</h1>
-          <p>{{ masthead.subtitle }}</p>
+          {{ content }}
         </div>
       </div>
-    {% endif %}
-
-    <div class="container">
-      <div class="py-4">
-        {{ content }}
-      </div>
-    </div>
+    </main>
 
     <footer class="it-footer">
       <div class="it-footer-main">
@@ -288,7 +289,7 @@
           </section>
         </div>
       </div>
-      <div class="it-footer-small-prints clearfix">
+      <!-- <div class="it-footer-small-prints clearfix">
         <div class="container">
           <h3 class="visually-hidden">Sezione Link Utili</h3>
           <ul class="it-footer-small-prints-list list-inline mb-0 d-flex flex-column flex-md-row">
@@ -298,7 +299,7 @@
             <li class="list-inline-item"><a href="#" title="Mappa del sito">Mappa del sito</a></li>
           </ul>
         </div>
-      </div>
+      </div> -->
     </footer>
 
     <!-- Script tags -->
