@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html
   prefix="
     xhv: http://www.w3.org/1999/xhtml/vocab#
@@ -6,589 +6,988 @@
     rdfs: http://www.w3.org/2000/01/rdf-schema#
     dc: http://purl.org/dc/terms/
     vcard: http://www.w3.org/2006/vcard/ns#
-    v: http://rdf.data-vocabulary.org/#"
-  lang="en" >
+    v: http://rdf.data-vocabulary.org/#
+  "
+  lang="en"
+>
   <head>
-    <title>JSON-LD - JSON for Linked Data</title>
+    <title>
+      Next Playground - 
+      JSON-LD - JSON for Linked Data
+    </title>
 
     <!-- Meta Tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 
     <!-- Style Sheets -->
     <link rel="stylesheet" href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/static/css/fomantic-ui/semantic.min.css">
-    <link rel="stylesheet" type="text/css" href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/static/css/rdf-font/rdf-font.css">
+    <link
+      href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/static/bootstrap-italia/dist/css/bootstrap-italia.min.css"
+      rel="stylesheet"
+    >
     <style>
-      /* fomantic overrides */
-      html { scroll-padding-top: 5em; }
-      body { background-color: #f7f7f7; }
-      .ui.main.container { margin-top: 7em; }
-      .ui.top.menu .header.item { border: none !important; padding-left: 0; }
-      .ui.top.menu .header.item > span { font-size: 150%; }
-      .ui.top.menu .header.item > img { margin-right: 1rem; }
-      .ui.basic.masthead.segment { padding: 5em 0 3em; background: white; box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2), -1px -1px 0 rgba(0, 0, 0, 0.1) }
-      .ui.basic.masthead.segment + .ui.main.container { margin-top: 3em; }
-      pre.ui.segment { overflow-x: auto; }
-      .ui.fitted.tab.segment > .ui.table { border-left: 0; border-top: 0; border-right: 0; margin-top: 0; }
-      .ui.table th:empty { display: none; }
-      .ui.basic.footer.segment { border-top: 1px solid rgba(34,36,38,.15); margin-top: 4em; padding-top: 2em; }
-      /* RDF Font gets priority */
-      i.rdf-icon-rdf.icon { font-family: 'rdf-font'; }
+      .nav {
+        --bs-nav-link-disabled-color: rgba(0, 0, 0, 0.3) !important;
+      }
+      .popover {
+        min-width: 20em;
+        max-width: unset !important;
+      }
     </style>
 
-    <link rel="shortcut icon" href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/favicon.ico" />
-
+    <link rel="shortcut icon" href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/favicon.ico">
   </head>
 
-  <body>
-    <div class="ui top fixed menu">
-      <div class="ui wide container">
-        <!-- Brand -->
-        <a class="header item" href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/">
-          <img src="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/images/json-ld-data-24.png" alt="JSON-LD logo">
-          <span>JSON-LD</span>
+  <body class="d-flex flex-column min-vh-100">
+    <div class="it-nav-wrapper">
+      <div class="it-header-center-wrapper">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <div class="it-header-center-content-wrapper">
+                <div class="it-brand-wrapper">
+                  <a href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/" class="" data-focus-mouse="false">
+                    <img src="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/images/json-ld-data-24.png" width="64" height="64" alt="JSON-LD logo">
+                    <div class="it-brand-text ms-3">
+                      <div class="it-brand-title">JSON-LD</div>
+                      <div class="it-brand-tagline d-none d-md-block">The JSON for Linked Data</div>
+                    </div>
+                  </a>
+                </div>
+                <div class="it-right-zone">
+                  <div class="it-socials d-none d-md-flex">
+                    <span>Seguici su</span>
+                    <ul>
+                      <li>
+                        <a href="https://github.com/par-tec/json-ld.org" aria-label="Github" target="_blank">
+                          <svg class="icon">
+                            <use href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/static/bootstrap-italia/dist/svg/sprites.svg#it-github"></use>
+                          </svg>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="it-header-navbar-wrapper">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <nav class="navbar navbar-expand-lg" aria-label="Navigazione principale">
+                <button
+                  class="custom-navbar-toggler"
+                  type="button"
+                  aria-controls="nav0"
+                  aria-expanded="false"
+                  aria-label="Mostra/Nascondi la navigazione"
+                  data-bs-toggle="navbarcollapsible"
+                  data-bs-target="#nav0"
+                >
+                  <svg class="icon bg-override">
+                    <use href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/static/bootstrap-italia/dist/svg/sprites.svg#it-burger"></use>
+                  </svg>
+                </button>
+                <div class="navbar-collapsable" id="nav0" style="display: none;">
+                  <div class="overlay" style="display: none;"></div>
+                  <div class="close-div">
+                    <button class="btn close-menu" type="button">
+                      <span class="visually-hidden">Nascondi la navigazione</span>
+                      <svg class="icon">
+                        <use href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/static/bootstrap-italia/dist/svg/sprites.svg#it-close-big"></use>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="menu-wrapper">
+                    <ul class="navbar-nav">
+                      <li class="nav-item">
+                        <a
+                          class="nav-link "
+                          href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/playground/next"
+                          
+                        >
+                          <span>Playground</span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a
+                          class="nav-link "
+                          href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/learn/"
+                          
+                        >
+                          <span>Documentation</span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/#developers">
+                          <span>Developers</span>
+                        </a>
+                      </li>
+                      <li class="nav-item dropdown">
+                        <a
+                          class="nav-link dropdown-toggle"
+                          href="#"
+                          role="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                          id="mainNavDropdownSpecs"
+                        >
+                          <span>Specifications</span>
+                          <svg class="icon icon-xs">
+                            <use href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/static/bootstrap-italia/dist/svg/sprites.svg#it-expand"></use>
+                          </svg>
+                        </a>
+                        <div class="dropdown-menu" role="region" aria-labelledby="mainNavDropdownSpecs">
+                          <div class="link-list-wrapper">
+                            <ul class="link-list">
+                              <li><h3>W3C Recommendations</h3></li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://www.w3.org/TR/json-ld/"
+                                  ><span>Syntax</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://www.w3.org/TR/json-ld-api/"
+                                  ><span>Processing Algorithms and API</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://www.w3.org/TR/json-ld-framing/"
+                                  ><span>Framing</span></a
+                                >
+                              </li>
+                              <li><span class="divider"></span></li>
+                              <li><h3>Latest Drafts</h3></li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://w3c.github.io/json-ld-syntax/"
+                                  ><span>Syntax</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://w3c.github.io/json-ld-api/"
+                                  ><span>Processing Algorithms and API</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://w3c.github.io/json-ld-framing/"
+                                  ><span>Framing</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://w3c.github.io/json-ld-bp/"
+                                  ><span>Best Practices</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://w3c.github.io/json-ld-streaming/"
+                                  ><span>Streaming</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://json-ld.github.io/json-ld-star/"
+                                  ><span>JSON-LD-star</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://w3c.github.io/json-ld-cbor/"
+                                  ><span>CBOR</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://github.com/w3c/json-ld-rc/"
+                                  ><span>Recommended Context</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://json-ld.github.io/yaml-ld/"
+                                  ><span>YAML-LD</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/spec/"
+                                  ><span>1.0 drafts (historic)</span></a
+                                >
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="nav-item">
+                        <a
+                          class="nav-link "
+                          href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/images/"
+                          
+                        >
+                          <span>Branding</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+
+    <main class="flex-grow-1">
+      
+
+      <div class="container">
+        <div class="py-4">
+          
+<h2 class="mb-4">JSON-LD Playground</h2>
+
+<div class="alert alert-primary" role="alert">
+  <strong>NOTES</strong>:
+  <ul>
+    <li>
+      The playground uses
+      <a href="https://github.com/digitalbazaar/jsonld.js">jsonld.js</a> which
+      <a href="https://github.com/digitalbazaar/jsonld.js#conformance"
+        >conforms</a
+      >
+      to JSON-LD 1.1
+      <a href="https://www.w3.org/TR/json-ld11/">syntax</a>
+      (<a href="https://w3c.github.io/json-ld-syntax/errata/">errata</a>),
+      <a href="https://www.w3.org/TR/json-ld11-api/">API</a>
+      (<a href="https://w3c.github.io/json-ld-api/errata/">errata</a>), and
+      <a href="https://www.w3.org/TR/json-ld11-framing/">framing</a>
+      (<a href="https://w3c.github.io/json-ld-framing/errata/">errata</a>).
+    </li>
+    <li>
+      Other related playgrounds:
+      <!-- <a href="../1.0/">Classic JSON-LD 1.0 Playground</a> | -->
+      <a href="https://vcplayground.org/">Verifiable Credentials Playground</a>
+    </li>
+  </ul>
+  <p>
+    Accesibility note: use <code>Esc</code> and then <code>Tab</code> (or
+    <code>Shift+Tab</code>) to navigate out of the editor.
+  </p>
+</div>
+
+<div v-scope v-effect="setOutputTab()" @vue:mounted="gatherHash()">
+  <!-- errors -->
+  <div class="alert alert-danger" role="alert" v-show="parseError.message">
+    <p v-text="parseError.message"></p>
+    <pre
+      class="m-0"
+      v-text="JSON.stringify(parseError?.details?.event, null, 2)"
+    ></pre>
+  </div>
+
+  <!-- Examples buttons -->
+  <div class="d-flex flex-row justify-content-between align-items-center mb-3">
+    <div class="d-flex flex-wrap align-items-center gap-2">
+      <strong class="small text-body-secondary me-1">Examples:</strong>
+
+      <button
+        id="btn-person"
+        type="button"
+        class="btn btn-outline-primary btn-xs"
+        @click="loadExample('person.jsonld')"
+      >
+        Person
+      </button>
+      <button
+        id="btn-event"
+        type="button"
+        class="btn btn-outline-primary btn-xs"
+        @click="loadExample('event.jsonld')"
+      >
+        Event
+      </button>
+      <button
+        id="btn-place"
+        type="button"
+        class="btn btn-outline-primary btn-xs"
+        @click="loadExample('place.jsonld')"
+      >
+        Place
+      </button>
+      <button
+        id="btn-product"
+        type="button"
+        class="btn btn-outline-primary btn-xs"
+        @click="loadExample('product.jsonld')"
+      >
+        Product
+      </button>
+      <button
+        id="btn-recipe"
+        type="button"
+        class="btn btn-outline-primary btn-xs"
+        @click="loadExample('recipe.jsonld')"
+      >
+        Recipe
+      </button>
+      <button
+        id="btn-library"
+        type="button"
+        class="btn btn-outline-primary btn-xs"
+        @click="loadExample('library.jsonld')"
+      >
+        Library
+      </button>
+      <button
+        id="btn-activity"
+        type="button"
+        class="btn btn-outline-primary btn-xs"
+        @click="loadExample('activity.jsonld')"
+      >
+        Activity
+      </button>
+    </div>
+
+    <div class="d-flex flex-row justify-content-end align-items-center gap-2">
+      <!-- Copy link -->
+      <div class="dropdown dropstart text-center">
+        <a
+          class="btn btn-outline-primary btn-xs dropdown-toggle"
+          href="#"
+          role="button"
+          id="dropdownMenuShare"
+          data-bs-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <svg class="icon icon-xs icon-primary">
+            <use
+              href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/static/bootstrap-italia/dist/svg/sprites.svg#it-link"
+            ></use>
+          </svg>
         </a>
+        <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuShare">
+          <div class="popover">
+            <h3 class="popover-header">
+              <svg class="icon">
+                <use
+                  href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/static/bootstrap-italia/dist/svg/sprites.svg#it-link"
+                ></use>
+              </svg>
+              Share this
+            </h3>
+            <div class="popover-body">
+              <div class="input-group">
+                <input
+                  id="permalinkURL"
+                  type="text"
+                  class="form-control"
+                  v-model="permalinkURL"
+                  @focus="$event.target.select()"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-primary"
+                    type="button"
+                    @click="copyPermalink()"
+                  >
+                    <svg
+                      role="img"
+                      class="icon icon-xs align-middle icon-white"
+                      aria-label="Copy link to clipboard"
+                    >
+                      <use
+                        href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/static/bootstrap-italia/dist/svg/sprites.svg#it-copy"
+                      ></use>
+                    </svg>
+                  </button>
+                </div>
+                <small
+                  id="permalinkURLHelp"
+                  class="form-text text-danger"
+                  v-show="permalinkURL.length > 2048"
+                >
+                  This link is longer than 2kb, and may not work.
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-        <!-- Main menu items -->
-        <a class="item " href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/playground/">
-          <i class="beer icon"></i> Playground
+      <!-- Keyboard shortcuts -->
+      <div class="dropdown dropstart text-center">
+        <a
+          class="btn btn-outline-primary btn-xs dropdown-toggle"
+          href="#"
+          role="button"
+          id="dropdownMenuKeyboardShortcuts"
+          data-bs-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <svg class="icon icon-xs icon-primary">
+            <use
+              href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/static/bootstrap-italia/dist/svg/sprites.svg#it-help-circle"
+            ></use>
+          </svg>
         </a>
+        <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuShare">
+          <div class="popover">
+            <h3 class="popover-header">
+              <svg class="icon">
+                <use
+                  href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/static/bootstrap-italia/dist/svg/sprites.svg#it-help-circle"
+                ></use>
+              </svg>
+              Keyboard Shortcuts
+            </h3>
+            <div class="popover-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Key</th>
+                    <th>Autocomplete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <kbd>@</kbd>
+                    </td>
+                    <td>all of the <b>@</b> keywords</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <kbd>Ctrl+Space</kbd>
+                    </td>
+                    <td>available keys in <b>@context</b></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        <a class="item " href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/learn/">
-          <i class="book icon"></i> Documentation
-        </a>
+  <!-- Navbar mode selector -->
+  <ul class="nav nav-pills mb-3">
+    <li class="nav-item" v-for="(tab, key) in tabs">
+      <a
+        href="#"
+        class="nav-link"
+        :class="{ active: outputTab == key, disabled: doc === '' }"
+        aria-current="page"
+        @click="setOutputTab(key)"
+      >
+        <i class="icon" :class="tab.icon"></i>
+        <span v-text="tab.label"></span>
+      </a>
+    </li>
+  </ul>
 
-        <a class="item" href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/#developers">
-          <i class="flask icon"></i> Developers
-        </a>
+  <!-- Messages -->
+  <div v-if="message.text" class="callout mb-3" :class="message.type">
+    <div class="callout-inner">
+      <div class="callout-title">
+        <svg class="icon">
+          <use
+            :href="{
+        '/bootstrap-italia/dist/svg/sprites.svg#it-help-circle' : message.type == 'info',
+        '/bootstrap-italia/dist/svg/sprites.svg#it-check-circle' : message.type == 'success',
+        '/bootstrap-italia/dist/svg/sprites.svg#it-times-circle' : message.type == 'error',
+        '/bootstrap-italia/dist/svg/sprites.svg#it-exclamation-triangle' : message.type == 'warning'
+        }"
+          ></use>
+        </svg>
+        <span
+          class="text"
+          v-text="{
+          'Info' : message.type == 'info',
+          'Message' : message.type == 'success',
+          'Error' : message.type == 'error',
+          'Warning' : message.type == 'warning'
+        }"
+        ></span>
+      </div>
+      <p v-text="message.text"></p>
+    </div>
+  </div>
 
-        <!-- Dropdown menu -->
-        <div class="ui simple dropdown item">
-          <i class="folder open icon"></i>
-          Specifications
-          <i class="dropdown icon"></i>
-          <div class="menu">
-            <div class="header"><strong>W3C Recommendations</strong></div>
-            <a class="item" href="https://www.w3.org/TR/json-ld/">Syntax</a>
-            <a class="item" href="https://www.w3.org/TR/json-ld-api/">Processing Algorithms and API</a>
-            <a class="item" href="https://www.w3.org/TR/json-ld-framing/">Framing</a>
+  <!-- main editor area -->
+  <div class="container px-0">
+    <div class="row">
+      <!-- Input fields -->
+      <div
+        :class="{ 
+          'col-12': editorColumns == '',
+          'col-6': editorColumns != ''
+        }"
+      >
+        <!-- Input 1 -->
+        <div class="pb-3">
+          <div class="ui top attached tabular menu">
+            <div
+              :class="{ active: inputTab == 'json-ld' }"
+              class="item"
+              @click="inputTab = 'json-ld'"
+              v-text="inputLabel"
+            >
+              <i class="pencil alternate icon"></i>
+            </div>
+            <div
+              :class="{ active: inputTab == 'options' }"
+              class="item"
+              @click="inputTab = 'options'"
+            >
+              <i class="wrench icon"></i> Options
+            </div>
+            <div class="right menu">
+              <div class="item pe-0">
+                <div class="ui icon input">
+                  <input
+                    type="text"
+                    placeholder="Document URL"
+                    v-model="remoteDocURL"
+                    @keyup.enter="retrieveDoc(mainEditor, 'doc', remoteDocURL)"
+                  />
+                  <i
+                    class="file link icon"
+                    :class="{ disabled: remoteDocURL == '' }"
+                    @click="retrieveDoc(mainEditor, 'doc', remoteDocURL)"
+                  ></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ui bottom attached fitted resizable scrolling segment mb-0"
+            v-show="inputTab == 'json-ld'"
+          >
+            <div id="editor" @vue:mounted="initMainEditor()">
+              <!-- replaced by CodeMirror -->
+            </div>
+          </div>
+          <div
+            class="ui bottom attached segment mb-0"
+            v-show="inputTab == 'options'"
+          >
+            <form class="ui form">
+              <div class="inline fields" id="options-api-processingMode">
+                <label for="options-api-processingMode" class="two wide field"
+                  >Processing Mode</label
+                >
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <input
+                      type="radio"
+                      id="options-api-processingMode-1-0"
+                      name="processingMode"
+                      value="json-ld-1.0"
+                      v-model="options.processingMode"
+                      @change="setOutputTab()"
+                    />
+                    <label for="options-api-processingMode-1-0"
+                      >JSON-LD 1.0</label
+                    >
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <input
+                      type="radio"
+                      id="options-api-processingMode-1-1"
+                      name="processingMode"
+                      value="json-ld-1.1"
+                      v-model="options.processingMode"
+                      @change="setOutputTab()"
+                    />
+                    <label for="options-api-processingMode-1-1"
+                      >JSON-LD 1.1</label
+                    >
+                  </div>
+                </div>
+              </div>
 
-            <div class="divider"></div>
+              <div class="inline fields" id="options-formatMode">
+                <label for="options-formatMode" class="two wide field"
+                  >Format</label
+                >
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <input
+                      type="radio"
+                      id="options-formatMode-json"
+                      name="formatMode"
+                      value="json"
+                      v-model="options.formatMode"
+                      @change="setOutputTab()"
+                    />
+                    <label for="options-formatMode-json">JSON</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <input
+                      type="radio"
+                      id="options-formatMode-yaml"
+                      name="formatMode"
+                      value="yaml"
+                      v-model="options.formatMode"
+                      @change="setOutputTab()"
+                    />
+                    <label for="options-formatMode-yaml">YAML</label>
+                  </div>
+                </div>
+              </div>
 
-            <div class="header"><strong>Latest Drafts</strong></div>
-            <a class="item" href="https://w3c.github.io/json-ld-syntax/">Syntax</a>
-            <a class="item" href="https://w3c.github.io/json-ld-api/">Processing Algorithms and API</a>
-            <a class="item" href="https://w3c.github.io/json-ld-framing/">Framing</a>
-            <a class="item" href="https://w3c.github.io/json-ld-bp/">Best Practices</a>
-            <a class="item" href="https://w3c.github.io/json-ld-streaming/">Streaming</a>
-            <a class="item" href="https://json-ld.github.io/json-ld-star/">JSON-LD-star</a>
-            <a class="item" href="https://w3c.github.io/json-ld-cbor/">CBOR</a>
-            <a class="item" href="https://github.com/w3c/json-ld-rc/">Recommended Context</a>
-            <a class="item" href="https://json-ld.github.io/yaml-ld/">YAML-LD</a>
-            <a class="item" href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/spec/">1.0 drafts (historic)</a>
+              <div class="inline fields" id="options-api-base">
+                <label for="options-api-base" class="two wide field"
+                  >Base</label
+                >
+                <div class="sixteen wide field">
+                  <input
+                    type="text"
+                    id="options-api-base-url"
+                    placeholder="URL"
+                    v-model="options.base"
+                    @change="setOutputTab()"
+                  />
+                </div>
+              </div>
+
+              <div class="inline fields">
+                <label class="two wide field"></label>
+                <div class="field">
+                  <div class="ui checkbox">
+                    <input
+                      type="checkbox"
+                      id="options-api-compactArrays"
+                      v-model="options.compactArrays"
+                      @change="setOutputTab()"
+                    />
+                    <label for="options-api-compactArrays"
+                      >Compact Arrays</label
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="inline fields">
+                <label class="two wide field"></label>
+                <div class="field">
+                  <div class="ui checkbox">
+                    <input
+                      type="checkbox"
+                      id="options-api-compactToRelative"
+                      v-model="options.compactToRelative"
+                      @change="setOutputTab()"
+                    />
+                    <label for="options-api-compactToRelative"
+                      >Compact To Relative</label
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="inline fields" id="options-api-rdfDirection">
+                  <label for="options-api-rdfDirection" class="two wide field"
+                    >RDF Direction Mode</label
+                  >
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                      <input
+                        type="radio"
+                        id="options-api-rdfDirection-default"
+                        name="rdfDirection"
+                        value=""
+                        checked
+                        v-model="options.rdfDirection"
+                        @change="setOutputTab()"
+                      />
+                      <label for="options-api-rdfDirection-default"
+                        >Default (null)</label
+                      >
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                      <input
+                        type="radio"
+                        id="options-api-rdfDirection-i18n-datatype"
+                        name="rdfDirection"
+                        value="i18n-datatype"
+                        v-model="options.rdfDirection"
+                        @change="setOutputTab()"
+                      />
+                      <label for="options-api-rdfDirection-i18n-datatype"
+                        >"i18n-datatype"</label
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="inline fields" id="options-api-safe">
+                  <label for="options-api-safe" class="two wide field"
+                    >Safe</label
+                  >
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                      <input
+                        type="radio"
+                        id="options-api-safe-false"
+                        name="safe"
+                        :value="false"
+                        v-model="options.safe"
+                        @change="setOutputTab()"
+                      />
+                      <label for="options-api-safe-false">False</label>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                      <input
+                        type="radio"
+                        id="options-api-safe-true"
+                        name="safe"
+                        :value="true"
+                        v-model="options.safe"
+                        @change="setOutputTab()"
+                      />
+                      <label for="options-api-safe-true">True</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
 
-        <a class="item " href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/images/">
-          <i class="image icon"></i> Branding
-        </a>
-      </div>
-    </div>
-
-    
-    <div class="ui basic center aligned massive masthead segment">
-      <h1 class="ui massive header">JSON for Linking Data</h1>
-      <p>Data is messy and disconnected. JSON-LD organizes and connects it, creating a better Web.</p>
-    </div>
-    
-
-    <div class="ui main wide container">
-    
-
-<div class="ui stackable grid">
-  <div class="justified four wide column">
-    <h2><i class="exchange alternate icon"></i> Linked Data</h2>
-    <p>
-      <a href="https://en.wikipedia.org/wiki/Linked_data">Linked Data</a>
-      empowers people that publish and use information on the Web. It is a
-      way to create a network of standards-based, machine-readable data across
-      Web sites. It allows an application to start at one piece of Linked Data,
-      and follow embedded links to other pieces of Linked Data that are hosted
-      on different sites across the Web.
-    </p>
-  </div>
-  <div class="eight wide column">
-    <div class="ui segment">
-      <a class="ui top right attached primary label"
-        href="/playground/#startTab=tab-expanded&json-ld=%7B%22%40context%22%3A%22https%3A%2F%2Fjson-ld.org%2Fcontexts%2Fperson.jsonld%22%2C%22%40id%22%3A%22http%3A%2F%2Fdbpedia.org%2Fresource%2FJohn_Lennon%22%2C%22name%22%3A%22John%20Lennon%22%2C%22born%22%3A%221940-10-09%22%2C%22spouse%22%3A%5B%22http%3A%2F%2Fdbpedia.org%2Fresource%2FYoko_Ono%22%2C%22http%3A%2F%2Fdbpedia.org%2Fresource%2FCynthia_Lennon%22%5D%7D"
-        >Open in Playground</a>
-      <pre style="margin: 0 !important;">{
-  "<span style="color: rgb(255, 122, 0);">@context</span>": "<a href="https://json-ld.org/contexts/person.jsonld">https://json-ld.org/contexts/person.jsonld</a>",
-  "<span style="color: rgb(255, 122, 0);">@id</span>": "<a href="http://dbpedia.org/resource/John_Lennon">http://dbpedia.org/resource/John_Lennon</a>",
-  "<span style="color: rgb(255, 122, 0);">name</span>": "<span style="color: rgb(0, 148, 0);">John Lennon</span>",
-  "<span style="color: rgb(255, 122, 0);">born</span>": "<span style="color: rgb(0, 0, 175);">1940-10-09</span>",
-  "<span style="color: rgb(255, 122, 0);">spouse</span>": [
-    "<a href="http://dbpedia.org/resource/Yoko_Ono">http://dbpedia.org/resource/Yoko_Ono</a>",
-    "<a href="http://dbpedia.org/resource/Cynthia_Lennon">http://dbpedia.org/resource/Cynthia_Lennon</a>"
-  ]
-}</pre></div>
-  </div>
-  <div class="justified four wide column">
-    <h2><img class="ui micro inline image" src="images/json-ld-data-32.png" alt="JSON-LD logo"> JSON-LD</h2>
-    <p>JSON-LD is a lightweight Linked Data format. It
-      is easy for humans to read and write. It is based on the already
-      successful JSON format and provides a way to help JSON data interoperate
-      at Web-scale. JSON-LD is an ideal data format for programming
-      environments, REST Web services, and unstructured databases such as
-      Apache CouchDB and MongoDB.
-    </p>
-  </div>
-</div>
-
-<div class="ui large center aligned segment" style="margin: 3em auto">
-  <div class="ui center aligned massive basic segment grid">
-    <div class="ui header">
-      <i class="beer icon"></i>
-      <span class="content">Playground</span>
-    </div>
-  </div>
-  <p class="ui basic huge left aligned padded segment">
-    The <strong>JSON-LD Playground</strong> is a web-based JSON-LD viewer and debugger.
-    If you are interested in learning JSON-LD, this tool will be of great help
-    to you. Developers may also use the tool to debug, visualize, and share
-    their JSON-LD markup.
-  </p>
-  <a href="./playground/" class="ui primary big button">Launch the JSON-LD Playground</a>
-</div>
-
-<div class="ui center aligned massive basic segment grid" id="developers">
-  <div class="ui header">
-    <i class="cog icon"></i>
-    <span class="content">Developers</span>
-  </div>
-</div>
-
-<p class="ui basic large center aligned segment">JSON-LD is available in
-  a number of popular programming environments. Each implementation of JSON-LD
-  listed below is fully conforming to the official JSON-LD specifications.
-</p>
-
-<div class="ui four stackable cards">
-  <div class="card">
-  <div class="content">
-  <div class="header"><h3>JavaScript</h3></div>
-    <div class="description">
-      <div class="ui selection list">
-        <div class="item" typeof="schema:SoftwareSourceCode">
-  <a property="schema:codeRepository" href="https://github.com/digitalbazaar/jsonld.js">
-    <span property="schema:name">json-ld.js</span>
-    <span class="ui label green">1.1</span>
-  </a>
-</div>
-<div class="item" typeof="schema:SoftwareSourceCode">
-  <a property="schema:codeRepository" href="https://github.com/rubensworks/jsonld-streaming-parser.js">
-    <span property="schema:name">jsonld-streaming-parser.js</span>
-    <span class="ui label green">1.1</span>
-  </a>
-</div>
-<div class="item" typeof="schema:SoftwareSourceCode">
-  <a property="schema:codeRepository" href="https://github.com/rubensworks/jsonld-streaming-serializer.js">
-    <span property="schema:name">jsonld-streaming-serializer.js</span>
-    <span class="ui label green">1.1</span>
-  </a>
-</div>
-<div class="item" typeof="schema:SoftwareSourceCode">
-  <a property="schema:codeRepository" href="https://github.com/rubensworks/rdf-parse.js">
-    <span property="schema:name">rdf-parse.js</span>
-    <span class="ui label green">1.1</span>
-  </a>
-</div>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-  <div class="card">
-  <div class="content">
-  <div class="header"><h3>Python</h3></div>
-    <div class="description">
-      <div class="ui selection list">
-        <div class="item" typeof="schema:SoftwareSourceCode">
-  <a property="schema:codeRepository" href="https://github.com/digitalbazaar/pyld">
-    <span property="schema:name">PyLD</span>
-    <span class="ui label green">1.1</span>
-  </a>
-</div>
-<div class="item" typeof="schema:SoftwareSourceCode">
-  <a property="schema:codeRepository" href="https://github.com/RDFLib/rdflib">
-    <span property="schema:name">RDFLib</span>
-    <span class="ui label green">1.1</span>
-  </a>
-</div>
-<div class="item" typeof="schema:SoftwareSourceCode">
-  <a property="schema:codeRepository" href="https://github.com/niklasl/trld">
-    <span property="schema:name">TRLD</span>
-    <span class="ui label green">1.1</span>
-  </a>
-</div>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-  <div class="card">
-  <div class="content">
-  <div class="header"><h3>Ruby</h3></div>
-    <div class="description">
-      <div class="ui selection list">
-        <div class="item" typeof="schema:SoftwareSourceCode">
-  <a property="schema:codeRepository" href="https://github.com/ruby-rdf/json-ld/">
-    <span property="schema:name">JSON-LD for RDF.rb</span>
-    <span class="ui label green">1.1</span>
-  </a>
-</div>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-  <div class="card">
-  <div class="content">
-  <div class="header"><h3>Go</h3></div>
-    <div class="description">
-      <div class="ui selection list">
-        <div class="item" typeof="schema:SoftwareSourceCode">
-  <a property="schema:codeRepository" href="https://github.com/piprate/json-gold">
-    <span property="schema:name">JSON-goLD</span>
-    <span class="ui label green">1.1</span>
-  </a>
-</div>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-  <div class="card">
-  <div class="content">
-  <div class="header"><h3>Java</h3></div>
-    <div class="description">
-      <div class="ui selection list">
-        <div class="item" typeof="schema:SoftwareSourceCode">
-  <a property="schema:codeRepository" href="https://github.com/filip26/titanium-json-ld">
-    <span property="schema:name">Titanium</span>
-    <span class="ui label green">1.1</span>
-  </a>
-</div>
-<div class="item" typeof="schema:SoftwareSourceCode">
-  <a property="schema:codeRepository" href="https://github.com/jsonld-java/jsonld-java">
-    <span property="schema:name">JSONLD-JAVA</span>
-    <span class="ui label blue">1.0</span>
-  </a>
-</div>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-  <div class="card">
-  <div class="content">
-  <div class="header"><h3>C#</h3></div>
-    <div class="description">
-      <div class="ui selection list">
-        <div class="item" typeof="schema:SoftwareSourceCode">
-  <a property="schema:codeRepository" href="https://github.com/dotnetrdf/dotnetrdf">
-    <span property="schema:name">dotNetRDF</span>
-    <span class="ui label green">1.1</span>
-  </a>
-</div>
-<div class="item" typeof="schema:SoftwareSourceCode">
-  <a property="schema:codeRepository" href="https://github.com/linked-data-dotnet/json-ld.net">
-    <span property="schema:name">json-ld.net</span>
-    <span class="ui label blue">1.0</span>
-  </a>
-</div>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-  <div class="card">
-  <div class="content">
-  <div class="header"><h3>CLI</h3></div>
-    <div class="description">
-      <div class="ui selection list">
-        <div class="item" typeof="schema:SoftwareSourceCode">
-  <a property="schema:codeRepository" href="https://github.com/digitalbazaar/jsonld-cli">
-    <span property="schema:name">jsonld-cli</span>
-    <span class="ui label green">1.1</span>
-  </a>
-</div>
-<div class="item" typeof="schema:SoftwareSourceCode">
-  <a property="schema:codeRepository" href="https://github.com/filip26/ld-cli">
-    <span property="schema:name">ld-cli (Ubuntu, MacOS, Windows)</span>
-    <span class="ui label green">1.1</span>
-  </a>
-</div>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-  <div class="card">
-  <div class="content">
-  <div class="header"><h3>Erlang / Elixir</h3></div>
-    <div class="description">
-      <div class="ui selection list">
-        <div class="item" typeof="schema:SoftwareSourceCode">
-  <a property="schema:codeRepository" href="https://github.com/rdf-elixir/jsonld-ex">
-    <span property="schema:name">JSON-LD.ex</span>
-    <span class="ui label green">1.1</span>
-  </a>
-</div>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-  <div class="card">
-  <div class="content">
-  <div class="header"><h3>PHP</h3></div>
-    <div class="description">
-      <div class="ui selection list">
-        <div class="item" typeof="schema:SoftwareSourceCode">
-  <a property="schema:codeRepository" href="https://github.com/digitalbazaar/php-json-ld">
-    <span property="schema:name">php-json-ld</span>
-    <span class="ui label blue">1.0</span>
-  </a>
-</div>
-<div class="item" typeof="schema:SoftwareSourceCode">
-  <a property="schema:codeRepository" href="http://m.lanthi.com/json-ld">
-    <span property="schema:name">JsonLD</span>
-    <span class="ui label blue">1.0</span>
-  </a>
-</div>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-  <div class="card">
-  <div class="content">
-  <div class="header"><h3>Rust</h3></div>
-    <div class="description">
-      <div class="ui selection list">
-        <div class="item" typeof="schema:SoftwareSourceCode">
-  <a property="schema:codeRepository" href="https://github.com/timothee-haudebourg/json-ld">
-    <span property="schema:name">json-ld</span>
-    <span class="ui label">1.1 (<abbr title="Work In Progress">WIP</abbr>)</span>
-  </a>
-</div>
-<div class="item" typeof="schema:SoftwareSourceCode">
-  <a property="schema:codeRepository" href="https://crates.io/crates/sophia">
-    <span property="schema:name">sophia</span>
-    <span class="ui label green">1.1</span>
-  </a>
-</div>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-  <div class="card">
-  <div class="content">
-  <div class="header"><h3>TypeScript</h3></div>
-    <div class="description">
-      <div class="ui selection list">
-        <div class="item" typeof="schema:SoftwareSourceCode">
-  <a property="schema:codeRepository" href="https://github.com/mattrglobal/jsonld-lint">
-    <span property="schema:name">jsonld-lint</span>
-    <span class="ui label">1.1 (<abbr title="Work In Progress">WIP</abbr>)</span>
-  </a>
-</div>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-</div>
-
-<div class="ui basic center aligned segment" id="tests-description">
-  <p>
-    The <a href="https://w3c.github.io/json-ld-api/tests/">JSON-LD Test
-    Suite</a> (and <a
-    href="https://w3c.github.io/json-ld-framing/tests/">Framing Test Suite</a>)
-    is useful for validating JSON-LD Processors.
-  </p>
-  <p>
-    Conformance of various processors is documented in the official <a
-    href="https://w3c.github.io/json-ld-api/reports/">implementation report</a>.
-  </p>
-</div>
-
-<div class="ui center aligned massive basic segment grid" id="collaborating">
-  <div class="ui header">
-    <i class="group icon"></i>
-    <span class="content">Getting Help / Collaborating</span>
-  </div>
-</div>
-
-<div class="ui large basic padded segment">
-  <div class="ui two column grid">
-    <div class="column">
-      <h4 class="ui small header">JSON-LD Community Group</h4>
-      <div class="ui compact text menu" style="margin-bottom: .5em">
-        <div class="item">
-          <i class="mail icon"></i>
-          <a href="https://lists.w3.org/Archives/Public/public-json-ld/">Mailing List</a>
-        </div>
-        <div class="item">
-          <i class="calendar icon"></i>
-          <a href="https://www.w3.org/groups/cg/json-ld/calendar/">Call Schedule</a>
-        </div>
-        <div class="item">
-          <i class="github icon"></i>
-          <a href="https://github.com/json-ld/">GitHub Organization</a>
+        <!-- Input 2 -->
+        <div class="pb-3" v-show="editorColumns != ''">
+          <div class="ui top attached tabular menu">
+            <div
+              class="icon item"
+              v-show="outputTab == 'compacted' || outputTab == 'flattened'"
+            >
+              <i
+                class="arrow alternate circle down outline icon cursor-pointer"
+                title='Copy `@context` from "JSON-LD Input"'
+                @click="copyContext()"
+              ></i>
+            </div>
+            <div class="active item">
+              <i class="pencil alternate icon"></i>
+              <span
+                v-show="outputTab == 'compacted' || outputTab == 'flattened'"
+                v-text="contextInputLabel"
+              ></span>
+              <span
+                v-show="outputTab == 'framed'"
+                v-text="frameInputLabel"
+              ></span>
+            </div>
+            <div class="right menu">
+              <div class="item pe-0">
+                <div class="ui icon input">
+                  <input
+                    type="text"
+                    :placeholder="sideEditorURLFieldPlaceholderText"
+                    v-model="remoteSideDocURL"
+                    @keyup.enter="retrieveDoc(sideEditor, sideDoc, remoteSideDocURL)"
+                  />
+                  <i
+                    class="file link icon"
+                    @click="retrieveDoc(sideEditor, sideDoc, remoteSideDocURL)"
+                  ></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ui bottom attached fitted resizable scrolling segment mb-0"
+          >
+            <div
+              id="context-editor"
+              v-show="outputTab == 'compacted' || outputTab == 'flattened'"
+              @vue:mounted="initContextEditor()"
+            >
+              <!-- replaced by CodeMirror -->
+            </div>
+            <div
+              id="frame-editor"
+              v-show="outputTab == 'framed'"
+              @vue:mounted="initFrameEditor()"
+            >
+              <!-- replaced by CodeMirror -->
+            </div>
+          </div>
         </div>
       </div>
-      <p>
-The <a
-href="https://www.w3.org/groups/cg/json-ld/">JSON-LD Community Group</a> is an
-excellent place to collaborate on JSON-LD technologies. Anyone may join the
-group and participate on the mailing list, join discussion calls, and collaborate
-on Community Group projects.
-      </p>
-    </div>
-    <div class="column">
-      <h4 class="ui small header">JSON-LD Working Group</h4>
-      <div class="ui compact text menu" style="margin-bottom: .5em">
-        <div class="item">
-          <i class="mail icon"></i>
-          <a href="https://lists.w3.org/Archives/Public/public-json-ld-wg/">Mailing List</a>
+
+      <!-- Output fields -->
+      <div
+        :class="{
+          'col-12': editorColumns == '',
+          'col-6': editorColumns != ''
+        }"
+      >
+        <div class="pb-3 d-flex flex-column h-100">
+          <div class="ui top attached tabular menu">
+            <div class="active item">
+              <span>Output:</span>
+            </div>
+          </div>
+
+          <div
+            class="ui bottom attached fitted segment mb-0 d-flex flex-column h-100"
+          >
+            <div
+              v-show="outputTab != 'table'"
+              class="ui fitted resizable scrolling segment basic mb-0 flex-grow-1"
+            >
+              <div id="read-only-editor">
+                <!-- replaced by CodeMirror -->
+              </div>
+            </div>
+
+            <div
+              v-if="outputTab == 'table'"
+              class="ui bottom attached fitted resizable scrolling segment mb-0 flex-grow-1"
+            >
+              <table
+                class="ui compact table mt-0"
+                v-show="outputTab == 'table'"
+              >
+                <thead>
+                  <tr>
+                    <th>Subject</th>
+                    <th>Predicate</th>
+                    <th>Object</th>
+                    <th>Language</th>
+                    <th>Datatype</th>
+                    <th>Graph</th>
+                  </tr>
+                </thead>
+                <tr v-for="quad in tableQuads">
+                  <td>
+                    <a
+                      v-if="quad.subject.termType == 'NamedNode'"
+                      :href="quad.subject.value"
+                      v-text="quad.subject.value"
+                    ></a>
+                    <span v-else v-text="quad.subject.value"></span>
+                  </td>
+                  <td>
+                    <a
+                      v-if="quad.predicate.termType == 'NamedNode'"
+                      :href="quad.predicate.value"
+                      v-text="quad.predicate.value"
+                    ></a>
+                    <span v-else v-text="quad.predicate.value"></span>
+                  </td>
+                  <td>
+                    <a
+                      v-if="quad.object.termType == 'NamedNode'"
+                      :href="quad.object.value"
+                      v-text="quad.object.value"
+                    ></a>
+                    <span v-else v-text="quad.object.value"></span>
+                  </td>
+                  <td v-text="quad.object.language"></td>
+                  <td>
+                    <a
+                      v-if="quad.object.datatype"
+                      :href="quad.object.datatype.value"
+                      v-text="quad.object.datatype.value"
+                    ></a>
+                  </td>
+                  <td v-text="quad.graph.value"></td>
+                </tr>
+              </table>
+            </div>
+
+            <div v-if="outputTab == 'cborld'">
+              <table class="ui fixed definition table">
+                <tr>
+                  <td class="three wide">JSON-LD Size</td>
+                  <td><span v-text="cborLD.jsonldSize"></span> bytes</td>
+                </tr>
+                <tr>
+                  <td>CBOR-LD Size</td>
+                  <td><span v-text="cborLD.size"></span> bytes</td>
+                </tr>
+                <tr>
+                  <td>Compression</td>
+                  <td><span v-text="cborLD.percentage"></span>%</td>
+                </tr>
+                <tr class="top aligned">
+                  <td>Hex</td>
+                  <td v-text="cborLD.hex" class="text-break"></td>
+                </tr>
+              </table>
+            </div>
+          </div>
         </div>
-        <div class="item">
-          <i class="calendar icon"></i>
-          <a href="https://www.w3.org/groups/wg/json-ld/calendar/">Call Schedule</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="./editor.bundle.js"></script>
+
         </div>
-        <div class="item">
-          <i class="github icon"></i>
-          <a href="https://github.com/search?q=topic%3Ajson-ld-wg+org%3Aw3c&type=Repositories">Specification Repositories</a>
+      </div>
+    </main>
+
+    <footer class="it-footer">
+      <div class="it-footer-main">
+        <div class="container">
+          <section>
+            <div class="row clearfix">
+              <div class="col-sm-12">
+                <div class="it-brand-wrapper">
+                  <a href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/">
+                    <img src="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/images/json-ld-data-24.png" width="64" height="64" alt="JSON-LD logo">
+                    <div class="it-brand-text ms-3">
+                      <h2 class="no_toc">JSON-LD</h2>
+                      <h3 class="no_toc d-none d-md-block">The JSON for Linked Data</h3>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="py-4 border-white border-top">
+            <div class="row">
+              <div class="col-12">
+                <p class="mb-0">
+                  Website content released under a
+                  <a href="https://creativecommons.org/about/cc0">Creative Commons CC0 Public Domain Dedication</a>
+                  except where an alternate is specified.
+                </p>
+              </div>
+            </div>
+          </section>
         </div>
       </div>
-      <p>
-The W3C <a href="https://www.w3.org/groups/wg/json-ld/">JSON-LD Working
-Group</a> is responsible for the formal specification of JSON-LD. The <a
-href="https://www.w3.org/groups/wg/json-ld/charters/active/">most recent
-charter</a> runs through <time datetime="2028-01-31">January 2028</time>. To
-participate in this work, please <a
-href="https://www.w3.org/Consortium/join">join the W3C</a> and then <a
-href="https://www.w3.org/groups/wg/json-ld/instructions/">join the Working
-Group</a>. Prior to joining, the <a
-href="https://lists.w3.org/Archives/Public/public-json-ld-wg/">Working Group
-mailing list</a> is visible to the public and participation in the <a
-href="https://github.com/search?q=topic%3Ajson-ld-wg+org%3Aw3c&type=Repositories">specification
-repositories</a> is encouraged.
-      </p>
-    </div>
-  </div>
-</div>
-
-<div class="ui four stackable cards">
-  <div class="card">
-    <div class="content">
-      <div class="header"><h3>Code</h3></div>
-      <div class="description">
-        <ul>
-          <li><a href="https://github.com/json-ld/json-ld.org"><code>json-ld</code> GitHub Organization</a></li>
-          <li><a href="https://github.com/search?q=topic%3Ajson-ld-wg+org%3Aw3c&type=Repositories">Specification Repositories</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="content">
-      <div class="header"><h3>Meetings and Minutes</h3></div>
-      <div class="description">
-        <ul>
-          <li><a href="https://www.w3.org/groups/cg/json-ld/calendar/">Community Group Calls</a></li>
-          <li><a href="https://www.w3.org/groups/wg/json-ld/calendar/">Working Group Calls</a></li>
-          <li><a href="minutes/">Text and audio minutes</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="content">
-      <div class="header"><h3>Mailing Lists</h3></div>
-      <div class="description">
-        <ul>
-          <li><a href="https://lists.w3.org/Archives/Public/public-json-ld/">Community Group Mailing List</a></li>
-          <li><a href="https://lists.w3.org/Archives/Public/public-json-ld-wg/">Working Group Mailing List</a></li>
-          <li><a href="http://lists.w3.org/Archives/Public/public-linked-json/">General <abbr title="Question and Answer">Q&A</abbr> List</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="content">
-      <div class="header">Discussion</div>
-      <div class="description">
-        <ul>
-          <li><a href="https://irc.w3.org/?channels=#json-ld">#json-ld on irc.w3.org</a></li>
-          <li><a href="https://github.com/orgs/json-ld/discussions">Discussions on GitHub</a></li>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="ui divider"></div>
-
-<div class="ui center aligned massive basic segment grid" id="learn-more">
-  <div class="ui header">
-    <i class="book icon"></i>
-    <span class="content">Learn More...</span>
-  </div>
-</div>
-
-<div class="ui large basic center aligned segment">
-  <p>
-  This website contains a number of curated video, presentations, tutorials, and
-  documentation about JSON-LD. Assuming you are familiar with JSON, these
-  training materials will help you quickly put the power of JSON-LD into your
-  web development efforts.
-  </p>
-  <p>
-    <a class="ui primary button" href="./learn/">Learn more about JSON-LD</a>
-  </p>
-</div>
-
-    </div>
-
-    <div class="ui basic footer segment" id="footer">
-      <div class="ui container" id="copyright">
-        <p>Website content released under a
-          <a href="https://creativecommons.org/about/cc0">Creative Commons CC0 Public Domain Dedication</a>
-          except where an alternate is specified.</p>
-      </div>
-    </div>
+      <!-- <div class="it-footer-small-prints clearfix">
+        <div class="container">
+          <h3 class="visually-hidden">Sezione Link Utili</h3>
+          <ul class="it-footer-small-prints-list list-inline mb-0 d-flex flex-column flex-md-row">
+            <li class="list-inline-item"><a href="#" title="Note Legali">Media policy</a></li>
+            <li class="list-inline-item"><a href="#" title="Note Legali">Note legali</a></li>
+            <li class="list-inline-item"><a href="#" title="Privacy-Cookies">Privacy policy</a></li>
+            <li class="list-inline-item"><a href="#" title="Mappa del sito">Mappa del sito</a></li>
+          </ul>
+        </div>
+      </div> -->
+    </footer>
 
     <!-- Script tags -->
     <script src="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/static/js/jquery/jquery.min.js"></script>
-    <script src="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/static/js/fomantic-ui/semantic.min.js"></script>
-    <script>
-      $('.ui.popup').each((i, el) => {
-        $(el).prev().popup({ on: 'click', inline: true, preserve: true });
-      });
-    </script>
+    <script src="/json-ld.org/dependabot%2Fnpm_and_yarn%2Fliquidjs-10.25.0/static/bootstrap-italia/dist/js/bootstrap-italia.bundle.min.js"></script>
   </body>
 </html>
