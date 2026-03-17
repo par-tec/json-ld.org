@@ -78,7 +78,7 @@ Il layout del Playground è stato riprogettato per evitare continui scroll verti
 
 Il nuovo design offre:
 
-- pannelli “Frame” e “Frame Result” affiancati  
+- pannelli "Frame" e "Frame Result" affiancati  
 - uso più efficace dello spazio orizzontale  
 - maggiore immediatezza nel confronto tra input e output  
 - riduzione delle interruzioni nel flusso di lavoro  
