@@ -36,7 +36,8 @@ Il repository ha l’obiettivo di:
 
 ## Modifiche effettuate
 
-Questa sezione descrive le personalizzazioni applicate nella versione/fork del repository, con l’obiettivo di migliorare usabilità, coerenza grafica e funzionalità del Playground.
+Questa sezione descrive le personalizzazioni applicate in questo fork
+rispetto a <https://json-ld.org/> per migliorare usabilità, coerenza grafica e funzionalità del Playground.
 
 ---
 
