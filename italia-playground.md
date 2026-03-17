@@ -51,7 +51,9 @@ In particolare:
 - è stato aggiunto un pulsante di redirect che apre automaticamente il contenuto corrente nel Playground, pronto per essere testato.
 - il Playground riconosce il contenuto e lo collega allo schema di origine, consentendo un passaggio fluido tra definizione teorica e sperimentazione.
 
-Questa integrazione elimina passaggi manuali e copie incollate, riduce il rischio di errori e rende più immediata la verifica del comportamento dei modelli direttamente nel Playground.
+Questa integrazione elimina passaggi manuali e necessità di copia-incolla,
+riduce il rischio di errori e rende più immediata la verifica del comportamento
+dei data model e dei vocabolari direttamente nel Playground.
 
 ---
 
