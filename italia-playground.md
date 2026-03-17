@@ -67,7 +67,8 @@ Sono state introdotte funzionalità che permettono di lavorare comodamente con e
 - supporto completo dell’editor per YAML (linting, syntax highlighting, suggerimenti)  
 - aggiornamento del pulsante **Copy as URL** per generare link compatibili con entrambi i formati  
 
-Questa estensione garantisce un’esperienza d’uso coerente e flessibile, permettendo di condividere e recuperare contenuti senza perdita di formato o funzionalità.
+Questa estensione garantisce una user experience coerente e flessibile,
+permettendo di condividere e recuperare contenuti senza perdita di formato o funzionalità.
 
 ---
 
