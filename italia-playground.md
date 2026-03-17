@@ -44,6 +44,7 @@ Questa sezione descrive le personalizzazioni applicate nella versione/fork del r
 È stata introdotta una funzionalità che collega direttamente la Schema Editor UI al Playground JSON-LD, semplificando il flusso di lavoro tra definizione dello schema e test pratico.
 
 In particolare:
+
 - lo Schema Editor UI permette di definire documenti OpenAPI utilizzando la sintassi JSON-LD.
 - è stato aggiunto un pulsante di redirect che apre automaticamente il contenuto corrente nel Playground, pronto per essere testato.
 - il Playground riconosce il contenuto e lo collega allo schema di origine, consentendo un passaggio fluido tra definizione teorica e sperimentazione.
