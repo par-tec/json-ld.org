@@ -11,7 +11,8 @@ Il progetto include documentazione, esempi, strumenti interattivi e il Playgroun
 
 Il repository fornisce:
 
-### ✔️ Playground JSON‑LD  
+### Playground JSON‑LD
+
 Il Playground consente di:
 - scrivere ed eseguire JSON‑LD  
 - applicare contesti  
