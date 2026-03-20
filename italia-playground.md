@@ -2,7 +2,9 @@
 
 ## Introduzione
 
-Il repository **json-ld.org** contiene il codice sorgente del sito ufficiale dedicato a JSON‑LD, un formato basato su JSON progettato per rappresentare Linked Data in modo semplice, interoperabile e facilmente integrabile in applicazioni web, API e sistemi distribuiti.  
+Questo repository contiene un fork del codice sorgente del sito ufficiale dedicato a JSON‑LD opportuamente adattato per le esigenze di <https://schema.gov.it>.
+
+JSON-LD è un formato basato su JSON progettato per rappresentare Linked Data in modo semplice, interoperabile e facilmente integrabile in applicazioni web, API e sistemi distribuiti.  
 Il progetto include documentazione, esempi, strumenti interattivi e il Playground, pensato per sperimentare e validare JSON‑LD in tempo reale.
 
 ---
