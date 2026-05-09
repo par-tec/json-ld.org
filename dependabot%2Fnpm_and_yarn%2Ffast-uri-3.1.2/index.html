@@ -1,0 +1,993 @@
+<!doctype html>
+<html
+  prefix="
+    xhv: http://www.w3.org/1999/xhtml/vocab#
+    xsd: http://www.w3.org/2001/XMLSchema#
+    rdfs: http://www.w3.org/2000/01/rdf-schema#
+    dc: http://purl.org/dc/terms/
+    vcard: http://www.w3.org/2006/vcard/ns#
+    v: http://rdf.data-vocabulary.org/#
+  "
+  lang="en"
+>
+  <head>
+    <title>
+      Next Playground - 
+      JSON-LD - JSON for Linked Data
+    </title>
+
+    <!-- Meta Tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+
+    <!-- Style Sheets -->
+    <link rel="stylesheet" href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Ffast-uri-3.1.2/static/css/fomantic-ui/semantic.min.css">
+    <link
+      href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Ffast-uri-3.1.2/static/bootstrap-italia/dist/css/bootstrap-italia.min.css"
+      rel="stylesheet"
+    >
+    <style>
+      .nav {
+        --bs-nav-link-disabled-color: rgba(0, 0, 0, 0.3) !important;
+      }
+      .popover {
+        min-width: 20em;
+        max-width: unset !important;
+      }
+    </style>
+
+    <link rel="shortcut icon" href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Ffast-uri-3.1.2/favicon.ico">
+  </head>
+
+  <body class="d-flex flex-column min-vh-100">
+    <div class="it-nav-wrapper">
+      <div class="it-header-center-wrapper">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <div class="it-header-center-content-wrapper">
+                <div class="it-brand-wrapper">
+                  <a href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Ffast-uri-3.1.2/" class="" data-focus-mouse="false">
+                    <img src="/json-ld.org/dependabot%2Fnpm_and_yarn%2Ffast-uri-3.1.2/images/json-ld-data-24.png" width="64" height="64" alt="JSON-LD logo">
+                    <div class="it-brand-text ms-3">
+                      <div class="it-brand-title">JSON-LD</div>
+                      <div class="it-brand-tagline d-none d-md-block">The JSON for Linked Data</div>
+                    </div>
+                  </a>
+                </div>
+                <div class="it-right-zone">
+                  <div class="it-socials d-none d-md-flex">
+                    <span>Seguici su</span>
+                    <ul>
+                      <li>
+                        <a href="https://github.com/par-tec/json-ld.org" aria-label="Github" target="_blank">
+                          <svg class="icon">
+                            <use href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Ffast-uri-3.1.2/static/bootstrap-italia/dist/svg/sprites.svg#it-github"></use>
+                          </svg>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="it-header-navbar-wrapper">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <nav class="navbar navbar-expand-lg" aria-label="Navigazione principale">
+                <button
+                  class="custom-navbar-toggler"
+                  type="button"
+                  aria-controls="nav0"
+                  aria-expanded="false"
+                  aria-label="Mostra/Nascondi la navigazione"
+                  data-bs-toggle="navbarcollapsible"
+                  data-bs-target="#nav0"
+                >
+                  <svg class="icon bg-override">
+                    <use href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Ffast-uri-3.1.2/static/bootstrap-italia/dist/svg/sprites.svg#it-burger"></use>
+                  </svg>
+                </button>
+                <div class="navbar-collapsable" id="nav0" style="display: none;">
+                  <div class="overlay" style="display: none;"></div>
+                  <div class="close-div">
+                    <button class="btn close-menu" type="button">
+                      <span class="visually-hidden">Nascondi la navigazione</span>
+                      <svg class="icon">
+                        <use href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Ffast-uri-3.1.2/static/bootstrap-italia/dist/svg/sprites.svg#it-close-big"></use>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="menu-wrapper">
+                    <ul class="navbar-nav">
+                      <li class="nav-item">
+                        <a
+                          class="nav-link "
+                          href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Ffast-uri-3.1.2/playground/next"
+                          
+                        >
+                          <span>Playground</span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a
+                          class="nav-link "
+                          href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Ffast-uri-3.1.2/learn/"
+                          
+                        >
+                          <span>Documentation</span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Ffast-uri-3.1.2/#developers">
+                          <span>Developers</span>
+                        </a>
+                      </li>
+                      <li class="nav-item dropdown">
+                        <a
+                          class="nav-link dropdown-toggle"
+                          href="#"
+                          role="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                          id="mainNavDropdownSpecs"
+                        >
+                          <span>Specifications</span>
+                          <svg class="icon icon-xs">
+                            <use href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Ffast-uri-3.1.2/static/bootstrap-italia/dist/svg/sprites.svg#it-expand"></use>
+                          </svg>
+                        </a>
+                        <div class="dropdown-menu" role="region" aria-labelledby="mainNavDropdownSpecs">
+                          <div class="link-list-wrapper">
+                            <ul class="link-list">
+                              <li><h3>W3C Recommendations</h3></li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://www.w3.org/TR/json-ld/"
+                                  ><span>Syntax</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://www.w3.org/TR/json-ld-api/"
+                                  ><span>Processing Algorithms and API</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://www.w3.org/TR/json-ld-framing/"
+                                  ><span>Framing</span></a
+                                >
+                              </li>
+                              <li><span class="divider"></span></li>
+                              <li><h3>Latest Drafts</h3></li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://w3c.github.io/json-ld-syntax/"
+                                  ><span>Syntax</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://w3c.github.io/json-ld-api/"
+                                  ><span>Processing Algorithms and API</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://w3c.github.io/json-ld-framing/"
+                                  ><span>Framing</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://w3c.github.io/json-ld-bp/"
+                                  ><span>Best Practices</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://w3c.github.io/json-ld-streaming/"
+                                  ><span>Streaming</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://json-ld.github.io/json-ld-star/"
+                                  ><span>JSON-LD-star</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://w3c.github.io/json-ld-cbor/"
+                                  ><span>CBOR</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://github.com/w3c/json-ld-rc/"
+                                  ><span>Recommended Context</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="https://json-ld.github.io/yaml-ld/"
+                                  ><span>YAML-LD</span></a
+                                >
+                              </li>
+                              <li>
+                                <a class="dropdown-item list-item" href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Ffast-uri-3.1.2/spec/"
+                                  ><span>1.0 drafts (historic)</span></a
+                                >
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="nav-item">
+                        <a
+                          class="nav-link "
+                          href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Ffast-uri-3.1.2/images/"
+                          
+                        >
+                          <span>Branding</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+
+    <main class="flex-grow-1">
+      
+
+      <div class="container">
+        <div class="py-4">
+          
+<h2 class="mb-4">JSON-LD Playground</h2>
+
+<div class="alert alert-primary" role="alert">
+  <strong>NOTES</strong>:
+  <ul>
+    <li>
+      The playground uses
+      <a href="https://github.com/digitalbazaar/jsonld.js">jsonld.js</a> which
+      <a href="https://github.com/digitalbazaar/jsonld.js#conformance"
+        >conforms</a
+      >
+      to JSON-LD 1.1
+      <a href="https://www.w3.org/TR/json-ld11/">syntax</a>
+      (<a href="https://w3c.github.io/json-ld-syntax/errata/">errata</a>),
+      <a href="https://www.w3.org/TR/json-ld11-api/">API</a>
+      (<a href="https://w3c.github.io/json-ld-api/errata/">errata</a>), and
+      <a href="https://www.w3.org/TR/json-ld11-framing/">framing</a>
+      (<a href="https://w3c.github.io/json-ld-framing/errata/">errata</a>).
+    </li>
+    <li>
+      Other related playgrounds:
+      <!-- <a href="../1.0/">Classic JSON-LD 1.0 Playground</a> | -->
+      <a href="https://vcplayground.org/">Verifiable Credentials Playground</a>
+    </li>
+  </ul>
+  <p>
+    Accesibility note: use <code>Esc</code> and then <code>Tab</code> (or
+    <code>Shift+Tab</code>) to navigate out of the editor.
+  </p>
+</div>
+
+<div v-scope v-effect="setOutputTab()" @vue:mounted="gatherHash()">
+  <!-- errors -->
+  <div class="alert alert-danger" role="alert" v-show="parseError.message">
+    <p v-text="parseError.message"></p>
+    <pre
+      class="m-0"
+      v-text="JSON.stringify(parseError?.details?.event, null, 2)"
+    ></pre>
+  </div>
+
+  <!-- Examples buttons -->
+  <div class="d-flex flex-row justify-content-between align-items-center mb-3">
+    <div class="d-flex flex-wrap align-items-center gap-2">
+      <strong class="small text-body-secondary me-1">Examples:</strong>
+
+      <button
+        id="btn-person"
+        type="button"
+        class="btn btn-outline-primary btn-xs"
+        @click="loadExample('person.jsonld')"
+      >
+        Person
+      </button>
+      <button
+        id="btn-event"
+        type="button"
+        class="btn btn-outline-primary btn-xs"
+        @click="loadExample('event.jsonld')"
+      >
+        Event
+      </button>
+      <button
+        id="btn-place"
+        type="button"
+        class="btn btn-outline-primary btn-xs"
+        @click="loadExample('place.jsonld')"
+      >
+        Place
+      </button>
+      <button
+        id="btn-product"
+        type="button"
+        class="btn btn-outline-primary btn-xs"
+        @click="loadExample('product.jsonld')"
+      >
+        Product
+      </button>
+      <button
+        id="btn-recipe"
+        type="button"
+        class="btn btn-outline-primary btn-xs"
+        @click="loadExample('recipe.jsonld')"
+      >
+        Recipe
+      </button>
+      <button
+        id="btn-library"
+        type="button"
+        class="btn btn-outline-primary btn-xs"
+        @click="loadExample('library.jsonld')"
+      >
+        Library
+      </button>
+      <button
+        id="btn-activity"
+        type="button"
+        class="btn btn-outline-primary btn-xs"
+        @click="loadExample('activity.jsonld')"
+      >
+        Activity
+      </button>
+    </div>
+
+    <div class="d-flex flex-row justify-content-end align-items-center gap-2">
+      <!-- Copy link -->
+      <div class="dropdown dropstart text-center">
+        <a
+          class="btn btn-outline-primary btn-xs dropdown-toggle"
+          href="#"
+          role="button"
+          id="dropdownMenuShare"
+          data-bs-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <svg class="icon icon-xs icon-primary">
+            <use
+              href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Ffast-uri-3.1.2/static/bootstrap-italia/dist/svg/sprites.svg#it-link"
+            ></use>
+          </svg>
+        </a>
+        <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuShare">
+          <div class="popover">
+            <h3 class="popover-header">
+              <svg class="icon">
+                <use
+                  href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Ffast-uri-3.1.2/static/bootstrap-italia/dist/svg/sprites.svg#it-link"
+                ></use>
+              </svg>
+              Share this
+            </h3>
+            <div class="popover-body">
+              <div class="input-group">
+                <input
+                  id="permalinkURL"
+                  type="text"
+                  class="form-control"
+                  v-model="permalinkURL"
+                  @focus="$event.target.select()"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-primary"
+                    type="button"
+                    @click="copyPermalink()"
+                  >
+                    <svg
+                      role="img"
+                      class="icon icon-xs align-middle icon-white"
+                      aria-label="Copy link to clipboard"
+                    >
+                      <use
+                        href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Ffast-uri-3.1.2/static/bootstrap-italia/dist/svg/sprites.svg#it-copy"
+                      ></use>
+                    </svg>
+                  </button>
+                </div>
+                <small
+                  id="permalinkURLHelp"
+                  class="form-text text-danger"
+                  v-show="permalinkURL.length > 2048"
+                >
+                  This link is longer than 2kb, and may not work.
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Keyboard shortcuts -->
+      <div class="dropdown dropstart text-center">
+        <a
+          class="btn btn-outline-primary btn-xs dropdown-toggle"
+          href="#"
+          role="button"
+          id="dropdownMenuKeyboardShortcuts"
+          data-bs-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <svg class="icon icon-xs icon-primary">
+            <use
+              href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Ffast-uri-3.1.2/static/bootstrap-italia/dist/svg/sprites.svg#it-help-circle"
+            ></use>
+          </svg>
+        </a>
+        <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuShare">
+          <div class="popover">
+            <h3 class="popover-header">
+              <svg class="icon">
+                <use
+                  href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Ffast-uri-3.1.2/static/bootstrap-italia/dist/svg/sprites.svg#it-help-circle"
+                ></use>
+              </svg>
+              Keyboard Shortcuts
+            </h3>
+            <div class="popover-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Key</th>
+                    <th>Autocomplete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <kbd>@</kbd>
+                    </td>
+                    <td>all of the <b>@</b> keywords</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <kbd>Ctrl+Space</kbd>
+                    </td>
+                    <td>available keys in <b>@context</b></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navbar mode selector -->
+  <ul class="nav nav-pills mb-3">
+    <li class="nav-item" v-for="(tab, key) in tabs">
+      <a
+        href="#"
+        class="nav-link"
+        :class="{ active: outputTab == key, disabled: doc === '' }"
+        aria-current="page"
+        @click="setOutputTab(key)"
+      >
+        <i class="icon" :class="tab.icon"></i>
+        <span v-text="tab.label"></span>
+      </a>
+    </li>
+  </ul>
+
+  <!-- Messages -->
+  <div v-if="message.text" class="callout mb-3" :class="message.type">
+    <div class="callout-inner">
+      <div class="callout-title">
+        <svg class="icon">
+          <use
+            :href="{
+        '/bootstrap-italia/dist/svg/sprites.svg#it-help-circle' : message.type == 'info',
+        '/bootstrap-italia/dist/svg/sprites.svg#it-check-circle' : message.type == 'success',
+        '/bootstrap-italia/dist/svg/sprites.svg#it-times-circle' : message.type == 'error',
+        '/bootstrap-italia/dist/svg/sprites.svg#it-exclamation-triangle' : message.type == 'warning'
+        }"
+          ></use>
+        </svg>
+        <span
+          class="text"
+          v-text="{
+          'Info' : message.type == 'info',
+          'Message' : message.type == 'success',
+          'Error' : message.type == 'error',
+          'Warning' : message.type == 'warning'
+        }"
+        ></span>
+      </div>
+      <p v-text="message.text"></p>
+    </div>
+  </div>
+
+  <!-- main editor area -->
+  <div class="container px-0">
+    <div class="row">
+      <!-- Input fields -->
+      <div
+        :class="{ 
+          'col-12': editorColumns == '',
+          'col-6': editorColumns != ''
+        }"
+      >
+        <!-- Input 1 -->
+        <div class="pb-3">
+          <div class="ui top attached tabular menu">
+            <div
+              :class="{ active: inputTab == 'json-ld' }"
+              class="item"
+              @click="inputTab = 'json-ld'"
+              v-text="inputLabel"
+            >
+              <i class="pencil alternate icon"></i>
+            </div>
+            <div
+              :class="{ active: inputTab == 'options' }"
+              class="item"
+              @click="inputTab = 'options'"
+            >
+              <i class="wrench icon"></i> Options
+            </div>
+            <div class="right menu">
+              <div class="item pe-0">
+                <div class="ui icon input">
+                  <input
+                    type="text"
+                    placeholder="Document URL"
+                    v-model="remoteDocURL"
+                    @keyup.enter="retrieveDoc(mainEditor, 'doc', remoteDocURL)"
+                  />
+                  <i
+                    class="file link icon"
+                    :class="{ disabled: remoteDocURL == '' }"
+                    @click="retrieveDoc(mainEditor, 'doc', remoteDocURL)"
+                  ></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ui bottom attached fitted resizable scrolling segment mb-0"
+            v-show="inputTab == 'json-ld'"
+          >
+            <div id="editor" @vue:mounted="initMainEditor()">
+              <!-- replaced by CodeMirror -->
+            </div>
+          </div>
+          <div
+            class="ui bottom attached segment mb-0"
+            v-show="inputTab == 'options'"
+          >
+            <form class="ui form">
+              <div class="inline fields" id="options-api-processingMode">
+                <label for="options-api-processingMode" class="two wide field"
+                  >Processing Mode</label
+                >
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <input
+                      type="radio"
+                      id="options-api-processingMode-1-0"
+                      name="processingMode"
+                      value="json-ld-1.0"
+                      v-model="options.processingMode"
+                      @change="setOutputTab()"
+                    />
+                    <label for="options-api-processingMode-1-0"
+                      >JSON-LD 1.0</label
+                    >
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <input
+                      type="radio"
+                      id="options-api-processingMode-1-1"
+                      name="processingMode"
+                      value="json-ld-1.1"
+                      v-model="options.processingMode"
+                      @change="setOutputTab()"
+                    />
+                    <label for="options-api-processingMode-1-1"
+                      >JSON-LD 1.1</label
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="inline fields" id="options-formatMode">
+                <label for="options-formatMode" class="two wide field"
+                  >Format</label
+                >
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <input
+                      type="radio"
+                      id="options-formatMode-json"
+                      name="formatMode"
+                      value="json"
+                      v-model="options.formatMode"
+                      @change="setOutputTab()"
+                    />
+                    <label for="options-formatMode-json">JSON</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <input
+                      type="radio"
+                      id="options-formatMode-yaml"
+                      name="formatMode"
+                      value="yaml"
+                      v-model="options.formatMode"
+                      @change="setOutputTab()"
+                    />
+                    <label for="options-formatMode-yaml">YAML</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="inline fields" id="options-api-base">
+                <label for="options-api-base" class="two wide field"
+                  >Base</label
+                >
+                <div class="sixteen wide field">
+                  <input
+                    type="text"
+                    id="options-api-base-url"
+                    placeholder="URL"
+                    v-model="options.base"
+                    @change="setOutputTab()"
+                  />
+                </div>
+              </div>
+
+              <div class="inline fields">
+                <label class="two wide field"></label>
+                <div class="field">
+                  <div class="ui checkbox">
+                    <input
+                      type="checkbox"
+                      id="options-api-compactArrays"
+                      v-model="options.compactArrays"
+                      @change="setOutputTab()"
+                    />
+                    <label for="options-api-compactArrays"
+                      >Compact Arrays</label
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="inline fields">
+                <label class="two wide field"></label>
+                <div class="field">
+                  <div class="ui checkbox">
+                    <input
+                      type="checkbox"
+                      id="options-api-compactToRelative"
+                      v-model="options.compactToRelative"
+                      @change="setOutputTab()"
+                    />
+                    <label for="options-api-compactToRelative"
+                      >Compact To Relative</label
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="inline fields" id="options-api-rdfDirection">
+                  <label for="options-api-rdfDirection" class="two wide field"
+                    >RDF Direction Mode</label
+                  >
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                      <input
+                        type="radio"
+                        id="options-api-rdfDirection-default"
+                        name="rdfDirection"
+                        value=""
+                        checked
+                        v-model="options.rdfDirection"
+                        @change="setOutputTab()"
+                      />
+                      <label for="options-api-rdfDirection-default"
+                        >Default (null)</label
+                      >
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                      <input
+                        type="radio"
+                        id="options-api-rdfDirection-i18n-datatype"
+                        name="rdfDirection"
+                        value="i18n-datatype"
+                        v-model="options.rdfDirection"
+                        @change="setOutputTab()"
+                      />
+                      <label for="options-api-rdfDirection-i18n-datatype"
+                        >"i18n-datatype"</label
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="inline fields" id="options-api-safe">
+                  <label for="options-api-safe" class="two wide field"
+                    >Safe</label
+                  >
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                      <input
+                        type="radio"
+                        id="options-api-safe-false"
+                        name="safe"
+                        :value="false"
+                        v-model="options.safe"
+                        @change="setOutputTab()"
+                      />
+                      <label for="options-api-safe-false">False</label>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                      <input
+                        type="radio"
+                        id="options-api-safe-true"
+                        name="safe"
+                        :value="true"
+                        v-model="options.safe"
+                        @change="setOutputTab()"
+                      />
+                      <label for="options-api-safe-true">True</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Input 2 -->
+        <div class="pb-3" v-show="editorColumns != ''">
+          <div class="ui top attached tabular menu">
+            <div
+              class="icon item"
+              v-show="outputTab == 'compacted' || outputTab == 'flattened'"
+            >
+              <i
+                class="arrow alternate circle down outline icon cursor-pointer"
+                title='Copy `@context` from "JSON-LD Input"'
+                @click="copyContext()"
+              ></i>
+            </div>
+            <div class="active item">
+              <i class="pencil alternate icon"></i>
+              <span
+                v-show="outputTab == 'compacted' || outputTab == 'flattened'"
+                v-text="contextInputLabel"
+              ></span>
+              <span
+                v-show="outputTab == 'framed'"
+                v-text="frameInputLabel"
+              ></span>
+            </div>
+            <div class="right menu">
+              <div class="item pe-0">
+                <div class="ui icon input">
+                  <input
+                    type="text"
+                    :placeholder="sideEditorURLFieldPlaceholderText"
+                    v-model="remoteSideDocURL"
+                    @keyup.enter="retrieveDoc(sideEditor, sideDoc, remoteSideDocURL)"
+                  />
+                  <i
+                    class="file link icon"
+                    @click="retrieveDoc(sideEditor, sideDoc, remoteSideDocURL)"
+                  ></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ui bottom attached fitted resizable scrolling segment mb-0"
+          >
+            <div
+              id="context-editor"
+              v-show="outputTab == 'compacted' || outputTab == 'flattened'"
+              @vue:mounted="initContextEditor()"
+            >
+              <!-- replaced by CodeMirror -->
+            </div>
+            <div
+              id="frame-editor"
+              v-show="outputTab == 'framed'"
+              @vue:mounted="initFrameEditor()"
+            >
+              <!-- replaced by CodeMirror -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output fields -->
+      <div
+        :class="{
+          'col-12': editorColumns == '',
+          'col-6': editorColumns != ''
+        }"
+      >
+        <div class="pb-3 d-flex flex-column h-100">
+          <div class="ui top attached tabular menu">
+            <div class="active item">
+              <span>Output:</span>
+            </div>
+          </div>
+
+          <div
+            class="ui bottom attached fitted segment mb-0 d-flex flex-column h-100"
+          >
+            <div
+              v-show="outputTab != 'table'"
+              class="ui fitted resizable scrolling segment basic mb-0 flex-grow-1"
+            >
+              <div id="read-only-editor">
+                <!-- replaced by CodeMirror -->
+              </div>
+            </div>
+
+            <div
+              v-if="outputTab == 'table'"
+              class="ui bottom attached fitted resizable scrolling segment mb-0 flex-grow-1"
+            >
+              <table
+                class="ui compact table mt-0"
+                v-show="outputTab == 'table'"
+              >
+                <thead>
+                  <tr>
+                    <th>Subject</th>
+                    <th>Predicate</th>
+                    <th>Object</th>
+                    <th>Language</th>
+                    <th>Datatype</th>
+                    <th>Graph</th>
+                  </tr>
+                </thead>
+                <tr v-for="quad in tableQuads">
+                  <td>
+                    <a
+                      v-if="quad.subject.termType == 'NamedNode'"
+                      :href="quad.subject.value"
+                      v-text="quad.subject.value"
+                    ></a>
+                    <span v-else v-text="quad.subject.value"></span>
+                  </td>
+                  <td>
+                    <a
+                      v-if="quad.predicate.termType == 'NamedNode'"
+                      :href="quad.predicate.value"
+                      v-text="quad.predicate.value"
+                    ></a>
+                    <span v-else v-text="quad.predicate.value"></span>
+                  </td>
+                  <td>
+                    <a
+                      v-if="quad.object.termType == 'NamedNode'"
+                      :href="quad.object.value"
+                      v-text="quad.object.value"
+                    ></a>
+                    <span v-else v-text="quad.object.value"></span>
+                  </td>
+                  <td v-text="quad.object.language"></td>
+                  <td>
+                    <a
+                      v-if="quad.object.datatype"
+                      :href="quad.object.datatype.value"
+                      v-text="quad.object.datatype.value"
+                    ></a>
+                  </td>
+                  <td v-text="quad.graph.value"></td>
+                </tr>
+              </table>
+            </div>
+
+            <div v-if="outputTab == 'cborld'">
+              <table class="ui fixed definition table">
+                <tr>
+                  <td class="three wide">JSON-LD Size</td>
+                  <td><span v-text="cborLD.jsonldSize"></span> bytes</td>
+                </tr>
+                <tr>
+                  <td>CBOR-LD Size</td>
+                  <td><span v-text="cborLD.size"></span> bytes</td>
+                </tr>
+                <tr>
+                  <td>Compression</td>
+                  <td><span v-text="cborLD.percentage"></span>%</td>
+                </tr>
+                <tr class="top aligned">
+                  <td>Hex</td>
+                  <td v-text="cborLD.hex" class="text-break"></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="./editor.bundle.js"></script>
+
+        </div>
+      </div>
+    </main>
+
+    <footer class="it-footer">
+      <div class="it-footer-main">
+        <div class="container">
+          <section>
+            <div class="row clearfix">
+              <div class="col-sm-12">
+                <div class="it-brand-wrapper">
+                  <a href="/json-ld.org/dependabot%2Fnpm_and_yarn%2Ffast-uri-3.1.2/">
+                    <img src="/json-ld.org/dependabot%2Fnpm_and_yarn%2Ffast-uri-3.1.2/images/json-ld-data-24.png" width="64" height="64" alt="JSON-LD logo">
+                    <div class="it-brand-text ms-3">
+                      <h2 class="no_toc">JSON-LD</h2>
+                      <h3 class="no_toc d-none d-md-block">The JSON for Linked Data</h3>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="py-4 border-white border-top">
+            <div class="row">
+              <div class="col-12">
+                <p class="mb-0">
+                  Website content released under a
+                  <a href="https://creativecommons.org/about/cc0">Creative Commons CC0 Public Domain Dedication</a>
+                  except where an alternate is specified.
+                </p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+      <!-- <div class="it-footer-small-prints clearfix">
+        <div class="container">
+          <h3 class="visually-hidden">Sezione Link Utili</h3>
+          <ul class="it-footer-small-prints-list list-inline mb-0 d-flex flex-column flex-md-row">
+            <li class="list-inline-item"><a href="#" title="Note Legali">Media policy</a></li>
+            <li class="list-inline-item"><a href="#" title="Note Legali">Note legali</a></li>
+            <li class="list-inline-item"><a href="#" title="Privacy-Cookies">Privacy policy</a></li>
+            <li class="list-inline-item"><a href="#" title="Mappa del sito">Mappa del sito</a></li>
+          </ul>
+        </div>
+      </div> -->
+    </footer>
+
+    <!-- Script tags -->
+    <script src="/json-ld.org/dependabot%2Fnpm_and_yarn%2Ffast-uri-3.1.2/static/js/jquery/jquery.min.js"></script>
+    <script src="/json-ld.org/dependabot%2Fnpm_and_yarn%2Ffast-uri-3.1.2/static/bootstrap-italia/dist/js/bootstrap-italia.bundle.min.js"></script>
+  </body>
+</html>
